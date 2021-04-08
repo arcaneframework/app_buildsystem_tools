@@ -6,8 +6,9 @@
 if(USE_ARCCON)
   loadPackage(NAME Arccon ESSENTIAL)
   list(APPEND CMAKE_MODULE_PATH ${ARCCON_MODULE_PATH_M})
-
-  loadPackage(NAME Axlstar ESSENTIAL)
+  if(USE_AXLSTAR)
+    loadPackage(NAME Axlstar ESSENTIAL)
+  endif()
 endif()
 
 if(NOT WIN32)

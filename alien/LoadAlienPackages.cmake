@@ -11,12 +11,14 @@ loadPackage(NAME Alien ESSENTIAL)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-loadPackage(NAME MPI   ESSENTIAL)
+#loadPackage(NAME MPI   ESSENTIAL)
 loadPackage(NAME Mpi   ESSENTIAL)
 loadPackage(NAME Boost ESSENTIAL)
 loadPackage(NAME GTest ESSENTIAL)
 
 set(MPI_ROOT ${MPI_ROOT_PATH})
+
+loadPackage(NAME MPIFort)
 
 ## En fait pour cette dependance, en reecrivant a minima, on veut juste les blas
 loadPackage(NAME MKL)

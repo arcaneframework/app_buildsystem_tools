@@ -16,6 +16,10 @@ function(createExecutable exe)
           )
   endif()
 
+  if(NOT USE_AXLSTAR)
+    target_include_directories(${exe} PRIVATE ${AXL_HEADERS_PATH})
+  endif()
+
   # executable non commité
   set_target_properties(${exe} PROPERTIES BUILDSYSTEM_COMMITTED OFF)
   

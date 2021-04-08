@@ -70,6 +70,23 @@ if(NOT PETSC_FOUND)
   )
   mark_as_advanced(PETSC_INCLUDE_DIR)
   
+
+  if(PETSc_USE_PKGCONFIG)
+     find_package(PkgConfig)
+     set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
+     list(APPEND CMAKE_PREFIX_PATH ${PETSC_ROOT}/lib/pkgconfig)
+     set(PKG_CONFIG_PATH ${PETSC_ROOT}/lib/pkgconfig)
+     pkg_check_modules(PKG_PETSC PETSc)
+     message(STATUS "Infos from pkg_check_modules")
+	 message(STATUS "PKGCONFIG PATH               = ${CMAKE_PREFIX_PATH}")
+     message(STATUS "PKG_PETSC_INCLUDE_DIRS       = ${PKG_PETSC_INCLUDE_DIRS}")
+     message(STATUS "PKG_PETSC_LIBRARIES          = ${PKG_PETSC_LIBRARIES}")
+     message(STATUS "PKG_PETSC_LINK_LIBRARIES     = ${PKG_PETSC_LINK_LIBRARIES}")
+     message(STATUS "PKG_PETSC_LDFLAG             = ${PKG_PETSC_LDFLAGS}")
+     message(STATUS "PKG_PETSC_STATIC_LDFLAG      = ${PKG_PETSC_STATIC_LDFLAGS}")
+     message(STATUS "PKG_PETSC_LIBRARY_DIRS       = ${PKG_PETSC_LIBRARY_DIRS}")
+  endif()
+  
 endif()
 
 # pour limiter le mode verbose
@@ -170,6 +187,7 @@ if(PETSC_FOUND AND NOT TARGET petsc)
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${PETSC_LIBRARY}")
   
+
   # petscksp
 	  
   if(PETSCKSP_FOUND)
@@ -240,10 +258,11 @@ if(PETSC_FOUND AND NOT TARGET petsc)
   
   # petsc
   
-	  add_library(petsc INTERFACE IMPORTED)
-	  
-	  set_property(TARGET petsc APPEND PROPERTY 
-      INTERFACE_LINK_LIBRARIES "petsc_main")
+  add_library(petsc INTERFACE IMPORTED)
+  
+  set_property(TARGET petsc APPEND PROPERTY 
+               INTERFACE_LINK_LIBRARIES "petsc_main")
+     
 
   if(PETSCKSP_FOUND)
     
@@ -272,5 +291,6 @@ if(PETSC_FOUND AND NOT TARGET petsc)
       INTERFACE_LINK_LIBRARIES "petscdm")
     
   endif()
+
   
 endif()
