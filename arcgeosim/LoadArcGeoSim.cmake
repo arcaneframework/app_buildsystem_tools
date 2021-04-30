@@ -51,8 +51,39 @@ set(gperftools_WHY "disabled by default (use -DEnablePackages=gperftools to acti
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-# parametrage par defaut
 
+if(DESACTIVATE_AXLSTAR)
+  set(USE_AXLSTAR FALSE)
+  set(AXL_HEADERS_PATH ${CMAKE_SOURCE_DIR}/modules/axl)
+else()
+  set(USE_AXLSTAR TRUE)
+endif()
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+set(USE_ARCCON TRUE)
+#set(USE_PROJECT_CONFIG_HEADER TRUE)
+set(REQUIRE_INSTALL_PROJECTTARGETS FALSE)
+set(Arccon_USE_CMAKE_CONFIG TRUE)
+set(Arccore_USE_CMAKE_CONFIG TRUE)
+set(Axlstar_USE_CMAKE_CONFIG TRUE)
+#set(Alien_USE_CMAKE_CONFIG TRUE)
+#set(ALIEN_USE_CMAKE_CONFIG TRUE)
+#set(Arcane_USE_CMAKE_CONFIG TRUE)
+set(GTest_USE_CMAKE_CONFIG TRUE)
+set(TBB_USE_CMAKE_CONFIG TRUE)
+set(MPI_USE_CMAKE_CONFIG TRUE)
+set(OpenBLAS_USE_CMAKE_CONFIG TRUE)
+#set(Boost_USE_CMAKE_CONFIG TRUE)
+set(Glib_USE_CMAKE_CONFIG TRUE)
+
+#set(PETSc_USE_CMAKE_CONFIG TRUE)
+#set(PETSc_USE_PKGCONFIG TRUE)
+#set(Hypre_USE_CMAKE_CONFIG TRUE)
+#set(MTL4_USE_CMAKE_CONFIG TRUE)
+#set(SuperLU_USE_CMAKE_CONFIG TRUE)
+
+# parametrage par defaut
 include(LoadBuildSystem)
 
 # ----------------------------------------------------------------------------

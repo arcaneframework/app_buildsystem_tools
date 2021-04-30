@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-loadPackage(NAME Mpi   ESSENTIAL)
+loadPackage(NAME MPI   ESSENTIAL)
 loadPackage(NAME Boost ESSENTIAL) 
 
 # loadPackage(NAME MKL ESSENTIAL) 
@@ -69,6 +69,19 @@ if(USE_ARCANE_V3)
   loadPackage(NAME Arccore ESSENTIAL) 
 endif()
 loadPackage(NAME Arcane ESSENTIAL) 
+if(TARGET arcane_full)
+    add_library(arcane UNKNOWN IMPORTED)
+
+   set_target_properties(arcane PROPERTIES
+       INTERFACE_LINK_LIBRARIES "arcane_mpi;arcane_thread;arcane_mpithread;arcane_utils;arcane_impl;arcane_mesh;arcane_launcher;arcane_core;arcane_geometry;arcane_std;arcane_cea;arcane_materials;arcane_cea_geometric"
+       INTERFACE_LINK_OPTIONS "-Wl,--no-as-needed"
+   )
+
+
+    set_target_properties(arcane PROPERTIES 
+        INTERFACE_INCLUDE_DIRECTORIES "${Arcane_INCLUDE_DIRS}")
+     
+endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 

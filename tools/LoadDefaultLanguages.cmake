@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 
-if(USE_AXL_TOOLS)
+if(USE_AXLSTAR)
 loadLanguage(NAME axl PATH ${BUILD_SYSTEM_PATH}/languages)
 
 if(USE_ARCANE_V3)

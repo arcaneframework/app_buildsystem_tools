@@ -124,7 +124,8 @@ endif()
 
 if(AlienProd_DIR)
     logStatus(" * Using AlienProdConfig : ${AlienProd_DIR}/AlienProdConfig.cmake")
-    set(AlienProd_USE_CMAKE_CONFIG TRUE)
+    set(ALIEN_USE_CMAKE_CONFIG FALSE)
+    set(ALIEN_DIR ${AlienProd_DIR})
 else()
 if(NOT ALIEN_ROOT)
 

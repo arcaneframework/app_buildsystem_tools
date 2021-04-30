@@ -61,6 +61,22 @@ if(USE_CXX14)
   # on définit le meta
   loadMeta(NAME c++14)
 endif()
+
+# mode C++14
+createOption(COMMANDLINE Cxx17
+             NAME        USE_CXX17 
+             MESSAGE     "C++17 standard" 
+             DEFAULT     ON)
+
+if(USE_CXX17) 
+
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_EXTENSIONS OFF) # c++14 ou lieu de gnu++14
+ 
+  # on définit le meta
+  loadMeta(NAME c++17)
+endif()
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 
