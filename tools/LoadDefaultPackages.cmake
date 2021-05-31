@@ -25,11 +25,11 @@ else()
 
   if(NOT WIN32)
     loadPackage(NAME Mono ESSENTIAL)
-    endif()
+  endif()
 
-    loadPackage(NAME DotNet ESSENTIAL)
+  loadPackage(NAME DotNet ESSENTIAL)
 
-    loadPackage(NAME GLib ESSENTIAL)
+  loadPackage(NAME GLib ESSENTIAL)
 
 endif()
 

@@ -81,6 +81,7 @@ if(NOT PETSC_FOUND)
 	 message(STATUS "PKGCONFIG PATH               = ${CMAKE_PREFIX_PATH}")
      message(STATUS "PKG_PETSC_INCLUDE_DIRS       = ${PKG_PETSC_INCLUDE_DIRS}")
      message(STATUS "PKG_PETSC_LIBRARIES          = ${PKG_PETSC_LIBRARIES}")
+     message(STATUS "PKG_PETSC_LIBRARIES          = ${PKG_PETSC_STATIC_LIBRARIES}")
      message(STATUS "PKG_PETSC_LINK_LIBRARIES     = ${PKG_PETSC_LINK_LIBRARIES}")
      message(STATUS "PKG_PETSC_LDFLAG             = ${PKG_PETSC_LDFLAGS}")
      message(STATUS "PKG_PETSC_STATIC_LDFLAG      = ${PKG_PETSC_STATIC_LDFLAGS}")
@@ -175,7 +176,26 @@ if(PETSC_FOUND AND NOT TARGET petsc)
     "PetscErrorCode PCGetType(PC pc, PCType* pctype);" 0 "petsc.h;petscksp.h;petscpc.h"
     PETSC_GETPCTYPE_NEW
     )
-   
+
+  check_prototype_definition(
+    PetscOptionsSetValue
+    "PetscErrorCode PetscOptionsSetValue(PetscOptions options,const char name[],const char value[]);" 0 "petsc.h;petscsys.h"
+    PETSC_OPTIONSSETVALUE_NEW
+    )
+        
+  check_prototype_definition(
+     PetscViewerAndFormatCreate
+     "PetscErrorCode PetscViewerAndFormatCreate(PetscViewer viewer, PetscViewerFormat format, PetscViewerAndFormat **vf);" 0 "petsc.h;petscksp.h;petscviewer.h"
+     PETSC_HAVE_VIEWERANDFORMAT
+     )
+
+  check_prototype_definition(
+     KSPSetNullSpace
+     "PetscErrorCode KSPSetNullSpace(KSP ksp,MatNullSpace nullsp);" 0 "petsc.h;petscksp.h"
+     PETSC_HAVE_KSPSETNULLSPACE
+     )
+
+  message(status "CHECK PROTOTYPE PETSC_OPTIONSSETVALUE_NEW : ${PETSC_OPTIONSSETVALUE_NEW}")
   # petsc main
 	  
   add_library(petsc_main UNKNOWN IMPORTED)

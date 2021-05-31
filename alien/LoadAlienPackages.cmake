@@ -11,8 +11,7 @@ loadPackage(NAME Alien ESSENTIAL)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-#loadPackage(NAME MPI   ESSENTIAL)
-loadPackage(NAME Mpi   ESSENTIAL)
+loadPackage(NAME MPI   ESSENTIAL)
 loadPackage(NAME Boost ESSENTIAL)
 loadPackage(NAME GTest ESSENTIAL)
 
@@ -34,7 +33,7 @@ loadPackage(NAME OpenBLAS)
 
 loadPackage(NAME LibXml2)
 loadPackage(NAME Metis)
-loadPackage(NAME Hdf5)
+loadPackage(NAME HDF5)
 loadPackage(NAME HWLoc)
 loadPackage(NAME Numa)
 loadPackage(NAME TBB)
