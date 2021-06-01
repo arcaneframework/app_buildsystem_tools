@@ -59,7 +59,7 @@ if(NOT CUDA_FOUND)
       PATH_SUFFIXES samples/common/inc
       ${_CUDA_SEARCH_OPTS}
       )
-    mark_as_advanced(CUDA_HELPERS_INCLUDE_DIR)
+  mark_as_advanced(HELPER_CUDA_INCLUDE_DIR)
   
 endif()
 

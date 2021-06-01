@@ -68,6 +68,7 @@ if(NOT ARCANE_ROOT)
   # detection du numero de release centos/rhel
   if(${REDHAT_RELEASE} MATCHES "(CentOS|Red Hat Enterprise Linux).* release ([0-9]).*")
     set(rhel "RHEL${CMAKE_MATCH_2}")
+    set(rhel_ver "${CMAKE_MATCH_2}")
   endif()
   
   # toochain dans l'environnement
@@ -86,9 +87,16 @@ if(NOT ARCANE_ROOT)
     set(mode dbg)
   endif()
   
-  set(ARCANE_ROOT 
-    /home/irsrvshare1/R11/arcuser/Arcane/${ARCANE_VERSION}/Linux/${rhel}/x86_64/${mode}-${toolchain}
-    CACHE INTERNAL "Arcane root path")
+  
+  if (DEFINED ENV{EXPL_INSTALL})
+      set(ARCANE_ROOT
+          $ENV{EXPL_INSTALL}/arcane/${ARCANE_VERSION}/Linux/${rhel}/x86_64/${mode}-${toolchain}
+          CACHE INTERNAL "Arcane root path")
+  else()
+      set(ARCANE_ROOT
+          /home/irsrvshare1/R11/arcuser/Arcane/${ARCANE_VERSION}/Linux/${rhel}/x86_64/${mode}-${toolchain}
+          CACHE INTERNAL "Arcane root path")
+  endif()
   
 endif()
 
@@ -155,9 +163,15 @@ if(NOT ALIEN_ROOT)
     set(mode dbg)
   endif()
   
-  set(ALIEN_ROOT 
-    /home/irsrvshare1/R11/arcuser/Alien/${ALIEN_VERSION}/Linux/${rhel}/x86_64/${mode}-arcane-${toolchain}
-    CACHE INTERNAL "Alien root path")
+  if (DEFINED ENV{EXPL_INSTALL})
+    set(ALIEN_ROOT
+        $ENV{EXPL_INSTALL}/alien/${ALIEN_VERSION}/Linux/${rhel}/x86_64/${mode}-arcane-${toolchain}
+        CACHE INTERNAL "Alien root path")
+  else()
+    set(ALIEN_ROOT
+        /home/irsrvshare1/R11/arcuser/Alien/${ALIEN_VERSION}/Linux/${rhel}/x86_64/${mode}-arcane-${toolchain}
+        CACHE INTERNAL "Alien root path")
+  endif()
   
 endif()
 

@@ -173,16 +173,6 @@ private:
   }
 
 public:
-  
-  void eval(const Law::State&, Law::State&) const
-  {
-    throw Arcane::FatalErrorException("Not supported");
-  }
-
-  void eval(const Law::State&, Law::State&, Law::Derivative&) const
-  {
-    throw Arcane::FatalErrorException("Not supported");
-  }
 
   void evaluate(const Law::VariableAccessor& accessor,
                 const Arcane::ItemGroup& group,
@@ -425,7 +415,8 @@ public:
   void derivativesCorrection(const Law::VariableAccessor& accessor,
                              const Arcane::ItemGroup& group,
                              Law::PropertyVector graph_dependencies,
-                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs) const
+                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
+                             Arcane::Integer nb_unknown_resize) const
 <# if(! AllPropertiesScalarReal()) {  #>
   {
     throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
@@ -458,8 +449,7 @@ public:
     }
     //
     // Resize to root prop 
-    // TO DO not resize if DerivativesMode equals eDirectAndComposition (to keep composed derivatives in memory)
-    const Arcane::Integer size = nb_graph_prop;
+    const Arcane::Integer size = nb_unknown_resize;
 <# ResizeGlobalDerivatives (); #>
   }
 <# } #> 
@@ -467,7 +457,8 @@ public:
   void derivativesCorrection(const Law::PartialVariableAccessor& accessor,
                              const Arcane::ItemGroup& group,
                              Law::PropertyVector graph_dependencies,
-                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs) const
+                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
+                             Arcane::Integer nb_unknown_resize) const
 <# if(! AllPropertiesScalarReal()) {  #>
   {
     throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
@@ -500,8 +491,7 @@ public:
     }
     //
     // Resize to root prop 
-    // TO DO not resize if DerivativesMode equals eDirectAndComposition (to keep composed derivatives in memory)
-    const Arcane::Integer size = nb_graph_prop;
+    const Arcane::Integer size = nb_unknown_resize;
 <# ResizeGlobalDerivatives (); #>
   }
 <# } #> 
@@ -510,7 +500,8 @@ public:
                              const Arcane::Integer& begin,
                              const Arcane::Integer& end,
                              Law::PropertyVector graph_dependencies,
-                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs) const
+                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
+                             Arcane::Integer nb_unknown_resize) const
  <# if(! AllPropertiesScalarReal()) {  #>
   {
     throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
@@ -543,15 +534,15 @@ public:
     }  
     //
     // Resize to root prop 
-    // TO DO not resize if DerivativesMode equals eDirectAndComposition (to keep composed derivatives in memory)
-    const Arcane::Integer size = nb_graph_prop;
+    const Arcane::Integer size = nb_unknown_resize;
 <# ResizeGlobalDerivatives (true); #>
   }
 <# } #> 
 
   void derivativesCorrection(const Law::ScalarAccessor& accessor,
                              Law::PropertyVector graph_dependencies,
-                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs) const
+                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
+                             Arcane::Integer nb_unknown_resize) const
 <# if(! AllPropertiesScalarReal()) {  #>
   {
     throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
@@ -584,8 +575,7 @@ public:
     }
     //
     // Resize to root prop 
-    // TO DO not resize if DerivativesMode equals eDirectAndComposition (to keep composed derivatives in memory)
-    const Arcane::Integer size = nb_graph_prop;
+    const Arcane::Integer size = nb_unknown_resize;
 <# ResizeGlobalDerivatives (); #>
   }
 <# } #> 
@@ -876,13 +866,22 @@ private void ComputeDerivativesReorderOffset ()
 }
 private void ReorderDerivativesAndNullify (string op) 
 { #>
+<#+ 
+  foreach(var o in Outputs) { 
+    switch(o.dim) {
+    case PropertyDim.scalar : #>
+        Arcane::<#= o.type.Name() #>UniqueArray var_deriv_<#= o.name #>_ini(var_deriv_<#= o.name #><#= op #>.constView());
+<#+ 
+    break;
+    } 
+  } #>
         for(Arcane::Integer static_index=0;static_index<nb_direct_prop;++static_index)
         {
 <#+ 
   foreach(var o in Outputs) { 
     switch(o.dim) {
     case PropertyDim.scalar : #>
-          var_deriv_<#= o.name #><#= op #>[static_ofs[static_index]] = var_deriv_<#= o.name #><#= op #>[static_index];
+          var_deriv_<#= o.name #><#= op #>[static_ofs[static_index]] = var_deriv_<#= o.name #>_ini[static_index];
 <#+ 
     break;
     } 
@@ -920,7 +919,6 @@ private void ComputeDerivativesCorrectionOffset ()
       auto deriv_composed = accessor.derivatives(scalar_composed_prop);
 <#+
 }
-
 private void parallelEnumerate(string groupName, string lambdaName) 
 {
     if(MultiThread == MultiThreadMode.ArcaneTBB) {
