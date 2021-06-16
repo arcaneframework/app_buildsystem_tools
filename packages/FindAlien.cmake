@@ -32,7 +32,7 @@ endif()
 
 if(NOT ALIEN_FOUND)
 
-#set(ALIEN_DIR ${ALIEN_ROOT}/lib/cmake)
+  set(ALIEN_DIR ${ALIEN_ROOT}/lib/cmake)
 
   find_package(ALIEN QUIET)
 

@@ -52,6 +52,8 @@ set(gperftools_WHY "disabled by default (use -DEnablePackages=gperftools to acti
 # ----------------------------------------------------------------------------
 
 
+#set(USE_ARCCON TRUE)
+set(USE_ARCCON FALSE)
 if(DESACTIVATE_AXLSTAR)
   set(USE_AXLSTAR FALSE)
   set(AXL_HEADERS_PATH ${CMAKE_SOURCE_DIR}/modules/axl)
@@ -61,7 +63,6 @@ endif()
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
-set(USE_ARCCON TRUE)
 #set(USE_PROJECT_CONFIG_HEADER TRUE)
 set(REQUIRE_INSTALL_PROJECTTARGETS FALSE)
 set(Arccon_USE_CMAKE_CONFIG TRUE)
@@ -69,10 +70,10 @@ set(Arccore_USE_CMAKE_CONFIG TRUE)
 set(Axlstar_USE_CMAKE_CONFIG TRUE)
 #set(Alien_USE_CMAKE_CONFIG TRUE)
 #set(ALIEN_USE_CMAKE_CONFIG TRUE)
-#set(Arcane_USE_CMAKE_CONFIG TRUE)
+set(Arcane_USE_CMAKE_CONFIG FALSE)
 set(GTest_USE_CMAKE_CONFIG TRUE)
 set(TBB_USE_CMAKE_CONFIG TRUE)
-set(MPI_USE_CMAKE_CONFIG TRUE)
+set(MPI_USE_CMAKE_CONFIG FALSE)
 set(OpenBLAS_USE_CMAKE_CONFIG TRUE)
 #set(Boost_USE_CMAKE_CONFIG TRUE)
 set(Glib_USE_CMAKE_CONFIG TRUE)

@@ -24,7 +24,7 @@ endif (NOT MKL_FOUND)
 
 loadPackage(NAME LibXml2) 
 loadPackage(NAME Metis) 
-loadPackage(NAME Hdf5) 
+loadPackage(NAME HDF5) 
 loadPackage(NAME HWLoc)
 loadPackage(NAME TBB)
 loadPackage(NAME HARTS)
@@ -70,17 +70,18 @@ if(USE_ARCANE_V3)
 endif()
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
-    add_library(arcane UNKNOWN IMPORTED)
+    add_library(arcane INTERFACE IMPORTED)
 
    set_target_properties(arcane PROPERTIES
        INTERFACE_LINK_LIBRARIES "arcane_mpi;arcane_thread;arcane_mpithread;arcane_utils;arcane_impl;arcane_mesh;arcane_launcher;arcane_core;arcane_geometry;arcane_std;arcane_cea;arcane_materials;arcane_cea_geometric"
        INTERFACE_LINK_OPTIONS "-Wl,--no-as-needed"
    )
 
-
     set_target_properties(arcane PROPERTIES 
         INTERFACE_INCLUDE_DIRECTORIES "${Arcane_INCLUDE_DIRS}")
-     
+        
+else()
+  message(status "TARGET ARCANE_FULL NOT FOUND")
 endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
@@ -145,6 +146,18 @@ else()
     IMPORTED_CONFIGURATIONS DEBUG
     IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
     IMPORTED_LOCATION_DEBUG "${TBB_LIBRARY_DEBUG}")
+endif()
+
+if (TARGET arcconpkg_HDF5)
+else()
+  add_library(arcconpkg_HDF5 UNKNOWN IMPORTED)
+          
+  set_target_properties(arcconpkg_HDF5 PROPERTIES 
+          INTERFACE_INCLUDE_DIRECTORIES "${HDF5_INCLUDE_DIRS}")
+     
+   set_target_properties(arcconpkg_HDF5 PROPERTIES
+    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+    IMPORTED_LOCATION "${HDF5_LIBRARY}")
 endif()
 endif()
 # ----------------------------------------------------------------------------

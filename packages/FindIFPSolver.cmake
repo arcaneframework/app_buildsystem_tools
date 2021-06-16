@@ -120,6 +120,9 @@ endif()
 
 # D'abord on cherche mpiifort
 
+if(NOT MPI_ROOT)
+  set(MPI_ROOT $ENV{MPI_ROOT})
+endif()
 if(MPI_ROOT)
   set(_MPI_SEARCH_OPTS NO_DEFAULT_PATH)
 else ()
@@ -395,10 +398,10 @@ if(TARGET ifpsolver_intel AND TARGET ifpsolver_mpifort)
   logFatalError("ifpsolver_intel and ifpsolver_mpifort defined at same time : dont use INTEL_ROOT and MPI_ROOT")
 endif()
 if(NOT TARGET ifpsolver_ifort AND TARGET ifpsolver_mpifort)
-  logFatalError("ifpsolver_mpifort and ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
+  logFatalError("target ifpsolver_mpifort and not target ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
 endif()
 if(TARGET ifpsolver_ifort AND NOT TARGET ifpsolver_mpifort)
-  logFatalError("ifpsolver_mpifort and ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
+  logFatalError("not target ifpsolver_mpifort and target ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
 endif()
 endif()
 
