@@ -31,7 +31,7 @@ if(NOT NVAMG_FOUND)
     )
   mark_as_advanced(NVAMG_LIBRARY)
   
-  find_path(NVAMG_INCLUDE_DIR amgx_capi.h
+  find_path(NVAMG_INCLUDE_DIR amgx_c.h
     HINTS ${NVAMG_ROOT} 
 		PATH_SUFFIXES include
     ${_NVAMG_SEARCH_OPTS}
