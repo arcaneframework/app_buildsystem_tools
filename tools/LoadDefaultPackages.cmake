@@ -30,6 +30,7 @@ else()
   loadPackage(NAME DotNet ESSENTIAL)
 
   loadPackage(NAME GLib ESSENTIAL)
+  loadPackage(NAME Glib ESSENTIAL)
 
 endif()
 

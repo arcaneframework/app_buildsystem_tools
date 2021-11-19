@@ -66,7 +66,8 @@ loadPackage(NAME GLPK)
 #     si le package existe deja, on ne fait rien
 
 if(USE_ARCANE_V3)
-  loadPackage(NAME Arccore ESSENTIAL) 
+  loadPackage(NAME Arccore ESSENTIAL)
+  loadPackage(NAME Axlstar ESSENTIAL) 
 endif()
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
@@ -117,7 +118,7 @@ endif()
 if (TARGET arcconpkg_SuperLU)
 else()
   add_library(arcconpkg_SuperLU UNKNOWN IMPORTED)
-  set_target_properties(superlu PROPERTIES
+  set_target_properties(arcconpkg_SuperLU PROPERTIES
       IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
       IMPORTED_LOCATION "${SUPERLU_LIBRARY}"
       IMPORTED_NO_SONAME ON)

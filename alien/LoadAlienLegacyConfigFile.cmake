@@ -13,7 +13,7 @@ foreach(target ${TARGETS})
 endforeach()
 
 configure_file(
-  ${PROJECT_SOURCE_DIR}/build-system-cmake/alien/AlienLegacyConfig.h.in 
+  ${PROJECT_SOURCE_DIR}/cmake-buildsystem/alien/AlienLegacyConfig.h.in 
   ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
   )
 

@@ -24,7 +24,7 @@ if(USE_ARCANE_V3)
   set(PETSc_USE_CMAKE_CONFIG TRUE)
   set(Hypre_USE_CMAKE_CONFIG TRUE)
   set(MTL4_USE_CMAKE_CONFIG TRUE)
-  set(SuperLU_USE_CMAKE_CONFIG TRUE)
+  #set(SuperLU_USE_CMAKE_CONFIG TRUE)
 endif()
 # 2. On ecrase ARCANE_ROOT si un chemin est donne par l'utilisateur
 #    en ligne de commande (-DArcanePath=<...>)

@@ -2,6 +2,7 @@
 # ---------------------------------------------------------------------------
 
 if(USE_AXLSTAR)
+loadPackage(NAME Axlstar ESSENTIAL) 
 loadLanguage(NAME axl PATH ${BUILD_SYSTEM_PATH}/languages)
 
 if(USE_ARCANE_V3)
