@@ -92,11 +92,11 @@ if(NOT MUMPS_FOUND)
     mark_as_advanced(PTESMUMPS_LIBRARY)
     
     
-    find_library(SCALAPACK_LIBRARY
-                 NAMES scalapack
-                 HINTS $ENV{MUMPS_ROOT} 
-                 PATH_SUFFIXES lib
-                 ${_MUMPS_SEARCH_OPTS})
+    #find_library(SCALAPACK_LIBRARY
+    #             NAMES scalapack
+    #             HINTS $ENV{MUMPS_ROOT} 
+    #             PATH_SUFFIXES lib
+    #             ${_MUMPS_SEARCH_OPTS})
       
     find_library(GFORTRAN_LIBRARY
       NAMES libgfortran.so
@@ -245,13 +245,13 @@ if(MUMPS_FOUND AND NOT TARGET mumps)
   set_property(TARGET mumps APPEND PROPERTY
                INTERFACE_LINK_LIBRARIES "ptesmumps")
 
-  add_library(scalapack UNKNOWN IMPORTED)
-  set_target_properties(scalapack PROPERTIES
-                        IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
-                        IMPORTED_LOCATION "${SCALAPACK_LIBRARY}")
-    
-  set_property(TARGET mumps APPEND PROPERTY
-               INTERFACE_LINK_LIBRARIES "scalapack")
+  #add_library(scalapack UNKNOWN IMPORTED)
+  #set_target_properties(scalapack PROPERTIES
+  #                      IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+  #                      IMPORTED_LOCATION "${SCALAPACK_LIBRARY}")
+  #set_property(TARGET mumps APPEND PROPERTY
+  #             INTERFACE_LINK_LIBRARIES "scalapack")
+
   #if(TARGET mkl)
   #  set_property(TARGET mumps APPEND PROPERTY
   #               INTERFACE_LINK_LIBRARIES "mkl")
