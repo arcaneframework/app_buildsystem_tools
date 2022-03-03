@@ -100,7 +100,7 @@ if(NOT MUMPS_FOUND)
       
     find_library(GFORTRAN_LIBRARY
       NAMES libgfortran.so
-      HINTS $ENV{GFORTRAN_ROOT} 
+      HINTS $ENV{GCCCORE_ROOT} 
       PATH_SUFFIXES lib64
       ${_MUMPS_SEARCH_OPTS})
     
