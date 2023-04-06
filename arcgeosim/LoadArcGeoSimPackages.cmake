@@ -80,7 +80,11 @@ if(TARGET arcane_full)
 
     set_target_properties(arcane PROPERTIES 
         INTERFACE_INCLUDE_DIRECTORIES "${Arcane_INCLUDE_DIRS}")
-        
+
+    if(USE_ARCANE_V3)
+      target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)
+      #add_definitions(USE_ARCANE_V3)
+    endif()        
 else()
   message(status "TARGET ARCANE_FULL NOT FOUND")
 endif()

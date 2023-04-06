@@ -50,6 +50,7 @@
         <xs:enumeration value="law" />
         <xs:enumeration value="law[debug]" />
         <xs:enumeration value="law[sequential]" />
+        <xs:enumeration value="law[inference=onnx]" />
         <xs:enumeration value="service[strong]" />
         <xs:enumeration value="service[case+strong]" />
         <xs:enumeration value="gump" />

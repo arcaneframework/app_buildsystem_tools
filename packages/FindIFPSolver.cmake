@@ -177,7 +177,7 @@ if(NOT IFPSOLVER_IFORT_FOUND)
   find_library(IFPSOLVER_SVML_LIBRARY
     NAMES svml 
     HINTS ${IFORT_ROOT}
-    PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPSOLVER_SVML_LIBRARY)
@@ -185,7 +185,7 @@ if(NOT IFPSOLVER_IFORT_FOUND)
   find_library(IFPSOLVER_IFCORE_LIBRARY
     NAMES ifcore 
     HINTS ${IFORT_ROOT}
-    PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPSOLVER_IFCORE_LIBRARY)
@@ -193,7 +193,7 @@ if(NOT IFPSOLVER_IFORT_FOUND)
   find_library(IFPSOLVER_IRC_LIBRARY
     NAMES irc
     HINTS ${IFORT_ROOT} 
-		PATH_SUFFIXES lib lib/intel64
+		PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPSOLVER_IRC_LIBRARY)
@@ -201,7 +201,7 @@ if(NOT IFPSOLVER_IFORT_FOUND)
   find_library(IFPSOLVER_IFPORT_LIBRARY
     NAMES ifport
     HINTS ${IFORT_ROOT}
-    PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPSOLVER_IFPORT_LIBRARY)

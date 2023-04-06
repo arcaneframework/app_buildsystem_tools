@@ -70,6 +70,13 @@ foreach(var file in LawDebugFiles) { #>
         <#= SrcPath #><#= file #>.law
 <#   } #>)
 <# } #>
+<# if (LawInferenceONNXFiles.Count() > 0) { #>  
+generateLaw(<#= LibraryName #> INFERENCE_MODE_ONNX 
+<# 
+foreach(var file in LawInferenceONNXFiles) { #>
+        <#= SrcPath #><#= file #>.law
+<#   } #>)
+<# } #>
 <# if (LawSequentialFiles.Count() > 0) { #>  
 generateLaw(<#= LibraryName #> SEQUENTIAL_MODE 
 <# 

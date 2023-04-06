@@ -61,6 +61,15 @@ namespace CMakeListGenerator
       }
     }
     
+    public IEnumerable<String> LawInferenceONNXFiles {
+      get {
+        return Makefile.files.Files (default(Language).LawInferenceONNX ());
+      }
+      set {
+        extendFiles(value, default(Language).LawInferenceONNX ());
+      }
+    }
+    
     public IEnumerable<String> LawSequentialFiles {
       get {
         return Makefile.files.Files (default(Language).LawSequential ());

@@ -16,8 +16,8 @@ cmake_policy(SET CMP0054 NEW)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-set(INFRA_BUILDSYSTEM_PATH ${PROJECT_SOURCE_DIR}/common/ArcaneInfra/build-system)
-set(ARCGEOSIM_BUILD_SYSTEM_PATH ${PROJECT_SOURCE_DIR}/common/ArcaneInfra/build-system) 
+set(INFRA_BUILDSYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system)
+set(ARCGEOSIM_BUILD_SYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system) 
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH}/tools)
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH})
 
@@ -52,8 +52,8 @@ set(gperftools_WHY "disabled by default (use -DEnablePackages=gperftools to acti
 # ----------------------------------------------------------------------------
 
 
-#set(USE_ARCCON TRUE)
-set(USE_ARCCON FALSE)
+set(USE_ARCCON TRUE)
+#set(USE_ARCCON FALSE)
 if(DESACTIVATE_AXLSTAR)
   set(USE_AXLSTAR FALSE)
   set(AXL_HEADERS_PATH ${CMAKE_SOURCE_DIR}/modules/axl)

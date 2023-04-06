@@ -85,6 +85,10 @@ static class LanguageExtensions {
     return CMakeListGenerator.Language.lawdebug;
   }
   
+  public static CMakeListGenerator.Language LawInferenceONNX(this CMakeListGenerator.Language l) {
+    return CMakeListGenerator.Language.lawinferenceonnx;
+  }
+  
   public static CMakeListGenerator.Language LawSequential(this CMakeListGenerator.Language l) {
     return CMakeListGenerator.Language.lawsequential;
   }
