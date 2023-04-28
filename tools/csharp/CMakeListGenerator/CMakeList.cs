@@ -577,7 +577,7 @@ foreach(var file in LawDebugFiles) {
             #line hidden
             
             #line 82 "CMakeList.tt"
- if (LawSequentialFiles.Count() > 0) { 
+ if (LawInferenceONNXFiles.Count() > 0) { 
             
             #line default
             #line hidden

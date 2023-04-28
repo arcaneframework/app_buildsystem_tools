@@ -19,16 +19,11 @@ if(WIN32)
 endif()
 
 # includes pour simplifier
-include_directories(${PROJECT_BINARY_DIR}/common/ArcGeoPhy/src)
-include_directories(${PROJECT_SOURCE_DIR}/common/ArcGeoPhy/src)
-include_directories(${PROJECT_BINARY_DIR}/common/ArcGeoSim/src)
-include_directories(${PROJECT_SOURCE_DIR}/common/ArcGeoSim/src)
-include_directories(${PROJECT_BINARY_DIR}/common/SharedUtils/src)
-include_directories(${PROJECT_SOURCE_DIR}/common/SharedUtils/src)
-include_directories(${PROJECT_BINARY_DIR}/common/ArximCpp/src)
-include_directories(${PROJECT_SOURCE_DIR}/common/ArximCpp/src)
-include_directories(${PROJECT_BINARY_DIR}/src)
-include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_BINARY_DIR})
+include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoPhy/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoSim/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/SharedUtils/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArximCpp/src)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------

@@ -27,6 +27,10 @@
 <# if(Debug) { #>
 #include <arcane/utils/ITraceMng.h>
 <# } #>
+<# if(Inference == InferenceMode.ONNX){ #>
+#include <onnxruntime/core/session/onnxruntime_cxx_api.h>
+#include<algorithm>
+<# } #>
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
@@ -76,7 +80,15 @@ class Function
   : public Law::IFunction
 {
 public:
-
+<# if(Inference == InferenceMode.ONNX) { #>
+  Function(const Signature& s, std::string& model_with_path)
+    : m_signature(s)
+  {
+    _ckeck_signature();
+    _init_onnx_session(model_with_path);
+    _check_onnx_conformity();
+  }
+<# } else {  #>
   template<typename UserAlgo, typename Method>
   Function(const Signature& s,
            UserAlgo& kernel,
@@ -102,6 +114,7 @@ public:
       <#= CallSignature #>
     ) { (kernel.*method)(<#= ArgSignature #>); };
   }
+<# } #>
 
   ~Function() {}
 
@@ -138,14 +151,100 @@ public:
     return v;
   }
 
+<# if(Inference == InferenceMode.ONNX) { #>
+  // Not yet differentiable
+  bool isDifferentiable() const { return false; }
+<# } else {  #>
   bool isDifferentiable() const { return true; }
-
+<# } #>
   bool isParameter() const { return false; }
 
   const Signature& signature() { return m_signature; }
   
 private:
 
+<# if(Inference == InferenceMode.ONNX) { #>
+  // onnxruntime setup environment and session
+  void _init_onnx_session(std::string& model_with_path)
+  {
+    Ort::Env env(OrtLoggingLevel::ORT_LOGGING_LEVEL_WARNING);
+    Ort::SessionOptions session_options;
+    session_options.SetIntraOpNumThreads(1);
+    session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_EXTENDED);
+    m_session = std::make_unique<Ort::Session>(env, model_with_path.c_str(), session_options);
+  }
+  
+  void _check_onnx_conformity()
+  {
+    _check_onnx_inputs_size_and_name();
+    _check_onnx_input_tensor_shape_and_type();
+    _check_onnx_outputs_size_and_name();
+    _check_onnx_output_tensor_shape_and_type();
+  }
+  
+  void _check_onnx_inputs_size_and_name()
+  {
+    // number of inputs
+    if(m_session->GetInputCount()!=1)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx input size must be 1");
+
+    // input names convention <#= inputOnnx #>
+    std::string  input_name = m_session->GetInputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();
+    input_name.erase(std::remove(input_name.begin(), input_name.end(), ' '), input_name.end());
+    if(input_name.compare("<#= inputOnnx #>") != 0)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx input name is " + input_name + " must be <#= inputOnnx #>");
+  }
+  
+  void _check_onnx_input_tensor_shape_and_type()
+  {
+    Ort::TypeInfo type_info = m_session->GetInputTypeInfo(0);
+    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
+    
+    // tensor 3 axis
+    if(tensor_info.GetDimensionsCount()!=3)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx dimension must be 3");
+      
+    // -1 on axis 1: batch size variable, <#= Inputs.Count() #> on axis 3: number law inputs
+    if(tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, <#= Inputs.Count() #>} )
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx shape must be {-1, 1, <#= Inputs.Count() #>}");
+      
+    // float precision model our convention
+    if(tensor_info.GetElementType()!=ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx element type must be float");
+  }
+  
+  void _check_onnx_outputs_size_and_name()
+  {
+    // number of outputs
+    if(m_session->GetOutputCount()!=1)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx output size must be 1");
+
+    // Output name: <#= outputOnnx #> our law convention
+    std::string  output_name = m_session->GetOutputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();
+    output_name.erase(std::remove(output_name.begin(), output_name.end(), ' '), output_name.end());
+    if(output_name.compare("<#= outputOnnx #>") != 0)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx output 0 name is " + output_name + "must be <#= outputOnnx #>");
+  }
+  
+  void _check_onnx_output_tensor_shape_and_type()
+  {
+    Ort::TypeInfo type_info = m_session->GetOutputTypeInfo(0);
+    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
+    
+    // tensor 3 axis
+    if(tensor_info.GetDimensionsCount()!=3)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx dimension must be 3");
+      
+    // -1 on axis 1: batch size variable, <#= Outputs.Count() #> on axis 3: number law outputs
+    if(tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, <#= Outputs.Count() #>} )
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx shape must be {-1, 1, <#= Outputs.Count() #>}");
+      
+    // float precision model our convention
+    if(tensor_info.GetElementType()!=ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT)
+      throw Arcane::FatalErrorException("<#= Model.name #> onnx element type must be float");
+  }
+  
+<# } #>
   void _ckeck_signature()
   {
     Law::PropertyVector v;
@@ -207,6 +306,172 @@ public:
   }
 
 private:
+
+<# if(Inference == InferenceMode.ONNX) { #>
+  void _computeOnnxInference(std::vector<float>& onnx_input_buffer, 
+                             std::vector<float>& onnx_output_buffer, 
+                             const int batch_size) const
+  {
+	// input output dims + batch size all group
+    Ort::TypeInfo input_type_info = m_session->GetInputTypeInfo(0);
+    auto input_tensor_info = input_type_info.GetTensorTypeAndShapeInfo();
+    std::vector<int64_t> input_dims = input_tensor_info.GetShape();
+    input_dims[0] = batch_size;
+	
+    // output dims + batch size all group
+    Ort::TypeInfo output_type_info = m_session->GetOutputTypeInfo(0);
+    auto output_tensor_info = output_type_info.GetTensorTypeAndShapeInfo();
+    std::vector<int64_t> output_dims = output_tensor_info.GetShape();
+    output_dims[0] = batch_size;
+	
+	// tensors creation
+    std::vector<Ort::Value> input_tensors;
+    std::vector<Ort::Value> output_tensors;
+
+    Ort::MemoryInfo memory_info = Ort::MemoryInfo::CreateCpu( 
+                                  OrtAllocatorType::OrtArenaAllocator, 
+                                  OrtMemType::OrtMemTypeDefault);   
+               
+    input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, 
+                              onnx_input_buffer.data(), onnx_input_buffer.size(),
+                              input_dims.data(), input_dims.size()));      
+    
+    output_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info,
+                              onnx_output_buffer.data(), onnx_output_buffer.size(), 
+                              output_dims.data(), output_dims.size()));
+            
+    // serving names
+    std::string input_name = m_session->GetInputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();
+    std::vector<const char*>  input_names{input_name.c_str()};
+    std::string output_name = m_session->GetOutputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();
+    std::vector<const char*> output_names{output_name.c_str()};
+    
+    // model inference
+    m_session->Run(Ort::RunOptions{nullptr}, 
+	               input_names.data(), input_tensors.data(), 1, 
+	               output_names.data(),output_tensors.data(), 1);
+  }
+
+  void _evaluateOnlyValues(const Law::VariableAccessor& accessor,
+                           const Arcane::ItemGroup& group) const
+  {
+
+<# AccessGlobalValues (); #>
+  
+    // change to constructor for less memory create
+    const int group_size = group.size();
+    std::vector<float> onnx_input_buffer(<#= Inputs.Count() #>*group_size);
+    std::vector<float> onnx_output_buffer(<#= Outputs.Count() #>*group_size);
+    
+    // copy + cast
+    int in_index = 0;
+    ENUMERATE_ITEM(iitem, group)
+    {
+<# foreach(var p in Inputs) { #>
+      onnx_input_buffer[in_index++] = var_<#= p.name #>[iitem];
+<# } #>
+    } 
+
+    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);
+                    
+    // copy onnx results into law data             
+    int out_index = 0;
+    ENUMERATE_ITEM(iitem, group) 
+    {
+<# foreach(var p in Outputs) { #>
+      var_<#= p.name #>[iitem] = onnx_output_buffer[out_index++]; 
+<# } #>
+    }                    
+  }
+
+  void _evaluateOnlyValues(const Law::PartialVariableAccessor& accessor,
+                           const Arcane::ItemGroup& group) const
+  {
+  
+<# AccessGlobalValues (); #>
+
+    // change to constructor for less memory create
+    const int group_size = group.size();
+    std::vector<float> onnx_input_buffer(<#= Inputs.Count() #>*group_size);
+    std::vector<float> onnx_output_buffer(<#= Outputs.Count() #>*group_size);
+    
+    // copy + cast
+    int in_index = 0;
+    ENUMERATE_ITEM(iitem, group)
+    {
+<# foreach(var p in Inputs) { #>
+      onnx_input_buffer[in_index++] = var_<#= p.name #>[iitem];
+<# } #>
+    }
+ 
+    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);
+                    
+    // copy onnx results into law data             
+    int out_index = 0;
+    ENUMERATE_ITEM(iitem, group) 
+    {
+<# foreach(var p in Outputs) { #>
+      var_<#= p.name #>[iitem] = onnx_output_buffer[out_index++]; 
+<# } #>
+    }
+
+  }
+  
+  void _evaluateOnlyValues(const Law::ArrayAccessor& accessor,
+                           const Arcane::Integer& begin,
+                           const Arcane::Integer& end) const
+  {
+    // change to constructor for less memory create
+    const int vector_size = end - begin;
+    std::vector<float> onnx_input_buffer(<#= Inputs.Count() #>*vector_size);
+    std::vector<float> onnx_output_buffer(<#= Outputs.Count() #>*vector_size);
+  
+<# AccessGlobalValues (); #>
+    
+    // copy + cast
+    int in_index=0;
+    for(int index = begin; index < end; ++index) {
+<# foreach(var p in Inputs) { #>
+    onnx_input_buffer[in_index++] = var_<#= p.name #>[index];
+<# } #>
+    }
+    
+    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, vector_size);
+    
+    // copy onnx results into law data
+    int out_index=0;
+    for(int index = begin; index < end; ++index) {
+<# foreach(var p in Outputs) { #>
+       var_<#= p.name #>[index] = onnx_output_buffer[out_index++];
+<# } #>
+    }
+  }
+  
+  void _evaluateOnlyValues(const Law::ScalarAccessor& accessor) const
+  {
+    // change to constructor for less memory create
+    std::vector<float> onnx_input_buffer(<#= Inputs.Count() #>);
+    std::vector<float> onnx_output_buffer(<#= Outputs.Count() #>);
+    
+<# AccessGlobalValues (); #>
+    
+    // copy + cast
+    int in_index=0;
+<# foreach(var p in Inputs) { #>
+    onnx_input_buffer[in_index++] = var_<#= p.name #>();
+<# } #>
+    
+    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, 1);
+    
+    // copy onnx results into law data
+    int out_index=0;
+<# foreach(var p in Outputs) { #>
+    var_<#= p.name #> = onnx_input_buffer[out_index++];
+<# } #>
+
+  }
+
+<# } else { #>
 
   void _evaluateOnlyValues(const Law::VariableAccessor& accessor,
                            const Arcane::ItemGroup& group) const
@@ -407,6 +672,7 @@ protected:
     }
   }
 
+<# } #>
 //
 // split and pass private
 
@@ -417,9 +683,13 @@ public:
                              Law::PropertyVector graph_dependencies,
                              std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
                              Arcane::Integer nb_unknown_resize) const
-<# if(! AllPropertiesScalarReal()) {  #>
+<# if(Inference == InferenceMode.ONNX) {  #>
   {
-    throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not avalaible with onnx");
+  }
+<# } else if(containsVectorProperty()) {  #>
+  {
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not available with vector properties error");
   }
 <# } else {  #>
   {
@@ -459,9 +729,13 @@ public:
                              Law::PropertyVector graph_dependencies,
                              std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
                              Arcane::Integer nb_unknown_resize) const
-<# if(! AllPropertiesScalarReal()) {  #>
+<# if(Inference == InferenceMode.ONNX) {  #>
   {
-    throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not avalaible with onnx");
+  }
+<# } else if(containsVectorProperty()) {  #>
+  {
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not available with vector properties error");
   }
 <# } else {  #>
   {
@@ -502,9 +776,13 @@ public:
                              Law::PropertyVector graph_dependencies,
                              std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
                              Arcane::Integer nb_unknown_resize) const
- <# if(! AllPropertiesScalarReal()) {  #>
+<# if(Inference == InferenceMode.ONNX) {  #>
   {
-    throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not avalaible with onnx");
+  }
+<# } else if(containsVectorProperty()) {  #>
+  {
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not available with vector properties error");
   }
 <# } else {  #>
   {
@@ -543,9 +821,13 @@ public:
                              Law::PropertyVector graph_dependencies,
                              std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,
                              Arcane::Integer nb_unknown_resize) const
-<# if(! AllPropertiesScalarReal()) {  #>
+<# if(Inference == InferenceMode.ONNX) {  #>
   {
-    throw Arcane::FatalErrorException("Graph composed derivatives correction only available with scalar real properties error");
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not avalaible with onnx");
+  }
+<# } else if(containsVectorProperty()) {  #>
+  {
+    throw Arcane::FatalErrorException("Graph composed derivatives correction not available with vector properties error");
   }
 <# } else {  #>
   {
@@ -585,6 +867,9 @@ protected:
   template<typename... T>
   void _evaluate(const Law::EvaluationMode mode, Arcane::Integer static_size, const T&... args) const
   {
+<# if(Inference == InferenceMode.ONNX){ #>
+    _evaluateOnlyValues(args...);
+<# } else { #>
     switch(mode)
     {
     case Law::eWithoutDerivative :
@@ -600,15 +885,19 @@ protected:
     default:
       throw Arcane::FatalErrorException("evaluation case default error");
     }
+<# } #> 
   }
 
 protected:
 
   Signature m_signature;
-
+<# if(Inference == InferenceMode.ONNX){ #> 
+  std::unique_ptr<Ort::Session> m_session;
+<# } else { #>
   std::function<
     void(<#= Signature #>)
   > m_invoker;
+<# } #>  
 };
 
 /*---------------------------------------------------------------------------*/
@@ -817,13 +1106,13 @@ private:
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 <#+
-private bool AllPropertiesScalarReal () 
+private bool containsVectorProperty () 
 {
   foreach(var p in AllProperties) { 
-  	if(p.dim != PropertyDim.scalar || p.type!= PropertyType.real)
-  	  return false;
+  	if(p.dim == PropertyDim.vectorial)
+  	  return true;
   }
-  return true;
+  return false;
 }
 private void StaticGlobalDependenciesSize () 
 { #>
@@ -873,6 +1162,14 @@ private void ReorderDerivativesAndNullify (string op)
         Arcane::<#= o.type.Name() #>UniqueArray var_deriv_<#= o.name #>_ini(var_deriv_<#= o.name #><#= op #>.constView());
 <#+ 
     break;
+    case PropertyDim.multiscalar : #>
+        Arcane::Integer size_<#= o.name #> = m_signature.<#= o.name #>.size();
+        Arcane::UniqueArray<Arcane::<#= o.type.Name() #>ConstArrayView> var_deriv_<#= o.name #>_ini(size_<#= o.name #>);
+        for(auto j = 0; j < size_<#= o.name #>; ++j) {
+          var_deriv_<#= o.name #>_ini[j] = var_deriv_<#= o.name #>[j]<#= op #>;
+        }
+<#+ 
+    break;
     } 
   } #>
         for(Arcane::Integer static_index=0;static_index<nb_direct_prop;++static_index)
@@ -884,6 +1181,12 @@ private void ReorderDerivativesAndNullify (string op)
           var_deriv_<#= o.name #><#= op #>[static_ofs[static_index]] = var_deriv_<#= o.name #>_ini[static_index];
 <#+ 
     break;
+    case PropertyDim.multiscalar : #>
+         for(auto j = 0; j < size_<#= o.name #>; ++j) {
+              var_deriv_<#= o.name #>[j]<#= op #>[static_ofs[static_index]] = var_deriv_<#= o.name #>_ini[j][static_index];
+         }
+<#+    
+    break;
     } 
   } #>
         }
@@ -894,6 +1197,12 @@ private void ReorderDerivativesAndNullify (string op)
     switch(o.dim) {
     case PropertyDim.scalar : #>
           var_deriv_<#= o.name #><#= op #>[inherited_deriv_ofs[inherited_index]]=0;
+<#+ 
+    break;
+    case PropertyDim.multiscalar : #>
+         for(auto j = 0; j < size_<#= o.name #>; ++j) {
+              var_deriv_<#= o.name #>[j]<#= op #>[inherited_deriv_ofs[inherited_index]] = 0;
+         }
 <#+ 
     break;
     } 
@@ -912,7 +1221,7 @@ private void ComputeDerivativesCorrectionOffset ()
         auto current_in_derived_prop = composed_prop_deriv[composed_deriv_index];
         composed_prop_deriv_ofs[composed_deriv_index] = graph_dependencies[current_in_derived_prop];
       }
-      // Only real scalar avalaible in this vesrion (external check)
+      // Only real scalar avalaible in this version (external check)
       Law::Property composed_prop = iter_composed.first;
       Law::ScalarRealProperty& scalar_composed_prop = static_cast<Law::ScalarRealProperty&>(composed_prop);
       // In proproperties has derivatives (external check)
@@ -945,6 +1254,14 @@ private void ApplyDerivativesCorrection(string op)
         auto direct_derivative_<#= o.name #> = var_deriv_<#= o.name #><#= op #>[direct_composed_index];
 <#+ 
     break;
+    case PropertyDim.multiscalar : #>
+        Arcane::Integer size_<#= o.name #> = m_signature.<#= o.name #>.size();
+        Arcane::<#= o.type.Name() #>UniqueArray direct_derivative_<#= o.name #>(size_<#= o.name #>);
+        for(auto j = 0; j < size_<#= o.name #>; ++j) {
+          direct_derivative_<#= o.name #>[j] = var_deriv_<#= o.name #>[j]<#= op #>[direct_composed_index];
+        }
+<#+ 
+    break;
     } 
   } #>
         for(auto derived_index = 0; derived_index < nb_composed_prop_deriv; ++derived_index)
@@ -954,6 +1271,12 @@ private void ApplyDerivativesCorrection(string op)
     switch(o.dim) {
     case PropertyDim.scalar : #>
           var_deriv_<#= o.name #><#= op #>[composed_prop_deriv_ofs[derived_index]] += direct_derivative_<#= o.name #>*deriv_composed<#= op #>[derived_index];
+<#+ 
+    break;
+    case PropertyDim.multiscalar : #>
+        for(auto j = 0; j < size_<#= o.name #>; ++j) {
+          var_deriv_<#= o.name #>[j]<#= op #>[composed_prop_deriv_ofs[derived_index]] += direct_derivative_<#= o.name #>[j]*deriv_composed<#= op #>[derived_index];
+        }
 <#+ 
     break;
     } 

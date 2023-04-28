@@ -215,6 +215,10 @@ namespace CMakeListGenerator {
         lawsequential,
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("law[inference=onnx]")]
+        lawinferenceonnx,
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("service[strong]")]
         servicestrong,
         

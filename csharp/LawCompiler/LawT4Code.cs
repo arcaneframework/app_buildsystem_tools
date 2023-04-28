@@ -18,6 +18,9 @@ namespace LawCompiler
     public String Signature { get; private set; }
     public String CallSignature { get; private set; }
     public String ArgSignature { get; private set; }
+    
+    public String inputOnnx { get; private set; }
+    public String outputOnnx { get; private set; }
 
     public String InvokerCallSignature { get; private set; }
 	
@@ -26,12 +29,15 @@ namespace LawCompiler
     public bool Debug { get; private set; }
 
     public MultiThreadMode MultiThread { get; private set; }
+    
+    public InferenceMode Inference { get; private set; }
 
-    public LawT4 (law model, bool debug, MultiThreadMode MultiThreadValue)
+    public LawT4 (law model, bool debug, MultiThreadMode multiThreadValue, InferenceMode inferenceValue)
     {
       Model = model;
-      MultiThread = MultiThreadValue;
-
+      MultiThread = multiThreadValue;
+      Inference = inferenceValue;
+      
       if (Model.input != null) {
         Inputs = new List<Property> (Model.input);
       } else {
@@ -63,6 +69,17 @@ namespace LawCompiler
 
       Debug = debug;
       
+      // onnx input output naming convention
+      {
+        var names = new List<String> ();
+        names.AddRange (Inputs.Select (prop => prop.name));
+        inputOnnx = "{" + String.Join (",", names) + "}";
+      }
+      {
+        var names = new List<String> ();
+        names.AddRange (Outputs.Select (prop => prop.name));
+        outputOnnx = "{" + String.Join (",", names) + "}";
+      }
       {
         var types = new List<String> ();
         types.AddRange (Inputs.Select (prop => prop.InSignatureType));

@@ -15,6 +15,12 @@ namespace LawCompiler
     ArcaneTBB,
     Kokkos
   }
+  
+  public enum InferenceMode
+  {
+    None,
+    ONNX
+  }
 
   class MainClass
   {
@@ -26,6 +32,7 @@ namespace LawCompiler
       string xml = null;
       string path = null;
       string multiThreading = "Sequential";
+      string inference = "None";
 			
       var p = new NDesk.Options.OptionSet () {
 				{ "h|?|help", "Show help message and exit", (v) => help = v != null },
@@ -34,6 +41,7 @@ namespace LawCompiler
 				{ "law=", "XML describing law file", (v) => xml = v },
 				{ "path=", "Path where C++ law files are generated", (v) => path = v },
 				{ "multi-threading=", "multi threading mode", (v) => multiThreading = v },
+				{ "inference=", "inference mode", (v) => inference = v },
 			};
 
       p.Parse (args);
@@ -43,6 +51,10 @@ namespace LawCompiler
         Console.WriteLine ("Generating for: {0}", multiThreadModeValue);          
       else
         Console.WriteLine ("Mode {0} is not a valid value, generating for Sequential", multiThreading);
+        
+      InferenceMode inferenceModeValue;
+      if(Enum.TryParse(inference, out inferenceModeValue))
+        Console.WriteLine ("Generating for inference with target: {0}", inferenceModeValue);
 
       if (xml == null) {
         Console.WriteLine ("xml option is mandatory");
@@ -111,7 +123,7 @@ namespace LawCompiler
       }
 
       // generation du fichier *_law.h
-      var gen = new LawT4 (law, debug, multiThreadModeValue);
+      var gen = new LawT4 (law, debug, multiThreadModeValue, inferenceModeValue);
       var file = path + "/" + law.name + "_law.h";
       using (StreamWriter writer = new StreamWriter (file)) {
         writer.Write (gen.TransformText ());

@@ -59,7 +59,7 @@ if(NOT MPI_FOUND)
   find_library(MPI_LIBRARY 
     NAMES ${MPI_LIBRARY_NAME}
     HINTS ${MPI_ROOT}
-		PATH_SUFFIXES lib lib64 lib/${CMAKE_BUILD_TYPE} lib64/${CMAKE_BUILD_TYPE}
+		PATH_SUFFIXES lib lib64 lib/${CMAKE_BUILD_TYPE} lib64/${CMAKE_BUILD_TYPE}  lib/release lib/debug
 		${_MPI_SEARCH_OPTS}
   )
   mark_as_advanced(MPI_LIBRARY)

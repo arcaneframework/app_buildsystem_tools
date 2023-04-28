@@ -153,7 +153,7 @@ macro(_arcgeosim_add_test)
 	  else()
 	    add_test(
 			  NAME ${FULL_TEST_NAME}
-			  COMMAND ${SCRIPT_DRIVER} ${PROJECT_SOURCE_DIR}/common/ArcaneInfra/bin/ArcaneTest.sh
+			  COMMAND ${SCRIPT_DRIVER} ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/bin/ArcaneTest.sh
 				${ARGS_TEST_NAME}
 				${FULL_TEST_NAME}
 				${PROJECT_SOURCE_DIR} 
