@@ -1,0 +1,15 @@
+name: arcgeosim-py10-env
+channels:
+- conda-forge/label/cf202303
+dependencies:
+- python=3.10
+- multiprocess
+- yaml
+- matplotlib
+- setuptools 
+- wheel 
+- cython 
+- packaging 
+- numpy
+- pkg-config
+

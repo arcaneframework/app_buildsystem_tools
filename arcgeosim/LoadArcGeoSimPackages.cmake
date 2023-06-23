@@ -57,6 +57,8 @@ loadPackage(NAME Eigen3)
 loadPackage(NAME Eigen2) 
 loadPackage(NAME Umfpack) 
 loadPackage(NAME GLPK)
+loadPackage(NAME PreCICE)
+loadPackage(NAME ONNX)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
