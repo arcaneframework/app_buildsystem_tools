@@ -7,7 +7,9 @@ if(USE_ARCCON)
   loadPackage(NAME Arccon ESSENTIAL)
   list(APPEND CMAKE_MODULE_PATH ${ARCCON_MODULE_PATH_M})
   if(USE_AXLSTAR)
-    loadPackage(NAME Axlstar ESSENTIAL)
+    if (NOT Axlstar_FOUND)
+      loadPackage(NAME Axlstar ESSENTIAL)
+    endif ()
 
     if(NOT WIN32)
       loadPackage(NAME Mono ESSENTIAL)
@@ -30,7 +32,6 @@ else()
   loadPackage(NAME DotNet ESSENTIAL)
 
   loadPackage(NAME GLib ESSENTIAL)
-  loadPackage(NAME Glib ESSENTIAL)
 
 endif()
 

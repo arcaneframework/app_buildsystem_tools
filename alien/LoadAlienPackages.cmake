@@ -6,7 +6,9 @@
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-loadPackage(NAME Alien ESSENTIAL)
+if (NOT ALIEN_FOUND)
+    loadPackage(NAME Alien ESSENTIAL)
+endif ()
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
@@ -106,7 +108,13 @@ find_package(Boost COMPONENTS program_options system REQUIRED)
 
 # NB: en dernier car arcane charge éventuellement d'autres packages
 #     si le package existe déjà, on ne fait rien
-loadPackage(NAME Arcane)
+if (NOT Arcane_FOUND)
+    message(STATUS "Load Arcane, since not found")
+    loadPackage(NAME Arcane)
+endif()
+if (Arcane_FOUND)
+    set(ALIEN_USE_ARCANE YES)
+endif()
 
 if(NOT TARGET arcane_core)
     logStatus("arcane is not found")
