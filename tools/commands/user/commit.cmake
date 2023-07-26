@@ -66,10 +66,13 @@ function(__commit_library target)
     else()
       set_property(GLOBAL APPEND PROPERTY BUILDSYSTEM_EXTERNAL_LIBRARIES ${MY_TARGET})
     endif()
+    if (FRAMEWORK_INSTALL)
+      target_link_libraries(${target} PUBLIC $<BUILD_INTERFACE:${MY_TARGET}>)
+    else ()
+      target_link_libraries(${target} PUBLIC ${MY_TARGET})
+    endif ()
   endforeach()
 
-  target_link_libraries(${target} PUBLIC ${libraries})
-  
 endfunction()
 
 function(__commit_executable target)
