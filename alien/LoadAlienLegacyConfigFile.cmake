@@ -14,10 +14,10 @@ endforeach()
 
 if (FRAMEWORK_INSTALL)
   configure_file(
-    ${CMAKE_SOURCE_DIR}/app_buildsystem_tools/alien/AlienLegacyConfig.h.in
+    ${ARCFRAMEWORK_ROOT}/app_buildsystem_tools/alien/AlienLegacyConfig.h.in
     ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
   )
-else ()
+else () # Alien_legacy_plugins repository
   configure_file(
     ${PROJECT_SOURCE_DIR}/app-cmake-buildsystem/alien/AlienLegacyConfig.h.in
     ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
