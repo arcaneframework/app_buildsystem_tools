@@ -12,10 +12,17 @@ foreach(target ${TARGETS})
   endif()
 endforeach()
 
-configure_file(
-  ${PROJECT_SOURCE_DIR}/app-cmake-buildsystem/alien/AlienLegacyConfig.h.in 
-  ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
+if (FRAMEWORK_INSTALL)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/app_buildsystem_tools/alien/AlienLegacyConfig.h.in
+    ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
   )
+else ()
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/app-cmake-buildsystem/alien/AlienLegacyConfig.h.in
+    ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
+  )
+endif ()
 
 install(
   FILES ${PROJECT_BINARY_DIR}/alien/AlienLegacyConfig.h
