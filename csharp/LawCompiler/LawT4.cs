@@ -16,7 +16,7 @@ namespace LawCompiler {
     public partial class LawT4 : LawT4Base {
         
         
-        #line 1116 "LawT4.tt"
+        #line 1225 "LawT4.tt"
 
 private bool containsVectorProperty () 
 {
@@ -32,14 +32,14 @@ private void StaticGlobalDependenciesSize ()
         #line hidden
         
         
-        #line 1127 "LawT4.tt"
+        #line 1236 "LawT4.tt"
 this.Write("   \n    // Derivatives dependencies sizes\n    const Arcane::Integer nb_graph_prop = graph_dependencies.size();\n    const Arcane::Integer nb_direct_prop = in().size();\n");
 
         #line default
         #line hidden
         
         
-        #line 1131 "LawT4.tt"
+        #line 1240 "LawT4.tt"
  
 }
 
@@ -49,14 +49,14 @@ private void ComputeDerivativesReorderOffset ()
         #line hidden
         
         
-        #line 1136 "LawT4.tt"
+        #line 1245 "LawT4.tt"
 this.Write("      Arcane::IntegerUniqueArray static_ofs(nb_direct_prop);\n      Arcane::Integer graph_composed_ofs = nb_graph_prop;\n      auto in_prop = in();\n      Arcane::Integer nb_root_prop = 0;\n      for(Arcane::Integer static_index = 0; static_index<nb_direct_prop;++static_index)\n      {\n        auto prop = in_prop[static_index];\n        // Move composed derivatives to the end\n        if(in_composed_derivative_ofs.find(prop) != in_composed_derivative_ofs.end())\n          static_ofs[static_index] = graph_composed_ofs++;\n        // Move root properties to the consistent graph index\n        else\n        {\n          static_ofs[static_index]=graph_dependencies[prop];\n          nb_root_prop++;\n        }\n      }\n      // Non root graph derivatives equals zero before correction\n      const Arcane::Integer nb_inherited_prop = nb_graph_prop - nb_root_prop;\n      Arcane::IntegerUniqueArray inherited_deriv_ofs(nb_inherited_prop);\n      Arcane::Integer inherited_index = 0;\n      for(Arcane::Integer graph_index = 0; graph_index<nb_graph_prop;++graph_index)\n      {\n        if(!in_prop.contains(graph_dependencies[graph_index]))\n          inherited_deriv_ofs[inherited_index++]=graph_index;\n      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1162 "LawT4.tt"
+        #line 1271 "LawT4.tt"
  
 }
 private void ReorderDerivativesAndNullify (string op) 
@@ -65,7 +65,7 @@ private void ReorderDerivativesAndNullify (string op)
         #line hidden
         
         
-        #line 1166 "LawT4.tt"
+        #line 1275 "LawT4.tt"
  
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -74,63 +74,63 @@ private void ReorderDerivativesAndNullify (string op)
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write("        Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write("UniqueArray var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write("_ini(var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1170 "LawT4.tt"
+        #line 1279 "LawT4.tt"
 this.Write(".constView());\n");
 
         #line default
         #line hidden
         
         
-        #line 1171 "LawT4.tt"
+        #line 1280 "LawT4.tt"
  
     break;
     case PropertyDim.multiscalar : 
@@ -138,866 +138,134 @@ this.Write(".constView());\n");
         #line hidden
         
         
-        #line 1174 "LawT4.tt"
+        #line 1283 "LawT4.tt"
 this.Write("        Arcane::Integer size_");
 
         #line default
         #line hidden
         
         
-        #line 1174 "LawT4.tt"
+        #line 1283 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1174 "LawT4.tt"
+        #line 1283 "LawT4.tt"
 this.Write(" = m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1174 "LawT4.tt"
+        #line 1283 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1174 "LawT4.tt"
+        #line 1283 "LawT4.tt"
 this.Write(".size();\n        Arcane::UniqueArray<Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1175 "LawT4.tt"
+        #line 1284 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1175 "LawT4.tt"
+        #line 1284 "LawT4.tt"
 this.Write("ConstArrayView> var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1175 "LawT4.tt"
+        #line 1284 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1175 "LawT4.tt"
+        #line 1284 "LawT4.tt"
 this.Write("_ini(size_");
 
         #line default
         #line hidden
         
         
-        #line 1175 "LawT4.tt"
+        #line 1284 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1175 "LawT4.tt"
+        #line 1284 "LawT4.tt"
 this.Write(");\n        for(auto j = 0; j < size_");
 
         #line default
         #line hidden
         
         
-        #line 1176 "LawT4.tt"
+        #line 1285 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1176 "LawT4.tt"
+        #line 1285 "LawT4.tt"
 this.Write("; ++j) {\n          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1177 "LawT4.tt"
+        #line 1286 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1177 "LawT4.tt"
+        #line 1286 "LawT4.tt"
 this.Write("_ini[j] = var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1177 "LawT4.tt"
+        #line 1286 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1177 "LawT4.tt"
+        #line 1286 "LawT4.tt"
 this.Write("[j]");
 
         #line default
         #line hidden
         
         
-        #line 1177 "LawT4.tt"
+        #line 1286 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1177 "LawT4.tt"
+        #line 1286 "LawT4.tt"
 this.Write(";\n        }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1179 "LawT4.tt"
- 
-    break;
-    } 
-  } 
-        #line default
-        #line hidden
-        
-        
-        #line 1183 "LawT4.tt"
-this.Write("        for(Arcane::Integer static_index=0;static_index<nb_direct_prop;++static_index)\n        {\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1185 "LawT4.tt"
- 
-  foreach(var o in Outputs) { 
-    switch(o.dim) {
-    case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1189 "LawT4.tt"
-this.Write("          var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1189 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1189 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1189 "LawT4.tt"
-this.Write("[static_ofs[static_index]] = var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1189 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1189 "LawT4.tt"
-this.Write("_ini[static_index];\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1190 "LawT4.tt"
- 
-    break;
-    case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1193 "LawT4.tt"
-this.Write("         for(auto j = 0; j < size_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1193 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1193 "LawT4.tt"
-this.Write("; ++j) {\n              var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1194 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1194 "LawT4.tt"
-this.Write("[j]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1194 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1194 "LawT4.tt"
-this.Write("[static_ofs[static_index]] = var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1194 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1194 "LawT4.tt"
-this.Write("_ini[j][static_index];\n         }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1196 "LawT4.tt"
-    
-    break;
-    } 
-  } 
-        #line default
-        #line hidden
-        
-        
-        #line 1200 "LawT4.tt"
-this.Write("        }\n        for(Arcane::Integer inherited_index=0;inherited_index<nb_inherited_prop;++inherited_index)\n        {\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1203 "LawT4.tt"
- 
-  foreach(var o in Outputs) { 
-    switch(o.dim) {
-    case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1207 "LawT4.tt"
-this.Write("          var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1207 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1207 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1207 "LawT4.tt"
-this.Write("[inherited_deriv_ofs[inherited_index]]=0;\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1208 "LawT4.tt"
- 
-    break;
-    case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1211 "LawT4.tt"
-this.Write("         for(auto j = 0; j < size_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1211 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1211 "LawT4.tt"
-this.Write("; ++j) {\n              var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1212 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1212 "LawT4.tt"
-this.Write("[j]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1212 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1212 "LawT4.tt"
-this.Write("[inherited_deriv_ofs[inherited_index]] = 0;\n         }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1214 "LawT4.tt"
- 
-    break;
-    } 
-  } 
-        #line default
-        #line hidden
-        
-        
-        #line 1218 "LawT4.tt"
-this.Write("       }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1219 "LawT4.tt"
-
-}
-private void ComputeDerivativesCorrectionOffset () 
-{
-        #line default
-        #line hidden
-        
-        
-        #line 1223 "LawT4.tt"
-this.Write("      direct_composed_index++;\n      // Derivatives correction through in derivatives properties\n      Law::PropertyVector composed_prop_deriv = iter_composed.second;\n      Arcane::Integer nb_composed_prop_deriv = composed_prop_deriv.size();\n      Arcane::IntegerUniqueArray composed_prop_deriv_ofs(nb_composed_prop_deriv);\n      for(Arcane::Integer composed_deriv_index=0;composed_deriv_index<nb_composed_prop_deriv;++composed_deriv_index){\n        auto current_in_derived_prop = composed_prop_deriv[composed_deriv_index];\n        composed_prop_deriv_ofs[composed_deriv_index] = graph_dependencies[current_in_derived_prop];\n      }\n      // Only real scalar avalaible in this version (external check)\n      Law::Property composed_prop = iter_composed.first;\n      Law::ScalarRealProperty& scalar_composed_prop = static_cast<Law::ScalarRealProperty&>(composed_prop);\n      // In proproperties has derivatives (external check)\n      auto deriv_composed = accessor.derivatives(scalar_composed_prop);\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1237 "LawT4.tt"
-
-}
-private void parallelEnumerate(string groupName, string lambdaName) 
-{
-    if(MultiThread == MultiThreadMode.ArcaneTBB) {
-
-        #line default
-        #line hidden
-        
-        
-        #line 1243 "LawT4.tt"
-this.Write("      int nb_thread = Arcane::TaskFactory::nbAllowedThread();\n      Arcane::ParallelLoopOptions para_options;\n      para_options.setMaxThread(nb_thread);\n      int grain_size = group.size()/nb_thread + 1;\n      para_options.setGrainSize(grain_size);\n      Arcane::Parallel::Foreach(");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1248 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( groupName ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1248 "LawT4.tt"
-this.Write(", para_options, ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1248 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( lambdaName ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1248 "LawT4.tt"
-this.Write(");\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1249 "LawT4.tt"
-
-    }
-    else if(MultiThread == MultiThreadMode.Kokkos) {
-
-        #line default
-        #line hidden
-        
-        
-        #line 1253 "LawT4.tt"
-this.Write("      Kokkos::parallel_for(\"");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1253 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( groupName ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1253 "LawT4.tt"
-this.Write("\", group.size(), ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1253 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( lambdaName ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1253 "LawT4.tt"
-this.Write(");\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1254 "LawT4.tt"
-
-    }
-}
-private void ApplyDerivativesCorrection(string op) 
-{
-  foreach(var o in Outputs) { 
-    switch(o.dim) {
-    case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1262 "LawT4.tt"
-this.Write("        auto direct_derivative_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1262 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1262 "LawT4.tt"
-this.Write(" = var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1262 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1262 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1262 "LawT4.tt"
-this.Write("[direct_composed_index];\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1263 "LawT4.tt"
- 
-    break;
-    case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1266 "LawT4.tt"
-this.Write("        Arcane::Integer size_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1266 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1266 "LawT4.tt"
-this.Write(" = m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1266 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1266 "LawT4.tt"
-this.Write(".size();\n        Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1267 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1267 "LawT4.tt"
-this.Write("UniqueArray direct_derivative_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1267 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1267 "LawT4.tt"
-this.Write("(size_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1267 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1267 "LawT4.tt"
-this.Write(");\n        for(auto j = 0; j < size_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1268 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1268 "LawT4.tt"
-this.Write("; ++j) {\n          direct_derivative_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1269 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1269 "LawT4.tt"
-this.Write("[j] = var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1269 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1269 "LawT4.tt"
-this.Write("[j]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1269 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1269 "LawT4.tt"
-this.Write("[direct_composed_index];\n        }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1271 "LawT4.tt"
- 
-    break;
-    } 
-  } 
-        #line default
-        #line hidden
-        
-        
-        #line 1275 "LawT4.tt"
-this.Write("        for(auto derived_index = 0; derived_index < nb_composed_prop_deriv; ++derived_index)\n        {\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1277 "LawT4.tt"
- 
-  foreach(var o in Outputs) { 
-    switch(o.dim) {
-    case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write("          var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write("[composed_prop_deriv_ofs[derived_index]] += direct_derivative_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write("*deriv_composed");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1281 "LawT4.tt"
-this.Write("[derived_index];\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1282 "LawT4.tt"
- 
-    break;
-    case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1285 "LawT4.tt"
-this.Write("        for(auto j = 0; j < size_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1285 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1285 "LawT4.tt"
-this.Write("; ++j) {\n          var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write("[j]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write("[composed_prop_deriv_ofs[derived_index]] += direct_derivative_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write("[j]*deriv_composed");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1286 "LawT4.tt"
-this.Write("[derived_index];\n        }\n");
 
         #line default
         #line hidden
@@ -1013,150 +281,14 @@ this.Write("[derived_index];\n        }\n");
         
         
         #line 1292 "LawT4.tt"
-this.Write("        }\n");
+this.Write("        for(Arcane::Integer static_index=0;static_index<nb_direct_prop;++static_index)\n        {\n");
 
         #line default
         #line hidden
         
         
-        #line 1293 "LawT4.tt"
-
-}
-private void AccessGlobalValues () 
-{ 
-        #line default
-        #line hidden
-        
-        
-        #line 1297 "LawT4.tt"
-this.Write("    // Access to global values container\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1298 "LawT4.tt"
-
-  foreach(var p in AllProperties) { 
-        #line default
-        #line hidden
-        
-        
-        #line 1300 "LawT4.tt"
-this.Write("    auto var_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1300 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1300 "LawT4.tt"
-this.Write(" = accessor.values(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1300 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1300 "LawT4.tt"
-this.Write(");\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1301 "LawT4.tt"
-
-  }
-}
-
-private void AccessGlobalDerivatives () 
-{ 
-        #line default
-        #line hidden
-        
-        
-        #line 1307 "LawT4.tt"
-this.Write("    // Access to global derivatives container\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1308 "LawT4.tt"
-
-  foreach(var o in Outputs) { 
-        #line default
-        #line hidden
-        
-        
-        #line 1310 "LawT4.tt"
-this.Write("    auto var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1310 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1310 "LawT4.tt"
-this.Write(" = accessor.derivatives(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1310 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1310 "LawT4.tt"
-this.Write(");\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1311 "LawT4.tt"
-
-  }
-}
-
-private void ResizeGlobalDerivatives (bool need_resize_array = false) 
-{ 
-        #line default
-        #line hidden
-        
-        
-        #line 1317 "LawT4.tt"
-this.Write("    // Resize global outputs\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1318 "LawT4.tt"
-
+        #line 1294 "LawT4.tt"
+ 
   foreach(var o in Outputs) { 
     switch(o.dim) {
     case PropertyDim.scalar : 
@@ -1164,22 +296,224 @@ this.Write("    // Resize global outputs\n");
         #line hidden
         
         
-        #line 1322 "LawT4.tt"
-this.Write("    var_deriv_");
+        #line 1298 "LawT4.tt"
+this.Write("          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1322 "LawT4.tt"
+        #line 1298 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1322 "LawT4.tt"
-this.Write(".resize(size);\n");
+        #line 1298 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1298 "LawT4.tt"
+this.Write("[static_ofs[static_index]] = var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1298 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1298 "LawT4.tt"
+this.Write("_ini[static_index];\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1299 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1302 "LawT4.tt"
+this.Write("         for(auto j = 0; j < size_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1302 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1302 "LawT4.tt"
+this.Write("; ++j) {\n              var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1303 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1303 "LawT4.tt"
+this.Write("[j]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1303 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1303 "LawT4.tt"
+this.Write("[static_ofs[static_index]] = var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1303 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1303 "LawT4.tt"
+this.Write("_ini[j][static_index];\n         }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1305 "LawT4.tt"
+    
+    break;
+    } 
+  } 
+        #line default
+        #line hidden
+        
+        
+        #line 1309 "LawT4.tt"
+this.Write("        }\n        for(Arcane::Integer inherited_index=0;inherited_index<nb_inherited_prop;++inherited_index)\n        {\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1312 "LawT4.tt"
+ 
+  foreach(var o in Outputs) { 
+    switch(o.dim) {
+    case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1316 "LawT4.tt"
+this.Write("          var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1316 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1316 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1316 "LawT4.tt"
+this.Write("[inherited_deriv_ofs[inherited_index]]=0;\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1317 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1320 "LawT4.tt"
+this.Write("         for(auto j = 0; j < size_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1320 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1320 "LawT4.tt"
+this.Write("; ++j) {\n              var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1321 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1321 "LawT4.tt"
+this.Write("[j]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1321 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1321 "LawT4.tt"
+this.Write("[inherited_deriv_ofs[inherited_index]] = 0;\n         }\n");
 
         #line default
         #line hidden
@@ -1188,290 +522,76 @@ this.Write(".resize(size);\n");
         #line 1323 "LawT4.tt"
  
     break;
-    case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1326 "LawT4.tt"
-this.Write("    for(auto i = 0; i < m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1326 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1326 "LawT4.tt"
-this.Write(".size(); ++i) {\n      var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1327 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1327 "LawT4.tt"
-this.Write("[i].resize(size);\n    }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1329 "LawT4.tt"
- 
-    break;
-    case PropertyDim.vectorial : 
-    if(need_resize_array) { 
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write("    var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write(".resize(var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write(".dim1Size(), m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1333 "LawT4.tt"
-this.Write(".size(),size);\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1334 "LawT4.tt"
- 
-    } else { 
-        #line default
-        #line hidden
-        
-        
-        #line 1336 "LawT4.tt"
-this.Write("    var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1336 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1336 "LawT4.tt"
-this.Write(".resize(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1336 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1336 "LawT4.tt"
-this.Write(".size(),size);\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1337 "LawT4.tt"
- 
-    }
-    break;
     } 
-  }
-}
+  } 
+        #line default
+        #line hidden
+        
+        
+        #line 1327 "LawT4.tt"
+this.Write("       }\n");
 
-private void CreateDerivativesOffsets () 
-{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1328 "LawT4.tt"
+
+}
+private void ComputeDerivativesCorrectionOffset () 
+{
+        #line default
+        #line hidden
+        
+        
+        #line 1332 "LawT4.tt"
+this.Write("      direct_composed_index++;\n      // Derivatives correction through in derivatives properties\n      Law::PropertyVector composed_prop_deriv = iter_composed.second;\n      Arcane::Integer nb_composed_prop_deriv = composed_prop_deriv.size();\n      Arcane::IntegerUniqueArray composed_prop_deriv_ofs(nb_composed_prop_deriv);\n      for(Arcane::Integer composed_deriv_index=0;composed_deriv_index<nb_composed_prop_deriv;++composed_deriv_index){\n        auto current_in_derived_prop = composed_prop_deriv[composed_deriv_index];\n        composed_prop_deriv_ofs[composed_deriv_index] = graph_dependencies[current_in_derived_prop];\n      }\n      // Only real scalar avalaible in this version (external check)\n      Law::Property composed_prop = iter_composed.first;\n      Law::ScalarRealProperty& scalar_composed_prop = static_cast<Law::ScalarRealProperty&>(composed_prop);\n      // In proproperties has derivatives (external check)\n      auto deriv_composed = accessor.derivatives(scalar_composed_prop);\n");
+
         #line default
         #line hidden
         
         
         #line 1346 "LawT4.tt"
-this.Write("    // Create derivatives offsets\n");
 
-        #line default
-        #line hidden
-        
-        
-        #line 1347 "LawT4.tt"
-
-  Property prev = null;
-  foreach(var p in Inputs) {
-    if(prev == null) { 
-        #line default
-        #line hidden
-        
-        
-        #line 1351 "LawT4.tt"
-this.Write("    auto ofs_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1351 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1351 "LawT4.tt"
-this.Write(" = 0;\n");
+}
+private void parallelEnumerate(string groupName, string lambdaName) 
+{
+    if(MultiThread == MultiThreadMode.ArcaneTBB) {
 
         #line default
         #line hidden
         
         
         #line 1352 "LawT4.tt"
- 
-    } else if (prev.dim != PropertyDim.scalar) { 
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write("    auto ofs_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write(" = ofs_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( prev.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write(" + m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( prev.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1354 "LawT4.tt"
-this.Write(".size();\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1355 "LawT4.tt"
- 
-    } else { 
-        #line default
-        #line hidden
-        
-        
-        #line 1357 "LawT4.tt"
-this.Write("    auto ofs_");
+this.Write("      int nb_thread = Arcane::TaskFactory::nbAllowedThread();\n      Arcane::ParallelLoopOptions para_options;\n      para_options.setMaxThread(nb_thread);\n      int grain_size = group.size()/nb_thread + 1;\n      para_options.setGrainSize(grain_size);\n      Arcane::Parallel::Foreach(");
 
         #line default
         #line hidden
         
         
         #line 1357 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( groupName ));
 
         #line default
         #line hidden
         
         
         #line 1357 "LawT4.tt"
-this.Write(" = ofs_");
+this.Write(", para_options, ");
 
         #line default
         #line hidden
         
         
         #line 1357 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( prev.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( lambdaName ));
 
         #line default
         #line hidden
         
         
         #line 1357 "LawT4.tt"
-this.Write(" + 1;\n");
+this.Write(");\n");
 
         #line default
         #line hidden
@@ -1480,62 +600,97 @@ this.Write(" + 1;\n");
         #line 1358 "LawT4.tt"
 
     }
-    prev = p;
-  }
+    else if(MultiThread == MultiThreadMode.Kokkos) {
+
+        #line default
+        #line hidden
+        
+        
+        #line 1362 "LawT4.tt"
+this.Write("      Kokkos::parallel_for(\"");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1362 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( groupName ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1362 "LawT4.tt"
+this.Write("\", group.size(), ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1362 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( lambdaName ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1362 "LawT4.tt"
+this.Write(");\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1363 "LawT4.tt"
+
+    }
 }
-
-private void AllocateLocalData ()
-{ 
-        #line default
-        #line hidden
-        
-        
-        #line 1366 "LawT4.tt"
-this.Write("    // Allocate local inputs\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1367 "LawT4.tt"
-
-  foreach(var i in Inputs) { 
-    switch(i.dim) {
+private void ApplyDerivativesCorrection(string op) 
+{
+  foreach(var o in Outputs) { 
+    switch(o.dim) {
     case PropertyDim.scalar : 
         #line default
         #line hidden
         
         
         #line 1371 "LawT4.tt"
-this.Write("    Arcane::");
+this.Write("        auto direct_derivative_");
 
         #line default
         #line hidden
         
         
         #line 1371 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.type.Name() ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
         #line 1371 "LawT4.tt"
-this.Write(" ");
+this.Write(" = var_deriv_");
 
         #line default
         #line hidden
         
         
         #line 1371 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
         #line 1371 "LawT4.tt"
-this.Write(";\n");
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1371 "LawT4.tt"
+this.Write("[direct_composed_index];\n");
 
         #line default
         #line hidden
@@ -1550,92 +705,133 @@ this.Write(";\n");
         
         
         #line 1375 "LawT4.tt"
-this.Write("    Arcane::");
+this.Write("        Arcane::Integer size_");
 
         #line default
         #line hidden
         
         
         #line 1375 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.type.Name() ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
         #line 1375 "LawT4.tt"
-this.Write("UniqueArray ");
+this.Write(" = m_signature.");
 
         #line default
         #line hidden
         
         
         #line 1375 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
         #line 1375 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1375 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1375 "LawT4.tt"
-this.Write(".size());\n");
+this.Write(".size();\n        Arcane::");
 
         #line default
         #line hidden
         
         
         #line 1376 "LawT4.tt"
- 
-    break;
-    case PropertyDim.vectorial : 
-        #line default
-        #line hidden
-        
-        
-        #line 1379 "LawT4.tt"
-this.Write("    Arcane::");
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1379 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.type.Name() ));
+        #line 1376 "LawT4.tt"
+this.Write("UniqueArray direct_derivative_");
 
         #line default
         #line hidden
         
         
-        #line 1379 "LawT4.tt"
-this.Write("ConstArrayView ");
+        #line 1376 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1379 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+        #line 1376 "LawT4.tt"
+this.Write("(size_");
 
         #line default
         #line hidden
         
         
-        #line 1379 "LawT4.tt"
-this.Write(";\n");
+        #line 1376 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1376 "LawT4.tt"
+this.Write(");\n        for(auto j = 0; j < size_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1377 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1377 "LawT4.tt"
+this.Write("; ++j) {\n          direct_derivative_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1378 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1378 "LawT4.tt"
+this.Write("[j] = var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1378 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1378 "LawT4.tt"
+this.Write("[j]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1378 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1378 "LawT4.tt"
+this.Write("[direct_composed_index];\n        }\n");
 
         #line default
         #line hidden
@@ -1651,13 +847,315 @@ this.Write(";\n");
         
         
         #line 1384 "LawT4.tt"
-this.Write("    // Allocate local outputs\n");
+this.Write("        for(auto derived_index = 0; derived_index < nb_composed_prop_deriv; ++derived_index)\n        {\n");
 
         #line default
         #line hidden
         
         
-        #line 1385 "LawT4.tt"
+        #line 1386 "LawT4.tt"
+ 
+  foreach(var o in Outputs) { 
+    switch(o.dim) {
+    case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write("          var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write("[composed_prop_deriv_ofs[derived_index]] += direct_derivative_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write("*deriv_composed");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1390 "LawT4.tt"
+this.Write("[derived_index];\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1391 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1394 "LawT4.tt"
+this.Write("        for(auto j = 0; j < size_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1394 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1394 "LawT4.tt"
+this.Write("; ++j) {\n          var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write("[j]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write("[composed_prop_deriv_ofs[derived_index]] += direct_derivative_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write("[j]*deriv_composed");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1395 "LawT4.tt"
+this.Write("[derived_index];\n        }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1397 "LawT4.tt"
+ 
+    break;
+    } 
+  } 
+        #line default
+        #line hidden
+        
+        
+        #line 1401 "LawT4.tt"
+this.Write("        }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1402 "LawT4.tt"
+
+}
+private void AccessGlobalValues () 
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1406 "LawT4.tt"
+this.Write("    // Access to global values container\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1407 "LawT4.tt"
+
+  foreach(var p in AllProperties) { 
+        #line default
+        #line hidden
+        
+        
+        #line 1409 "LawT4.tt"
+this.Write("    auto var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1409 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1409 "LawT4.tt"
+this.Write(" = accessor.values(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1409 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1409 "LawT4.tt"
+this.Write(");\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1410 "LawT4.tt"
+
+  }
+}
+
+private void AccessGlobalDerivatives () 
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1416 "LawT4.tt"
+this.Write("    // Access to global derivatives container\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1417 "LawT4.tt"
+
+  foreach(var o in Outputs) { 
+        #line default
+        #line hidden
+        
+        
+        #line 1419 "LawT4.tt"
+this.Write("    auto var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1419 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1419 "LawT4.tt"
+this.Write(" = accessor.derivatives(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1419 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1419 "LawT4.tt"
+this.Write(");\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1420 "LawT4.tt"
+
+  }
+}
+
+private void ResizeGlobalDerivatives (bool need_resize_array = false) 
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1426 "LawT4.tt"
+this.Write("    // Resize global outputs\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1427 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -1666,784 +1164,81 @@ this.Write("    // Allocate local outputs\n");
         #line hidden
         
         
-        #line 1389 "LawT4.tt"
-this.Write("    Arcane::");
+        #line 1431 "LawT4.tt"
+this.Write("    var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1389 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1389 "LawT4.tt"
-this.Write(" ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1389 "LawT4.tt"
+        #line 1431 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1389 "LawT4.tt"
-this.Write(";\n");
+        #line 1431 "LawT4.tt"
+this.Write(".resize(size);\n");
 
         #line default
         #line hidden
         
         
-        #line 1390 "LawT4.tt"
+        #line 1432 "LawT4.tt"
  
-    foreach(var i in Inputs) {
-      switch(i.dim) {
-      case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write(" ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1394 "LawT4.tt"
-this.Write(";\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1395 "LawT4.tt"
-
-      break;
-      case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1398 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1399 "LawT4.tt"
-
-      break;
-      case PropertyDim.vectorial : 
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1402 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1403 "LawT4.tt"
-
-      break;
-      }
-    }
     break;
     case PropertyDim.multiscalar : 
         #line default
         #line hidden
         
         
-        #line 1409 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1409 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1409 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1409 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1409 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1409 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1409 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1410 "LawT4.tt"
- 
-    foreach(var i in Inputs) {
-      switch(i.dim) {
-      case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1414 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1415 "LawT4.tt"
-
-      break;
-      case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write("UniqueArray2 ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(".size(),m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1418 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1419 "LawT4.tt"
-
-      break;
-      case PropertyDim.vectorial : 
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write("UniqueArray2 ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(".size(),m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1422 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1423 "LawT4.tt"
-
-      break;
-      }
-    }
-    break;
-    case PropertyDim.vectorial : 
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1429 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1430 "LawT4.tt"
- 
-    foreach(var i in Inputs) {
-      switch(i.dim) {
-      case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1434 "LawT4.tt"
-this.Write(".size());\n");
+        #line 1435 "LawT4.tt"
+this.Write("    for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
         #line 1435 "LawT4.tt"
-
-      break;
-      case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
-this.Write("UniqueArray2 ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1438 "LawT4.tt"
-this.Write("_wrt_");
+        #line 1435 "LawT4.tt"
+this.Write(".size(); ++i) {\n      var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1438 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
+        #line 1436 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1438 "LawT4.tt"
-this.Write(".size(),m_signature.");
+        #line 1436 "LawT4.tt"
+this.Write("[i].resize(size);\n    }\n");
 
         #line default
         #line hidden
         
         
         #line 1438 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1438 "LawT4.tt"
-this.Write(".size());\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1439 "LawT4.tt"
-
-      break;
-      case PropertyDim.vectorial : 
+ 
+    break;
+    case PropertyDim.vectorial : 
+    if(need_resize_array) { 
         #line default
         #line hidden
         
         
         #line 1442 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1442 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1442 "LawT4.tt"
-this.Write("UniqueArray2 ");
+this.Write("    var_deriv_");
 
         #line default
         #line hidden
@@ -2457,21 +1252,7 @@ this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
         
         
         #line 1442 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1442 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1442 "LawT4.tt"
-this.Write("(m_signature.");
+this.Write(".resize(var_deriv_");
 
         #line default
         #line hidden
@@ -2485,170 +1266,128 @@ this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
         
         
         #line 1442 "LawT4.tt"
-this.Write(".size(),m_signature.");
+this.Write(".dim1Size(), m_signature.");
 
         #line default
         #line hidden
         
         
         #line 1442 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
         #line 1442 "LawT4.tt"
-this.Write(".size());\n");
+this.Write(".size(),size);\n");
 
         #line default
         #line hidden
         
         
         #line 1443 "LawT4.tt"
+ 
+    } else { 
+        #line default
+        #line hidden
+        
+        
+        #line 1445 "LawT4.tt"
+this.Write("    var_deriv_");
 
-      break;
-      }
+        #line default
+        #line hidden
+        
+        
+        #line 1445 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1445 "LawT4.tt"
+this.Write(".resize(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1445 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1445 "LawT4.tt"
+this.Write(".size(),size);\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1446 "LawT4.tt"
+ 
     }
     break;
-    }
-  } 
-        #line default
-        #line hidden
-        
-        
-        #line 1450 "LawT4.tt"
-this.Write("    // Allocate local parameters\n");
+    } 
+  }
+}
 
-        #line default
-        #line hidden
-        
-        
-        #line 1451 "LawT4.tt"
-
-  foreach(var p in Parameters) { 
-    switch(p.dim) {
-    case PropertyDim.scalar : 
+private void CreateDerivativesOffsets () 
+{ 
         #line default
         #line hidden
         
         
         #line 1455 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1455 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1455 "LawT4.tt"
-this.Write(" ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1455 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1455 "LawT4.tt"
-this.Write(";\n");
+this.Write("    // Create derivatives offsets\n");
 
         #line default
         #line hidden
         
         
         #line 1456 "LawT4.tt"
- 
-    break;
-    case PropertyDim.multiscalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1459 "LawT4.tt"
-this.Write("    Arcane::");
 
+  Property prev = null;
+  foreach(var p in Inputs) {
+    if(prev == null) { 
         #line default
         #line hidden
         
         
-        #line 1459 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1459 "LawT4.tt"
-this.Write("UniqueArray ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1459 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1459 "LawT4.tt"
-this.Write("(m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1459 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1459 "LawT4.tt"
-this.Write(".size());\n");
+        #line 1460 "LawT4.tt"
+this.Write("    auto ofs_");
 
         #line default
         #line hidden
         
         
         #line 1460 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1460 "LawT4.tt"
+this.Write(" = 0;\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1461 "LawT4.tt"
  
-    break;
-    case PropertyDim.vectorial : 
+    } else if (prev.dim != PropertyDim.scalar) { 
         #line default
         #line hidden
         
         
         #line 1463 "LawT4.tt"
-this.Write("    Arcane::");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1463 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.type.Name() ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1463 "LawT4.tt"
-this.Write("ConstArrayView ");
+this.Write("    auto ofs_");
 
         #line default
         #line hidden
@@ -2662,7 +1401,35 @@ this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
         
         
         #line 1463 "LawT4.tt"
-this.Write(";\n");
+this.Write(" = ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1463 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( prev.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1463 "LawT4.tt"
+this.Write(" + m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1463 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( prev.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1463 "LawT4.tt"
+this.Write(".size();\n");
 
         #line default
         #line hidden
@@ -2670,25 +1437,111 @@ this.Write(";\n");
         
         #line 1464 "LawT4.tt"
  
-    break;
+    } else { 
+        #line default
+        #line hidden
+        
+        
+        #line 1466 "LawT4.tt"
+this.Write("    auto ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1466 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1466 "LawT4.tt"
+this.Write(" = ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1466 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( prev.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1466 "LawT4.tt"
+this.Write(" + 1;\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1467 "LawT4.tt"
+
     }
+    prev = p;
   }
 }
 
-private void CopyGlobalValuesToLocalValues (string op, bool vectorial_no_op = false)
+private void AllocateOnnxLocalData (string multSize)
 { 
         #line default
         #line hidden
         
         
-        #line 1472 "LawT4.tt"
-this.Write("      // Copy global inputs values to local values\n");
+        #line 1475 "LawT4.tt"
+this.Write("    const int nb_law_input_prop =  _get_nb_input_properties();\n    std::vector<float> onnx_input_buffer(nb_law_input_prop");
 
         #line default
         #line hidden
         
         
-        #line 1473 "LawT4.tt"
+        #line 1476 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(multSize));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1476 "LawT4.tt"
+this.Write(");\n    const int nb_law_output_prop =  _get_nb_output_properties();\n    const int nb_law_derivatives = m_is_differentiable ? (nb_law_input_prop*nb_law_output_prop) : 0;\n    const int nb_law_output = nb_law_output_prop + nb_law_derivatives;\n    std::vector<float> onnx_output_buffer(nb_law_output");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1480 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(multSize));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1480 "LawT4.tt"
+this.Write(");\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1481 "LawT4.tt"
+ }
+    
+private void AllocateLocalData ()
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1485 "LawT4.tt"
+this.Write("    // Allocate local inputs\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1486 "LawT4.tt"
 
   foreach(var i in Inputs) { 
     switch(i.dim) {
@@ -2697,49 +1550,42 @@ this.Write("      // Copy global inputs values to local values\n");
         #line hidden
         
         
-        #line 1477 "LawT4.tt"
-this.Write("      ");
+        #line 1490 "LawT4.tt"
+this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1477 "LawT4.tt"
+        #line 1490 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1490 "LawT4.tt"
+this.Write(" ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1490 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1477 "LawT4.tt"
-this.Write(" = var_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1477 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1477 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1477 "LawT4.tt"
+        #line 1490 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1478 "LawT4.tt"
+        #line 1491 "LawT4.tt"
  
     break;
     case PropertyDim.multiscalar : 
@@ -2747,296 +1593,153 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1481 "LawT4.tt"
-this.Write("      for(auto i = 0; i < m_signature.");
+        #line 1494 "LawT4.tt"
+this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1481 "LawT4.tt"
+        #line 1494 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1494 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1494 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1481 "LawT4.tt"
-this.Write(".size(); ++i) {\n        ");
+        #line 1494 "LawT4.tt"
+this.Write("(m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1482 "LawT4.tt"
+        #line 1494 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1482 "LawT4.tt"
-this.Write("[i] = var_");
+        #line 1494 "LawT4.tt"
+this.Write(".size());\n");
 
         #line default
         #line hidden
         
         
-        #line 1482 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1482 "LawT4.tt"
-this.Write("[i]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1482 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1482 "LawT4.tt"
-this.Write(";\n      }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1484 "LawT4.tt"
+        #line 1495 "LawT4.tt"
  
     break;
     case PropertyDim.vectorial : 
-    if(vectorial_no_op) { 
         #line default
         #line hidden
         
         
-        #line 1488 "LawT4.tt"
-this.Write("      ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1488 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1488 "LawT4.tt"
-this.Write(" = var_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1488 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1488 "LawT4.tt"
-this.Write(";\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1489 "LawT4.tt"
- 
-    } else { 
-        #line default
-        #line hidden
-        
-        
-        #line 1491 "LawT4.tt"
-this.Write("      ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1491 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1491 "LawT4.tt"
-this.Write(" = var_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1491 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1491 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1491 "LawT4.tt"
-this.Write(";\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1492 "LawT4.tt"
- 
-    }
-    break;
-    }
-  } 
-        #line default
-        #line hidden
-        
-        
-        #line 1497 "LawT4.tt"
-this.Write("      // Copy global parameters values to local values\n");
+        #line 1498 "LawT4.tt"
+this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
         #line 1498 "LawT4.tt"
-
-  foreach(var p in Parameters) { 
-    switch(p.dim) {
-    case PropertyDim.scalar : 
-        #line default
-        #line hidden
-        
-        
-        #line 1502 "LawT4.tt"
-this.Write("      ");
+this.Write(this.ToStringHelper.ToStringWithCulture( i.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1502 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+        #line 1498 "LawT4.tt"
+this.Write("ConstArrayView ");
 
         #line default
         #line hidden
         
         
-        #line 1502 "LawT4.tt"
-this.Write(" = var_");
+        #line 1498 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1502 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1502 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1502 "LawT4.tt"
+        #line 1498 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1503 "LawT4.tt"
+        #line 1499 "LawT4.tt"
  
     break;
-    case PropertyDim.multiscalar : 
+    } 
+  } 
         #line default
         #line hidden
         
         
-        #line 1506 "LawT4.tt"
-this.Write("      for(auto i = 0; i < m_signature.");
+        #line 1503 "LawT4.tt"
+this.Write("    // Allocate local outputs\n");
 
         #line default
         #line hidden
         
         
-        #line 1506 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+        #line 1504 "LawT4.tt"
+
+  foreach(var o in Outputs) { 
+    switch(o.dim) {
+    case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1508 "LawT4.tt"
+this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1506 "LawT4.tt"
-this.Write(".size(); ++i) {\n        ");
+        #line 1508 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1507 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+        #line 1508 "LawT4.tt"
+this.Write(" ");
 
         #line default
         #line hidden
         
         
-        #line 1507 "LawT4.tt"
-this.Write("[i] = var_");
+        #line 1508 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1507 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1507 "LawT4.tt"
-this.Write("[i]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1507 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1507 "LawT4.tt"
-this.Write(";\n      }\n");
+        #line 1508 "LawT4.tt"
+this.Write(";\n");
 
         #line default
         #line hidden
@@ -3044,36 +1747,50 @@ this.Write(";\n      }\n");
         
         #line 1509 "LawT4.tt"
  
-    break;
-    case PropertyDim.vectorial : 
-    if(vectorial_no_op) { 
+    foreach(var i in Inputs) {
+      switch(i.dim) {
+      case PropertyDim.scalar : 
         #line default
         #line hidden
         
         
         #line 1513 "LawT4.tt"
-this.Write("      ");
+this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
         #line 1513 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
         #line 1513 "LawT4.tt"
-this.Write(" = var_");
+this.Write(" ");
 
         #line default
         #line hidden
         
         
         #line 1513 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1513 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1513 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
@@ -3087,55 +1804,1590 @@ this.Write(";\n");
         
         
         #line 1514 "LawT4.tt"
- 
-    } else { 
-        #line default
-        #line hidden
-        
-        
-        #line 1516 "LawT4.tt"
-this.Write("      ");
 
+      break;
+      case PropertyDim.multiscalar : 
         #line default
         #line hidden
         
         
-        #line 1516 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1516 "LawT4.tt"
-this.Write(" = var_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1516 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1516 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1516 "LawT4.tt"
-this.Write(";\n");
+        #line 1517 "LawT4.tt"
+this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
         #line 1517 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1517 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1518 "LawT4.tt"
+
+      break;
+      case PropertyDim.vectorial : 
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1521 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1522 "LawT4.tt"
+
+      break;
+      }
+    }
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1528 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1529 "LawT4.tt"
+ 
+    foreach(var i in Inputs) {
+      switch(i.dim) {
+      case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1533 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1534 "LawT4.tt"
+
+      break;
+      case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write("UniqueArray2 ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(".size(),m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1537 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1538 "LawT4.tt"
+
+      break;
+      case PropertyDim.vectorial : 
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write("UniqueArray2 ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(".size(),m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1541 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1542 "LawT4.tt"
+
+      break;
+      }
+    }
+    break;
+    case PropertyDim.vectorial : 
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1548 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1549 "LawT4.tt"
+ 
+    foreach(var i in Inputs) {
+      switch(i.dim) {
+      case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1553 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1554 "LawT4.tt"
+
+      break;
+      case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write("UniqueArray2 ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(".size(),m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1557 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1558 "LawT4.tt"
+
+      break;
+      case PropertyDim.vectorial : 
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write("UniqueArray2 ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(".size(),m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1561 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1562 "LawT4.tt"
+
+      break;
+      }
+    }
+    break;
+    }
+  } 
+        #line default
+        #line hidden
+        
+        
+        #line 1569 "LawT4.tt"
+this.Write("    // Allocate local parameters\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1570 "LawT4.tt"
+
+  foreach(var p in Parameters) { 
+    switch(p.dim) {
+    case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1574 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1574 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1574 "LawT4.tt"
+this.Write(" ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1574 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1574 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1575 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write("UniqueArray ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write("(m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1578 "LawT4.tt"
+this.Write(".size());\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1579 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.vectorial : 
+        #line default
+        #line hidden
+        
+        
+        #line 1582 "LawT4.tt"
+this.Write("    Arcane::");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1582 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.type.Name() ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1582 "LawT4.tt"
+this.Write("ConstArrayView ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1582 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1582 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1583 "LawT4.tt"
+ 
+    break;
+    }
+  }
+}
+
+private void CopyGlobalValuesToLocalOnnxValues (string op)
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1591 "LawT4.tt"
+ foreach(var p in Inputs) {
+    switch(p.dim) {
+     case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1594 "LawT4.tt"
+this.Write("      onnx_input_buffer[in_index++] = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1594 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1594 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1594 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1595 "LawT4.tt"
+   break;
+     case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1597 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1597 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1597 "LawT4.tt"
+this.Write(".size(); ++i) {\n        onnx_input_buffer[in_index++] = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1598 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1598 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1598 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1598 "LawT4.tt"
+this.Write(";\n      } \n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1600 "LawT4.tt"
+  break;
+   }
+  }
+}
+
+private void CopyLocalOnnxValuesToGlobalValues (string op)
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1607 "LawT4.tt"
+ foreach(var p in Outputs) {
+    switch(p.dim) {
+     case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1610 "LawT4.tt"
+this.Write("      var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1610 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1610 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1610 "LawT4.tt"
+this.Write(" = onnx_output_buffer[out_index++];\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1611 "LawT4.tt"
+   break;
+     case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1613 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1613 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1613 "LawT4.tt"
+this.Write(".size(); ++i) {\n        var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1614 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1614 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1614 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1614 "LawT4.tt"
+this.Write(" = onnx_output_buffer[out_index++];\n      } \n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1616 "LawT4.tt"
+  break;
+   }
+  }
+}
+
+private void CopyGlobalValuesToLocalValues (string op, bool vectorial_no_op = false)
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1623 "LawT4.tt"
+this.Write("      // Copy global inputs values to local values\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1624 "LawT4.tt"
+
+  foreach(var i in Inputs) { 
+    switch(i.dim) {
+    case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1628 "LawT4.tt"
+this.Write("      ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1628 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1628 "LawT4.tt"
+this.Write(" = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1628 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1628 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1628 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1629 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1632 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1632 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1632 "LawT4.tt"
+this.Write(".size(); ++i) {\n        ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1633 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1633 "LawT4.tt"
+this.Write("[i] = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1633 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1633 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1633 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1633 "LawT4.tt"
+this.Write(";\n      }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1635 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.vectorial : 
+    if(vectorial_no_op) { 
+        #line default
+        #line hidden
+        
+        
+        #line 1639 "LawT4.tt"
+this.Write("      ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1639 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1639 "LawT4.tt"
+this.Write(" = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1639 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1639 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1640 "LawT4.tt"
+ 
+    } else { 
+        #line default
+        #line hidden
+        
+        
+        #line 1642 "LawT4.tt"
+this.Write("      ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1642 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1642 "LawT4.tt"
+this.Write(" = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1642 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1642 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1642 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1643 "LawT4.tt"
+ 
+    }
+    break;
+    }
+  } 
+        #line default
+        #line hidden
+        
+        
+        #line 1648 "LawT4.tt"
+this.Write("      // Copy global parameters values to local values\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1649 "LawT4.tt"
+
+  foreach(var p in Parameters) { 
+    switch(p.dim) {
+    case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1653 "LawT4.tt"
+this.Write("      ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1653 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1653 "LawT4.tt"
+this.Write(" = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1653 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1653 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1653 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1654 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1657 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1657 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1657 "LawT4.tt"
+this.Write(".size(); ++i) {\n        ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1658 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1658 "LawT4.tt"
+this.Write("[i] = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1658 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1658 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1658 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1658 "LawT4.tt"
+this.Write(";\n      }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1660 "LawT4.tt"
+ 
+    break;
+    case PropertyDim.vectorial : 
+    if(vectorial_no_op) { 
+        #line default
+        #line hidden
+        
+        
+        #line 1664 "LawT4.tt"
+this.Write("      ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1664 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1664 "LawT4.tt"
+this.Write(" = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1664 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1664 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1665 "LawT4.tt"
+ 
+    } else { 
+        #line default
+        #line hidden
+        
+        
+        #line 1667 "LawT4.tt"
+this.Write("      ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1667 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1667 "LawT4.tt"
+this.Write(" = var_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1667 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1667 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1667 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1668 "LawT4.tt"
 
     }
     break;
@@ -3149,14 +3401,14 @@ private void CopyLocalOutputsValuesToGlobalValues (string op)
         #line hidden
         
         
-        #line 1526 "LawT4.tt"
+        #line 1677 "LawT4.tt"
 this.Write("      // Copy local outputs values to global values\n");
 
         #line default
         #line hidden
         
         
-        #line 1527 "LawT4.tt"
+        #line 1678 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -3165,49 +3417,49 @@ this.Write("      // Copy local outputs values to global values\n");
         #line hidden
         
         
-        #line 1531 "LawT4.tt"
+        #line 1682 "LawT4.tt"
 this.Write("      var_");
 
         #line default
         #line hidden
         
         
-        #line 1531 "LawT4.tt"
+        #line 1682 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1531 "LawT4.tt"
+        #line 1682 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1531 "LawT4.tt"
+        #line 1682 "LawT4.tt"
 this.Write(" = ");
 
         #line default
         #line hidden
         
         
-        #line 1531 "LawT4.tt"
+        #line 1682 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1531 "LawT4.tt"
+        #line 1682 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1532 "LawT4.tt"
+        #line 1683 "LawT4.tt"
  
     break;
     case PropertyDim.multiscalar : 
@@ -3215,70 +3467,70 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1535 "LawT4.tt"
+        #line 1686 "LawT4.tt"
 this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1535 "LawT4.tt"
+        #line 1686 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1535 "LawT4.tt"
+        #line 1686 "LawT4.tt"
 this.Write(".size(); ++i) {\n        var_");
 
         #line default
         #line hidden
         
         
-        #line 1536 "LawT4.tt"
+        #line 1687 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1536 "LawT4.tt"
+        #line 1687 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1536 "LawT4.tt"
+        #line 1687 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1536 "LawT4.tt"
+        #line 1687 "LawT4.tt"
 this.Write(" = ");
 
         #line default
         #line hidden
         
         
-        #line 1536 "LawT4.tt"
+        #line 1687 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1536 "LawT4.tt"
+        #line 1687 "LawT4.tt"
 this.Write("[i];\n      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1538 "LawT4.tt"
+        #line 1689 "LawT4.tt"
  
     break;
     case PropertyDim.vectorial : 
@@ -3286,82 +3538,83 @@ this.Write("[i];\n      }\n");
         #line hidden
         
         
-        #line 1541 "LawT4.tt"
+        #line 1692 "LawT4.tt"
 this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1541 "LawT4.tt"
+        #line 1692 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1541 "LawT4.tt"
+        #line 1692 "LawT4.tt"
 this.Write(".size(); ++i) {\n        var_");
 
         #line default
         #line hidden
         
         
-        #line 1542 "LawT4.tt"
+        #line 1693 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1542 "LawT4.tt"
+        #line 1693 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1542 "LawT4.tt"
+        #line 1693 "LawT4.tt"
 this.Write("[i] = ");
 
         #line default
         #line hidden
         
         
-        #line 1542 "LawT4.tt"
+        #line 1693 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1542 "LawT4.tt"
+        #line 1693 "LawT4.tt"
 this.Write("[i];\n      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1544 "LawT4.tt"
+        #line 1695 "LawT4.tt"
  
     break;
     }
   }
 } 
-private void CopyLocalOutputsDerivativesToGlobalDerivatives (string op)
+
+private void CopyLocalOnnxOutputsDerivativesToGlobalDerivatives (string op)
 { 
         #line default
         #line hidden
         
         
-        #line 1551 "LawT4.tt"
-this.Write("      // Copy local outputs derivatives to global derivatives\n");
+        #line 1703 "LawT4.tt"
+this.Write("      // Copy local outputs derivatives from onnx to global derivatives\n");
 
         #line default
         #line hidden
         
         
-        #line 1552 "LawT4.tt"
+        #line 1704 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -3373,77 +3626,49 @@ this.Write("      // Copy local outputs derivatives to global derivatives\n");
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
+        #line 1711 "LawT4.tt"
 this.Write("      var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
+        #line 1711 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
+        #line 1711 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
+        #line 1711 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
+        #line 1711 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
-this.Write("] = ");
+        #line 1711 "LawT4.tt"
+this.Write("] = onnx_output_buffer[out_index++];\n");
 
         #line default
         #line hidden
         
         
-        #line 1559 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1559 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1559 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1559 "LawT4.tt"
-this.Write(";\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1560 "LawT4.tt"
+        #line 1712 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -3451,183 +3676,63 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1563 "LawT4.tt"
+        #line 1715 "LawT4.tt"
 this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1563 "LawT4.tt"
+        #line 1715 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1563 "LawT4.tt"
+        #line 1715 "LawT4.tt"
 this.Write(".size(); ++i) {\n        var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1564 "LawT4.tt"
+        #line 1716 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1564 "LawT4.tt"
+        #line 1716 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1564 "LawT4.tt"
+        #line 1716 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1564 "LawT4.tt"
+        #line 1716 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1564 "LawT4.tt"
-this.Write("+i] = ");
+        #line 1716 "LawT4.tt"
+this.Write("+i] = onnx_output_buffer[out_index++];\n      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1564 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1564 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1564 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1564 "LawT4.tt"
-this.Write("[i];\n      }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1566 "LawT4.tt"
-
-      break;
-      case PropertyDim.vectorial : 
-        #line default
-        #line hidden
-        
-        
-        #line 1569 "LawT4.tt"
-this.Write("      for(auto i = 0; i < m_signature.");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1569 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1569 "LawT4.tt"
-this.Write(".size(); ++i) {\n        var_deriv_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( op ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write("[ofs_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write("+i] = ");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1570 "LawT4.tt"
-this.Write("[i];\n      }\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1572 "LawT4.tt"
+        #line 1718 "LawT4.tt"
 
       break;
       }
@@ -3638,28 +3743,28 @@ this.Write("[i];\n      }\n");
         #line hidden
         
         
-        #line 1578 "LawT4.tt"
+        #line 1724 "LawT4.tt"
 this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1578 "LawT4.tt"
+        #line 1724 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1578 "LawT4.tt"
+        #line 1724 "LawT4.tt"
 this.Write(".size(); ++i) {\n");
 
         #line default
         #line hidden
         
         
-        #line 1579 "LawT4.tt"
+        #line 1725 "LawT4.tt"
 
     foreach(var i in Inputs) {
       switch(i.dim) {
@@ -3668,84 +3773,56 @@ this.Write(".size(); ++i) {\n");
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
+        #line 1729 "LawT4.tt"
 this.Write("        var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
+        #line 1729 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
+        #line 1729 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
+        #line 1729 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
+        #line 1729 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
+        #line 1729 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
-this.Write("] = ");
+        #line 1729 "LawT4.tt"
+this.Write("] = onnx_output_buffer[out_index++];\n");
 
         #line default
         #line hidden
         
         
-        #line 1583 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1583 "LawT4.tt"
-this.Write("_wrt_");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1583 "LawT4.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-
-        #line default
-        #line hidden
-        
-        
-        #line 1583 "LawT4.tt"
-this.Write("[i];\n");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1584 "LawT4.tt"
+        #line 1730 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -3753,98 +3830,280 @@ this.Write("[i];\n");
         #line hidden
         
         
-        #line 1587 "LawT4.tt"
+        #line 1733 "LawT4.tt"
 this.Write("        for(auto j = 0; j < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1587 "LawT4.tt"
+        #line 1733 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1587 "LawT4.tt"
+        #line 1733 "LawT4.tt"
 this.Write(".size(); ++j) {\n          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1734 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1734 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1734 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1734 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1734 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
-this.Write("+j] = ");
+        #line 1734 "LawT4.tt"
+this.Write("+j] = onnx_output_buffer[out_index++];\n        }\n");
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1736 "LawT4.tt"
+
+      break;
+      }
+    } 
+        #line default
+        #line hidden
+        
+        
+        #line 1740 "LawT4.tt"
+this.Write("      } \n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1741 "LawT4.tt"
+
+    break;
+    }
+  }
+} 
+
+private void CopyLocalOutputsDerivativesToGlobalDerivatives (string op)
+{ 
+        #line default
+        #line hidden
+        
+        
+        #line 1749 "LawT4.tt"
+this.Write("      // Copy local outputs derivatives to global derivatives\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1750 "LawT4.tt"
+
+  foreach(var o in Outputs) { 
+    switch(o.dim) {
+    case PropertyDim.scalar : 
+    foreach(var i in Inputs) {
+      switch(i.dim) {
+      case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1757 "LawT4.tt"
+this.Write("      var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1757 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
-this.Write("_wrt_");
+        #line 1757 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
+        #line 1757 "LawT4.tt"
+this.Write("[ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1757 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1588 "LawT4.tt"
-this.Write("[i][j];\n        }\n");
+        #line 1757 "LawT4.tt"
+this.Write("] = ");
 
         #line default
         #line hidden
         
         
-        #line 1590 "LawT4.tt"
+        #line 1757 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1757 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1757 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1757 "LawT4.tt"
+this.Write(";\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1758 "LawT4.tt"
+
+      break;
+      case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1761 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1761 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1761 "LawT4.tt"
+this.Write(".size(); ++i) {\n        var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write("[ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write("+i] = ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1762 "LawT4.tt"
+this.Write("[i];\n      }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1764 "LawT4.tt"
 
       break;
       case PropertyDim.vectorial : 
@@ -3852,98 +4111,407 @@ this.Write("[i][j];\n        }\n");
         #line hidden
         
         
-        #line 1593 "LawT4.tt"
-this.Write("        for(auto j = 0; j < m_signature.");
+        #line 1767 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1593 "LawT4.tt"
+        #line 1767 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1593 "LawT4.tt"
-this.Write(".size(); ++j) {\n          var_deriv_");
+        #line 1767 "LawT4.tt"
+this.Write(".size(); ++i) {\n        var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
-this.Write("[i]");
-
-        #line default
-        #line hidden
-        
-        
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
-this.Write("+j] = ");
+        #line 1768 "LawT4.tt"
+this.Write("+i] = ");
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1594 "LawT4.tt"
+        #line 1768 "LawT4.tt"
+this.Write("[i];\n      }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1770 "LawT4.tt"
+
+      break;
+      }
+    }
+    break;
+    case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1776 "LawT4.tt"
+this.Write("      for(auto i = 0; i < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1776 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1776 "LawT4.tt"
+this.Write(".size(); ++i) {\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1777 "LawT4.tt"
+
+    foreach(var i in Inputs) {
+      switch(i.dim) {
+      case PropertyDim.scalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write("        var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write("[ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write("] = ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1781 "LawT4.tt"
+this.Write("[i];\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1782 "LawT4.tt"
+
+      break;
+      case PropertyDim.multiscalar : 
+        #line default
+        #line hidden
+        
+        
+        #line 1785 "LawT4.tt"
+this.Write("        for(auto j = 0; j < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1785 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1785 "LawT4.tt"
+this.Write(".size(); ++j) {\n          var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write("[ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write("+j] = ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1786 "LawT4.tt"
 this.Write("[i][j];\n        }\n");
 
         #line default
         #line hidden
         
         
-        #line 1596 "LawT4.tt"
+        #line 1788 "LawT4.tt"
+
+      break;
+      case PropertyDim.vectorial : 
+        #line default
+        #line hidden
+        
+        
+        #line 1791 "LawT4.tt"
+this.Write("        for(auto j = 0; j < m_signature.");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1791 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1791 "LawT4.tt"
+this.Write(".size(); ++j) {\n          var_deriv_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write("[i]");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( op ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write("[ofs_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write("+j] = ");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write("_wrt_");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+
+        #line default
+        #line hidden
+        
+        
+        #line 1792 "LawT4.tt"
+this.Write("[i][j];\n        }\n");
+
+        #line default
+        #line hidden
+        
+        
+        #line 1794 "LawT4.tt"
 
       break;
       } 
@@ -3952,14 +4520,14 @@ this.Write("[i][j];\n        }\n");
         #line hidden
         
         
-        #line 1600 "LawT4.tt"
+        #line 1798 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1601 "LawT4.tt"
+        #line 1799 "LawT4.tt"
 
     break;
     case PropertyDim.vectorial : 
@@ -3967,28 +4535,28 @@ this.Write("      }\n");
         #line hidden
         
         
-        #line 1604 "LawT4.tt"
+        #line 1802 "LawT4.tt"
 this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1604 "LawT4.tt"
+        #line 1802 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1604 "LawT4.tt"
+        #line 1802 "LawT4.tt"
 this.Write(".size(); ++i) {\n");
 
         #line default
         #line hidden
         
         
-        #line 1605 "LawT4.tt"
+        #line 1803 "LawT4.tt"
 
     foreach(var i in Inputs) {
       switch(i.dim) {
@@ -3997,77 +4565,77 @@ this.Write(".size(); ++i) {\n");
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write("        var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write("[i][ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write("] = ");
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1609 "LawT4.tt"
+        #line 1807 "LawT4.tt"
 this.Write("[i];\n");
 
         #line default
         #line hidden
         
         
-        #line 1610 "LawT4.tt"
+        #line 1808 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -4075,91 +4643,91 @@ this.Write("[i];\n");
         #line hidden
         
         
-        #line 1613 "LawT4.tt"
+        #line 1811 "LawT4.tt"
 this.Write("        for(auto j = 0; j < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1613 "LawT4.tt"
+        #line 1811 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1613 "LawT4.tt"
+        #line 1811 "LawT4.tt"
 this.Write(".size(); ++j) {\n          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write("[i][ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write("+j] = ");
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1614 "LawT4.tt"
+        #line 1812 "LawT4.tt"
 this.Write("[i][j];\n        }\n");
 
         #line default
         #line hidden
         
         
-        #line 1616 "LawT4.tt"
+        #line 1814 "LawT4.tt"
 
       break;
       case PropertyDim.vectorial : 
@@ -4167,91 +4735,91 @@ this.Write("[i][j];\n        }\n");
         #line hidden
         
         
-        #line 1619 "LawT4.tt"
+        #line 1817 "LawT4.tt"
 this.Write("        for(auto j = 0; j < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1619 "LawT4.tt"
+        #line 1817 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1619 "LawT4.tt"
+        #line 1817 "LawT4.tt"
 this.Write(".size(); ++j) {\n          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write("[i][ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write("+j] = ");
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1620 "LawT4.tt"
+        #line 1818 "LawT4.tt"
 this.Write("[i][j];\n        }\n");
 
         #line default
         #line hidden
         
         
-        #line 1622 "LawT4.tt"
+        #line 1820 "LawT4.tt"
 
       break;
       }
@@ -4260,14 +4828,14 @@ this.Write("[i][j];\n        }\n");
         #line hidden
         
         
-        #line 1626 "LawT4.tt"
+        #line 1824 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1627 "LawT4.tt"
+        #line 1825 "LawT4.tt"
 
     break;
     }
@@ -4279,14 +4847,14 @@ private void AllocateLocalDataFiniteDiff ()
         #line hidden
         
         
-        #line 1634 "LawT4.tt"
+        #line 1832 "LawT4.tt"
 this.Write("    // Allocate local outputs values to compute difference finite derivatives\n");
 
         #line default
         #line hidden
         
         
-        #line 1635 "LawT4.tt"
+        #line 1833 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -4295,42 +4863,42 @@ this.Write("    // Allocate local outputs values to compute difference finite de
         #line hidden
         
         
-        #line 1639 "LawT4.tt"
+        #line 1837 "LawT4.tt"
 this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1639 "LawT4.tt"
+        #line 1837 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1639 "LawT4.tt"
+        #line 1837 "LawT4.tt"
 this.Write(" ");
 
         #line default
         #line hidden
         
         
-        #line 1639 "LawT4.tt"
+        #line 1837 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1639 "LawT4.tt"
+        #line 1837 "LawT4.tt"
 this.Write("_ref;\n");
 
         #line default
         #line hidden
         
         
-        #line 1640 "LawT4.tt"
+        #line 1838 "LawT4.tt"
  
     foreach(var i in Inputs) {
       switch(i.dim) {
@@ -4339,56 +4907,56 @@ this.Write("_ref;\n");
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write(" ");
 
         #line default
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1644 "LawT4.tt"
+        #line 1842 "LawT4.tt"
 this.Write("_diff;\n");
 
         #line default
         #line hidden
         
         
-        #line 1645 "LawT4.tt"
+        #line 1843 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -4396,70 +4964,70 @@ this.Write("_diff;\n");
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write("UniqueArray ");
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write("_diff(m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1648 "LawT4.tt"
+        #line 1846 "LawT4.tt"
 this.Write(".size());\n");
 
         #line default
         #line hidden
         
         
-        #line 1649 "LawT4.tt"
+        #line 1847 "LawT4.tt"
 
       break;
       }
@@ -4470,56 +5038,56 @@ this.Write(".size());\n");
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write("UniqueArray ");
 
         #line default
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write("_ref(m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1655 "LawT4.tt"
+        #line 1853 "LawT4.tt"
 this.Write(".size());\n");
 
         #line default
         #line hidden
         
         
-        #line 1656 "LawT4.tt"
+        #line 1854 "LawT4.tt"
 
     foreach(var i in Inputs) {
       switch(i.dim) {
@@ -4528,70 +5096,70 @@ this.Write(".size());\n");
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write("UniqueArray ");
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write("_diff(m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1660 "LawT4.tt"
+        #line 1858 "LawT4.tt"
 this.Write(".size());\n");
 
         #line default
         #line hidden
         
         
-        #line 1661 "LawT4.tt"
+        #line 1859 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -4599,84 +5167,84 @@ this.Write(".size());\n");
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write("    Arcane::");
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.type.Name() ));
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write("UniqueArray2 ");
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write("_diff(m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(".size(),m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1664 "LawT4.tt"
+        #line 1862 "LawT4.tt"
 this.Write(".size());\n");
 
         #line default
         #line hidden
         
         
-        #line 1665 "LawT4.tt"
+        #line 1863 "LawT4.tt"
 
       break;
       }
@@ -4691,14 +5259,14 @@ private void CopyGlobalValuesOutputToLocalValues (string op, bool vectorial_no_o
         #line hidden
         
         
-        #line 1675 "LawT4.tt"
+        #line 1873 "LawT4.tt"
 this.Write("      // Copy global inputs values to local values\n");
 
         #line default
         #line hidden
         
         
-        #line 1676 "LawT4.tt"
+        #line 1874 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -4707,49 +5275,49 @@ this.Write("      // Copy global inputs values to local values\n");
         #line hidden
         
         
-        #line 1680 "LawT4.tt"
+        #line 1878 "LawT4.tt"
 this.Write("      ");
 
         #line default
         #line hidden
         
         
-        #line 1680 "LawT4.tt"
+        #line 1878 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1680 "LawT4.tt"
+        #line 1878 "LawT4.tt"
 this.Write("_ref = var_");
 
         #line default
         #line hidden
         
         
-        #line 1680 "LawT4.tt"
+        #line 1878 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1680 "LawT4.tt"
+        #line 1878 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1680 "LawT4.tt"
+        #line 1878 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1681 "LawT4.tt"
+        #line 1879 "LawT4.tt"
  
     break;
     case PropertyDim.multiscalar : 
@@ -4757,70 +5325,70 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1684 "LawT4.tt"
+        #line 1882 "LawT4.tt"
 this.Write("      for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1684 "LawT4.tt"
+        #line 1882 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1684 "LawT4.tt"
+        #line 1882 "LawT4.tt"
 this.Write(".size(); ++i) {\n        ");
 
         #line default
         #line hidden
         
         
-        #line 1685 "LawT4.tt"
+        #line 1883 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1685 "LawT4.tt"
+        #line 1883 "LawT4.tt"
 this.Write("_ref[i] = var_");
 
         #line default
         #line hidden
         
         
-        #line 1685 "LawT4.tt"
+        #line 1883 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1685 "LawT4.tt"
+        #line 1883 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1685 "LawT4.tt"
+        #line 1883 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1685 "LawT4.tt"
+        #line 1883 "LawT4.tt"
 this.Write(";\n      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1687 "LawT4.tt"
+        #line 1885 "LawT4.tt"
  
     break;
     }
@@ -4833,28 +5401,28 @@ private void ComputeDifferenceFiniteDerivatives ()
         #line hidden
         
         
-        #line 1695 "LawT4.tt"
+        #line 1893 "LawT4.tt"
 this.Write("      // compute difference finite derivatives through ");
 
         #line default
         #line hidden
         
         
-        #line 1695 "LawT4.tt"
+        #line 1893 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1695 "LawT4.tt"
+        #line 1893 "LawT4.tt"
 this.Write("\n");
 
         #line default
         #line hidden
         
         
-        #line 1696 "LawT4.tt"
+        #line 1894 "LawT4.tt"
  
     switch(i.dim) {
     case PropertyDim.scalar : 
@@ -4862,84 +5430,84 @@ this.Write("\n");
         #line hidden
         
         
-        #line 1699 "LawT4.tt"
+        #line 1897 "LawT4.tt"
 this.Write("      {\n        ");
 
         #line default
         #line hidden
         
         
-        #line 1700 "LawT4.tt"
+        #line 1898 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1700 "LawT4.tt"
+        #line 1898 "LawT4.tt"
 this.Write(" += m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1700 "LawT4.tt"
+        #line 1898 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1700 "LawT4.tt"
+        #line 1898 "LawT4.tt"
 this.Write(";\n        // Invoke user kernel\n        m_invoker(\n          ");
 
         #line default
         #line hidden
         
         
-        #line 1703 "LawT4.tt"
+        #line 1901 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
 
         #line default
         #line hidden
         
         
-        #line 1703 "LawT4.tt"
+        #line 1901 "LawT4.tt"
 this.Write("\n        );\n        ");
 
         #line default
         #line hidden
         
         
-        #line 1705 "LawT4.tt"
+        #line 1903 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1705 "LawT4.tt"
+        #line 1903 "LawT4.tt"
 this.Write(" -= m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1705 "LawT4.tt"
+        #line 1903 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1705 "LawT4.tt"
+        #line 1903 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1706 "LawT4.tt"
+        #line 1904 "LawT4.tt"
  
     foreach(var o in Outputs) {
       switch(o.dim) {
@@ -4948,84 +5516,84 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write("        ");
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write("_diff = (");
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(" - ");
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write("_ref) / m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1710 "LawT4.tt"
+        #line 1908 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1711 "LawT4.tt"
+        #line 1909 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -5033,98 +5601,98 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1714 "LawT4.tt"
+        #line 1912 "LawT4.tt"
 this.Write("        for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1714 "LawT4.tt"
+        #line 1912 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1714 "LawT4.tt"
+        #line 1912 "LawT4.tt"
 this.Write(".size(); ++i)\n          ");
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write("_diff[i] = (");
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write("[i] - ");
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write("_ref[i]) / m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1715 "LawT4.tt"
+        #line 1913 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1716 "LawT4.tt"
+        #line 1914 "LawT4.tt"
 
       break;
       }
@@ -5133,14 +5701,14 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1720 "LawT4.tt"
+        #line 1918 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1721 "LawT4.tt"
+        #line 1919 "LawT4.tt"
 
     break;
     case PropertyDim.multiscalar : 
@@ -5148,98 +5716,98 @@ this.Write("      }\n");
         #line hidden
         
         
-        #line 1724 "LawT4.tt"
+        #line 1922 "LawT4.tt"
 this.Write("      for(int i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1724 "LawT4.tt"
+        #line 1922 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1724 "LawT4.tt"
+        #line 1922 "LawT4.tt"
 this.Write(".size(); ++i) {\n        ");
 
         #line default
         #line hidden
         
         
-        #line 1725 "LawT4.tt"
+        #line 1923 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1725 "LawT4.tt"
+        #line 1923 "LawT4.tt"
 this.Write("[i] += m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1725 "LawT4.tt"
+        #line 1923 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1725 "LawT4.tt"
+        #line 1923 "LawT4.tt"
 this.Write(";\n        // Invoke user kernel\n        m_invoker(\n          ");
 
         #line default
         #line hidden
         
         
-        #line 1728 "LawT4.tt"
+        #line 1926 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
 
         #line default
         #line hidden
         
         
-        #line 1728 "LawT4.tt"
+        #line 1926 "LawT4.tt"
 this.Write("\n        );\n        ");
 
         #line default
         #line hidden
         
         
-        #line 1730 "LawT4.tt"
+        #line 1928 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1730 "LawT4.tt"
+        #line 1928 "LawT4.tt"
 this.Write("[i] -= m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1730 "LawT4.tt"
+        #line 1928 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1730 "LawT4.tt"
+        #line 1928 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1731 "LawT4.tt"
+        #line 1929 "LawT4.tt"
 
     foreach(var o in Outputs) {
       switch(o.dim) {
@@ -5248,84 +5816,84 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write("        ");
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write("_diff[i] = (");
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(" - ");
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write("_ref) / m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1735 "LawT4.tt"
+        #line 1933 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1736 "LawT4.tt"
+        #line 1934 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -5333,98 +5901,98 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1739 "LawT4.tt"
+        #line 1937 "LawT4.tt"
 this.Write("        for(int j = 0; j < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1739 "LawT4.tt"
+        #line 1937 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1739 "LawT4.tt"
+        #line 1937 "LawT4.tt"
 this.Write(".size(); ++j)\n          ");
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write("_diff[j][i] = (");
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write("[j] - ");
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write("_ref[j]) / m_epsilon.");
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1740 "LawT4.tt"
+        #line 1938 "LawT4.tt"
 this.Write(";\n");
 
         #line default
         #line hidden
         
         
-        #line 1741 "LawT4.tt"
+        #line 1939 "LawT4.tt"
 
       break;
       }
@@ -5433,14 +6001,14 @@ this.Write(";\n");
         #line hidden
         
         
-        #line 1745 "LawT4.tt"
+        #line 1943 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1746 "LawT4.tt"
+        #line 1944 "LawT4.tt"
            
     break;
     } 
@@ -5452,14 +6020,14 @@ private void CopyLocalOutputsDerivativesDiffToGlobalDerivatives (string op)
         #line hidden
         
         
-        #line 1753 "LawT4.tt"
+        #line 1951 "LawT4.tt"
 this.Write("      // Overwrite global derivatives by difference finite ones\n      {\n");
 
         #line default
         #line hidden
         
         
-        #line 1755 "LawT4.tt"
+        #line 1953 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -5471,77 +6039,77 @@ this.Write("      // Overwrite global derivatives by difference finite ones\n   
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write("        var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write("] = ");
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1762 "LawT4.tt"
+        #line 1960 "LawT4.tt"
 this.Write("_diff;\n");
 
         #line default
         #line hidden
         
         
-        #line 1763 "LawT4.tt"
+        #line 1961 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -5549,91 +6117,91 @@ this.Write("_diff;\n");
         #line hidden
         
         
-        #line 1766 "LawT4.tt"
+        #line 1964 "LawT4.tt"
 this.Write("        for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1766 "LawT4.tt"
+        #line 1964 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1766 "LawT4.tt"
+        #line 1964 "LawT4.tt"
 this.Write(".size(); ++i)\n          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write("+i] = ");
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1767 "LawT4.tt"
+        #line 1965 "LawT4.tt"
 this.Write("_diff[i];\n");
 
         #line default
         #line hidden
         
         
-        #line 1768 "LawT4.tt"
+        #line 1966 "LawT4.tt"
 
       break;
       }
@@ -5644,28 +6212,28 @@ this.Write("_diff[i];\n");
         #line hidden
         
         
-        #line 1774 "LawT4.tt"
+        #line 1972 "LawT4.tt"
 this.Write("        for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1774 "LawT4.tt"
+        #line 1972 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1774 "LawT4.tt"
+        #line 1972 "LawT4.tt"
 this.Write(".size(); ++i) {\n");
 
         #line default
         #line hidden
         
         
-        #line 1775 "LawT4.tt"
+        #line 1973 "LawT4.tt"
 
     foreach(var i in Inputs) {
       switch(i.dim) {
@@ -5674,84 +6242,84 @@ this.Write(".size(); ++i) {\n");
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write("          var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write("] = ");
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1779 "LawT4.tt"
+        #line 1977 "LawT4.tt"
 this.Write("_diff[i];\n");
 
         #line default
         #line hidden
         
         
-        #line 1780 "LawT4.tt"
+        #line 1978 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -5759,98 +6327,98 @@ this.Write("_diff[i];\n");
         #line hidden
         
         
-        #line 1783 "LawT4.tt"
+        #line 1981 "LawT4.tt"
 this.Write("          for(auto j = 0; j < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1783 "LawT4.tt"
+        #line 1981 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1783 "LawT4.tt"
+        #line 1981 "LawT4.tt"
 this.Write(".size(); ++j)\n            var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write("+j] = ");
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1784 "LawT4.tt"
+        #line 1982 "LawT4.tt"
 this.Write("_diff[i][j];\n");
 
         #line default
         #line hidden
         
         
-        #line 1785 "LawT4.tt"
+        #line 1983 "LawT4.tt"
 
       break;
       } 
@@ -5859,14 +6427,14 @@ this.Write("_diff[i][j];\n");
         #line hidden
         
         
-        #line 1789 "LawT4.tt"
+        #line 1987 "LawT4.tt"
 this.Write("        }\n");
 
         #line default
         #line hidden
         
         
-        #line 1790 "LawT4.tt"
+        #line 1988 "LawT4.tt"
 
     break;
     }
@@ -5875,14 +6443,14 @@ this.Write("        }\n");
         #line hidden
         
         
-        #line 1794 "LawT4.tt"
+        #line 1992 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1795 "LawT4.tt"
+        #line 1993 "LawT4.tt"
 
 }
 private void PrintDebugValuesInfos (string op)
@@ -5891,14 +6459,14 @@ private void PrintDebugValuesInfos (string op)
         #line hidden
         
         
-        #line 1799 "LawT4.tt"
+        #line 1997 "LawT4.tt"
 this.Write("      // Print debug values\n      {\n");
 
         #line default
         #line hidden
         
         
-        #line 1801 "LawT4.tt"
+        #line 1999 "LawT4.tt"
 
   foreach(var o in InOutputs) { 
     switch(o.dim) {
@@ -5907,49 +6475,49 @@ this.Write("      // Print debug values\n      {\n");
         #line hidden
         
         
-        #line 1805 "LawT4.tt"
+        #line 2003 "LawT4.tt"
 this.Write("        _print_value(\"");
 
         #line default
         #line hidden
         
         
-        #line 1805 "LawT4.tt"
+        #line 2003 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1805 "LawT4.tt"
+        #line 2003 "LawT4.tt"
 this.Write("\", var_");
 
         #line default
         #line hidden
         
         
-        #line 1805 "LawT4.tt"
+        #line 2003 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1805 "LawT4.tt"
+        #line 2003 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1805 "LawT4.tt"
+        #line 2003 "LawT4.tt"
 this.Write(");\n");
 
         #line default
         #line hidden
         
         
-        #line 1806 "LawT4.tt"
+        #line 2004 "LawT4.tt"
 
     break;
     case PropertyDim.multiscalar : 
@@ -5957,70 +6525,70 @@ this.Write(");\n");
         #line hidden
         
         
-        #line 1809 "LawT4.tt"
+        #line 2007 "LawT4.tt"
 this.Write("        for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1809 "LawT4.tt"
+        #line 2007 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1809 "LawT4.tt"
+        #line 2007 "LawT4.tt"
 this.Write(".size(); ++i)\n          _print_value(Arcane::String::format(\"");
 
         #line default
         #line hidden
         
         
-        #line 1810 "LawT4.tt"
+        #line 2008 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1810 "LawT4.tt"
+        #line 2008 "LawT4.tt"
 this.Write("[{0}]\",i), var_");
 
         #line default
         #line hidden
         
         
-        #line 1810 "LawT4.tt"
+        #line 2008 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1810 "LawT4.tt"
+        #line 2008 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1810 "LawT4.tt"
+        #line 2008 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1810 "LawT4.tt"
+        #line 2008 "LawT4.tt"
 this.Write(");\n");
 
         #line default
         #line hidden
         
         
-        #line 1811 "LawT4.tt"
+        #line 2009 "LawT4.tt"
 
     break;
     }
@@ -6029,14 +6597,14 @@ this.Write(");\n");
         #line hidden
         
         
-        #line 1815 "LawT4.tt"
+        #line 2013 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1816 "LawT4.tt"
+        #line 2014 "LawT4.tt"
     
 }
 private void PrintDebugDerivativesInfos (string op)
@@ -6045,14 +6613,14 @@ private void PrintDebugDerivativesInfos (string op)
         #line hidden
         
         
-        #line 1820 "LawT4.tt"
+        #line 2018 "LawT4.tt"
 this.Write("      // Print derivatives debug informations\n      {\n");
 
         #line default
         #line hidden
         
         
-        #line 1822 "LawT4.tt"
+        #line 2020 "LawT4.tt"
 
   foreach(var o in Outputs) { 
     switch(o.dim) {
@@ -6064,105 +6632,105 @@ this.Write("      // Print derivatives debug informations\n      {\n");
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("        _print_derivatives(\"d");
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("_d");
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("\", var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("], ");
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1829 "LawT4.tt"
+        #line 2027 "LawT4.tt"
 this.Write("_diff);\n");
 
         #line default
         #line hidden
         
         
-        #line 1830 "LawT4.tt"
+        #line 2028 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -6170,119 +6738,119 @@ this.Write("_diff);\n");
         #line hidden
         
         
-        #line 1833 "LawT4.tt"
+        #line 2031 "LawT4.tt"
 this.Write("        for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1833 "LawT4.tt"
+        #line 2031 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1833 "LawT4.tt"
+        #line 2031 "LawT4.tt"
 this.Write(".size(); ++i)\n          _print_derivatives(Arcane::String::format(\"d");
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write("_d");
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write("[{0}]\",i), var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write("+i], ");
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1834 "LawT4.tt"
+        #line 2032 "LawT4.tt"
 this.Write("_diff[i]);\n");
 
         #line default
         #line hidden
         
         
-        #line 1835 "LawT4.tt"
+        #line 2033 "LawT4.tt"
 
       break;
       }
@@ -6293,28 +6861,28 @@ this.Write("_diff[i]);\n");
         #line hidden
         
         
-        #line 1841 "LawT4.tt"
+        #line 2039 "LawT4.tt"
 this.Write("        for(auto i = 0; i < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1841 "LawT4.tt"
+        #line 2039 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1841 "LawT4.tt"
+        #line 2039 "LawT4.tt"
 this.Write(".size(); ++i) {\n");
 
         #line default
         #line hidden
         
         
-        #line 1842 "LawT4.tt"
+        #line 2040 "LawT4.tt"
 
     foreach(var i in Inputs) {
       switch(i.dim) {
@@ -6323,112 +6891,112 @@ this.Write(".size(); ++i) {\n");
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("          _print_derivatives(Arcane::String::format(\"d");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("[{0}]_d");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("\",i), var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("], ");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1846 "LawT4.tt"
+        #line 2044 "LawT4.tt"
 this.Write("_diff[i]);\n");
 
         #line default
         #line hidden
         
         
-        #line 1847 "LawT4.tt"
+        #line 2045 "LawT4.tt"
 
       break;
       case PropertyDim.multiscalar : 
@@ -6436,126 +7004,126 @@ this.Write("_diff[i]);\n");
         #line hidden
         
         
-        #line 1850 "LawT4.tt"
+        #line 2048 "LawT4.tt"
 this.Write("          for(auto j = 0; j < m_signature.");
 
         #line default
         #line hidden
         
         
-        #line 1850 "LawT4.tt"
+        #line 2048 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1850 "LawT4.tt"
+        #line 2048 "LawT4.tt"
 this.Write(".size(); ++j)\n            _print_derivatives(Arcane::String::format(\"d");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("[{0}]_d");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("[{1}]\",i,j), var_deriv_");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("[i]");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( op ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("[ofs_");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("+j], ");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( o.name ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("_wrt_");
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
 
         #line default
         #line hidden
         
         
-        #line 1851 "LawT4.tt"
+        #line 2049 "LawT4.tt"
 this.Write("_diff[i][j]);\n");
 
         #line default
         #line hidden
         
         
-        #line 1852 "LawT4.tt"
+        #line 2050 "LawT4.tt"
 
       break;
       } 
@@ -6564,14 +7132,14 @@ this.Write("_diff[i][j]);\n");
         #line hidden
         
         
-        #line 1856 "LawT4.tt"
+        #line 2054 "LawT4.tt"
 this.Write("        }\n");
 
         #line default
         #line hidden
         
         
-        #line 1857 "LawT4.tt"
+        #line 2055 "LawT4.tt"
 
     break;
     }
@@ -6580,14 +7148,14 @@ this.Write("        }\n");
         #line hidden
         
         
-        #line 1861 "LawT4.tt"
+        #line 2059 "LawT4.tt"
 this.Write("      }\n");
 
         #line default
         #line hidden
         
         
-        #line 1862 "LawT4.tt"
+        #line 2060 "LawT4.tt"
     
 }
 
@@ -6690,7 +7258,7 @@ this.Write("      }\n");
             #line hidden
             
             #line 31 "LawT4.tt"
-            this.Write("#include <onnxruntime/core/session/onnxruntime_cxx_api.h>\n#include<algorithm>\n");
+            this.Write("#include <onnxruntime/core/session/onnxruntime_cxx_api.h>\n#include <algorithm>\n");
             
             #line default
             #line hidden
@@ -6932,211 +7500,211 @@ this.Write("      }\n");
             #line hidden
             
             #line 85 "LawT4.tt"
-            this.Write("  Function(const Signature& s, std::string& model_with_path)\n    : m_signature(s)\n  {\n    _ckeck_signature();\n    _init_onnx_session(model_with_path);\n    _check_onnx_conformity();\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 92 "LawT4.tt"
- } else {  
+            this.Write("  Function(const Signature& s, std::string& model_with_path)\n    : m_signature(s)\n    , m_environment(OrtLoggingLevel::ORT_LOGGING_LEVEL_WARNING)\n  {\n    _ckeck_signature();\n    _init_onnx_session(model_with_path);\n    _check_onnx_conformity();\n  }\n");
             
             #line default
             #line hidden
             
             #line 93 "LawT4.tt"
+ } else {  
+            
+            #line default
+            #line hidden
+            
+            #line 94 "LawT4.tt"
             this.Write("  template<typename UserAlgo, typename Method>\n  Function(const Signature& s,\n           UserAlgo& kernel,\n           Method method)\n    : m_signature(s)\n  {\n    _ckeck_signature();\n    \n    typedef void (UserAlgo::*requiredSignature)(\n      ");
             
             #line default
             #line hidden
             
-            #line 102 "LawT4.tt"
+            #line 103 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Signature ));
             
             #line default
             #line hidden
             
-            #line 102 "LawT4.tt"
+            #line 103 "LawT4.tt"
             this.Write("\n    );\n\n    typedef void (UserAlgo::*requiredConstSignature)(\n      ");
             
             #line default
             #line hidden
             
-            #line 106 "LawT4.tt"
+            #line 107 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Signature ));
             
             #line default
             #line hidden
             
-            #line 106 "LawT4.tt"
+            #line 107 "LawT4.tt"
             this.Write("\n    ) const;\n\n    static_assert(\n        std::is_same<Method,requiredSignature>::value ||\n        std::is_same<Method,requiredConstSignature>::value,\n        \"Required signature and method given mismatch !!\");\n\n    m_invoker = [&,method](\n      ");
             
             #line default
             #line hidden
             
-            #line 115 "LawT4.tt"
+            #line 116 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( CallSignature ));
             
             #line default
             #line hidden
             
-            #line 115 "LawT4.tt"
+            #line 116 "LawT4.tt"
             this.Write("\n    ) { (kernel.*method)(");
             
             #line default
             #line hidden
             
-            #line 116 "LawT4.tt"
+            #line 117 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( ArgSignature ));
             
             #line default
             #line hidden
             
-            #line 116 "LawT4.tt"
+            #line 117 "LawT4.tt"
             this.Write("); };\n  }\n");
             
             #line default
             #line hidden
             
-            #line 118 "LawT4.tt"
+            #line 119 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 119 "LawT4.tt"
+            #line 120 "LawT4.tt"
             this.Write("\n  ~Function() {}\n\npublic:\n\n  Arcane::Integer id() const { return out()[0].id(); }\n  \n  Arcane::String name() const { return \"");
             
             #line default
             #line hidden
             
-            #line 126 "LawT4.tt"
+            #line 127 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 126 "LawT4.tt"
+            #line 127 "LawT4.tt"
             this.Write("\"; }\n\n  Law::PropertyVector in() const\n  {\n    Law::PropertyVector v;\n");
             
             #line default
             #line hidden
             
-            #line 131 "LawT4.tt"
+            #line 132 "LawT4.tt"
  foreach(var p in Inputs) { 
             
             #line default
             #line hidden
             
-            #line 132 "LawT4.tt"
+            #line 133 "LawT4.tt"
             this.Write("    v << m_signature.");
-            
-            #line default
-            #line hidden
-            
-            #line 132 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 132 "LawT4.tt"
-            this.Write(";\n");
             
             #line default
             #line hidden
             
             #line 133 "LawT4.tt"
- } 
+            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 133 "LawT4.tt"
+            this.Write(";\n");
             
             #line default
             #line hidden
             
             #line 134 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 135 "LawT4.tt"
             this.Write("    return v;\n  }\n\n  Law::PropertyVector out() const\n  {\n    Law::PropertyVector v;\n");
             
             #line default
             #line hidden
             
-            #line 140 "LawT4.tt"
+            #line 141 "LawT4.tt"
  foreach(var p in Outputs) { 
             
             #line default
             #line hidden
             
-            #line 141 "LawT4.tt"
+            #line 142 "LawT4.tt"
             this.Write("    v << m_signature.");
-            
-            #line default
-            #line hidden
-            
-            #line 141 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 141 "LawT4.tt"
-            this.Write(";\n");
             
             #line default
             #line hidden
             
             #line 142 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 143 "LawT4.tt"
-            this.Write("    return v;\n  }\n\n  Law::PropertyVector parameters() const\n  {\n    Law::PropertyVector v;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 149 "LawT4.tt"
- foreach(var p in Parameters) { 
-            
-            #line default
-            #line hidden
-            
-            #line 150 "LawT4.tt"
-            this.Write("    v << m_signature.");
-            
-            #line default
-            #line hidden
-            
-            #line 150 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 150 "LawT4.tt"
+            #line 142 "LawT4.tt"
             this.Write(";\n");
             
             #line default
             #line hidden
             
-            #line 151 "LawT4.tt"
+            #line 143 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
+            #line 144 "LawT4.tt"
+            this.Write("    return v;\n  }\n\n  Law::PropertyVector parameters() const\n  {\n    Law::PropertyVector v;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 150 "LawT4.tt"
+ foreach(var p in Parameters) { 
+            
+            #line default
+            #line hidden
+            
+            #line 151 "LawT4.tt"
+            this.Write("    v << m_signature.");
+            
+            #line default
+            #line hidden
+            
+            #line 151 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 151 "LawT4.tt"
+            this.Write(";\n");
+            
+            #line default
+            #line hidden
+            
             #line 152 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 153 "LawT4.tt"
             this.Write("    return v;\n  }\n\n");
             
             #line default
             #line hidden
             
-            #line 155 "LawT4.tt"
+            #line 156 "LawT4.tt"
  if(Inference == InferenceMode.ONNX) { 
             
             #line default
             #line hidden
             
-            #line 156 "LawT4.tt"
-            this.Write("  // Not yet differentiable\n  bool isDifferentiable() const { return false; }\n");
+            #line 157 "LawT4.tt"
+            this.Write("  bool isDifferentiable() const { return m_is_differentiable; }\n");
             
             #line default
             #line hidden
@@ -7172,7 +7740,7 @@ this.Write("      }\n");
             #line hidden
             
             #line 168 "LawT4.tt"
-            this.Write("  // onnxruntime setup environment and session\n  void _init_onnx_session(std::string& model_with_path)\n  {\n    Ort::Env env(OrtLoggingLevel::ORT_LOGGING_LEVEL_WARNING);\n    Ort::SessionOptions session_options;\n    session_options.SetIntraOpNumThreads(1);\n    session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_EXTENDED);\n    m_session = std::make_unique<Ort::Session>(env, model_with_path.c_str(), session_options);\n  }\n  \n  void _check_onnx_conformity()\n  {\n    _check_onnx_inputs_size_and_name();\n    _check_onnx_input_tensor_shape_and_type();\n    _check_onnx_outputs_size_and_name();\n    _check_onnx_output_tensor_shape_and_type();\n  }\n  \n  void _check_onnx_inputs_size_and_name()\n  {\n    // number of inputs\n    if(m_session->GetInputCount()!=1)\n      throw Arcane::FatalErrorException(\"");
+            this.Write("  // onnxruntime setup environment and session\n  void _init_onnx_session(std::string& model_with_path)\n  {\n    Ort::SessionOptions session_options;\n    session_options.SetIntraOpNumThreads(1);\n    session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_EXTENDED);\n    m_session = std::make_unique<Ort::Session>(m_environment, model_with_path.c_str(), session_options);\n    Ort::TypeInfo type_info = m_session->GetOutputTypeInfo(0);\n    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();\n    m_is_differentiable = (tensor_info.GetShape()[2] != _get_nb_output_properties());\n  }\n  \n  void _check_onnx_conformity()\n  {\n    _check_onnx_input_tensor_shape_and_type();\n    _check_onnx_output_tensor_shape_and_type();\n  }\n\n  void _check_onnx_input_tensor_shape_and_type()\n  {\n    // number of inputs\n    if(m_session->GetInputCount()!=1)\n      throw Arcane::FatalErrorException(\"");
             
             #line default
             #line hidden
@@ -7184,31 +7752,7 @@ this.Write("      }\n");
             #line hidden
             
             #line 190 "LawT4.tt"
-            this.Write(" onnx input size must be 1\");\n\n    // input names convention ");
-            
-            #line default
-            #line hidden
-            
-            #line 192 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( inputOnnx ));
-            
-            #line default
-            #line hidden
-            
-            #line 192 "LawT4.tt"
-            this.Write("\n    std::string  input_name = m_session->GetInputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();\n    input_name.erase(std::remove(input_name.begin(), input_name.end(), ' '), input_name.end());\n    if(input_name.compare(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 195 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( inputOnnx ));
-            
-            #line default
-            #line hidden
-            
-            #line 195 "LawT4.tt"
-            this.Write("\") != 0)\n      throw Arcane::FatalErrorException(\"");
+            this.Write(" onnx input size must be 1\");\n    Ort::TypeInfo type_info = m_session->GetInputTypeInfo(0);\n    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();\n    \n    // tensor 3 axis\n    if(tensor_info.GetDimensionsCount()!=3)\n      throw Arcane::FatalErrorException(\"");
             
             #line default
             #line hidden
@@ -7220,1291 +7764,1102 @@ this.Write("      }\n");
             #line hidden
             
             #line 196 "LawT4.tt"
-            this.Write(" onnx input name is \" + input_name + \" must be ");
+            this.Write(" onnx dimension must be 3\");\n    \n    // -1 on axis 1: batch size variable, number of output properties on axis 3\n    int nb_law_input_prop = _get_nb_input_properties();\n    if(tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, nb_law_input_prop } )\n      throw Arcane::FatalErrorException(Arcane::String::format(\"");
             
             #line default
             #line hidden
             
-            #line 196 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( inputOnnx ));
-            
-            #line default
-            #line hidden
-            
-            #line 196 "LawT4.tt"
-            this.Write("\");\n  }\n  \n  void _check_onnx_input_tensor_shape_and_type()\n  {\n    Ort::TypeInfo type_info = m_session->GetInputTypeInfo(0);\n    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();\n    \n    // tensor 3 axis\n    if(tensor_info.GetDimensionsCount()!=3)\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 206 "LawT4.tt"
+            #line 201 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 206 "LawT4.tt"
-            this.Write(" onnx dimension must be 3\");\n      \n    // -1 on axis 1: batch size variable, ");
+            #line 201 "LawT4.tt"
+            this.Write(" onnx shape must be {-1, 1, {0}}\", nb_law_input_prop));\n      \n    // float precision model our convention\n    if(tensor_info.GetElementType()!=ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT)\n      throw Arcane::FatalErrorException(\"");
             
             #line default
             #line hidden
             
-            #line 208 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 208 "LawT4.tt"
-            this.Write(" on axis 3: number law inputs\n    if(tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, ");
-            
-            #line default
-            #line hidden
-            
-            #line 209 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 209 "LawT4.tt"
-            this.Write("} )\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 210 "LawT4.tt"
+            #line 205 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 210 "LawT4.tt"
-            this.Write(" onnx shape must be {-1, 1, ");
+            #line 205 "LawT4.tt"
+            this.Write(" onnx element type must be float\");\n  }\n  \n  void _check_onnx_output_tensor_shape_and_type()\n  {\n    // number of outputs\n    if(m_session->GetOutputCount()!=1)\n      throw Arcane::FatalErrorException(\"");
             
             #line default
             #line hidden
             
-            #line 210 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 210 "LawT4.tt"
-            this.Write("}\");\n      \n    // float precision model our convention\n    if(tensor_info.GetElementType()!=ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT)\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 214 "LawT4.tt"
+            #line 212 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 214 "LawT4.tt"
-            this.Write(" onnx element type must be float\");\n  }\n  \n  void _check_onnx_outputs_size_and_name()\n  {\n    // number of outputs\n    if(m_session->GetOutputCount()!=1)\n      throw Arcane::FatalErrorException(\"");
+            #line 212 "LawT4.tt"
+            this.Write(" onnx output size must be 1\");\n    \n    Ort::TypeInfo type_info = m_session->GetOutputTypeInfo(0);\n    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();\n    \n    // tensor 3 axis\n    if(tensor_info.GetDimensionsCount()!=3)\n      throw Arcane::FatalErrorException(\"");
             
             #line default
             #line hidden
             
-            #line 221 "LawT4.tt"
+            #line 219 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 221 "LawT4.tt"
-            this.Write(" onnx output size must be 1\");\n\n    // Output name: ");
+            #line 219 "LawT4.tt"
+            this.Write(" onnx dimension must be 3\");\n      \n    \n    // -1 on axis 1: batch size variable, number of output properties on axis 3\n    int nb_law_output_prop = _get_nb_output_properties();\n    int nb_law_output_prop_with_deriv = (_get_nb_input_properties()+1)*nb_law_output_prop;\n    if(tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, nb_law_output_prop } \n       && tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, nb_law_output_prop_with_deriv } )\n      throw Arcane::FatalErrorException(Arcane::String::format(\n      \"");
             
             #line default
             #line hidden
             
-            #line 223 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( outputOnnx ));
-            
-            #line default
-            #line hidden
-            
-            #line 223 "LawT4.tt"
-            this.Write(" our law convention\n    std::string  output_name = m_session->GetOutputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();\n    output_name.erase(std::remove(output_name.begin(), output_name.end(), ' '), output_name.end());\n    if(output_name.compare(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 226 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( outputOnnx ));
-            
-            #line default
-            #line hidden
-            
-            #line 226 "LawT4.tt"
-            this.Write("\") != 0)\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 227 "LawT4.tt"
+            #line 228 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 227 "LawT4.tt"
-            this.Write(" onnx output 0 name is \" + output_name + \"must be ");
+            #line 228 "LawT4.tt"
+            this.Write(" onnx shape must be {-1, 1, {0} or {1}} with or without derivatives\", nb_law_output_prop_with_deriv, nb_law_output_prop));\n      \n    // float precision model our convention\n    if(tensor_info.GetElementType()!=ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT)\n      throw Arcane::FatalErrorException(\"");
             
             #line default
             #line hidden
             
-            #line 227 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( outputOnnx ));
-            
-            #line default
-            #line hidden
-            
-            #line 227 "LawT4.tt"
-            this.Write("\");\n  }\n  \n  void _check_onnx_output_tensor_shape_and_type()\n  {\n    Ort::TypeInfo type_info = m_session->GetOutputTypeInfo(0);\n    auto tensor_info = type_info.GetTensorTypeAndShapeInfo();\n    \n    // tensor 3 axis\n    if(tensor_info.GetDimensionsCount()!=3)\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 237 "LawT4.tt"
+            #line 232 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 237 "LawT4.tt"
-            this.Write(" onnx dimension must be 3\");\n      \n    // -1 on axis 1: batch size variable, ");
-            
-            #line default
-            #line hidden
-            
-            #line 239 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 239 "LawT4.tt"
-            this.Write(" on axis 3: number law outputs\n    if(tensor_info.GetShape() != std::vector<int64_t>{ -1, 1, ");
-            
-            #line default
-            #line hidden
-            
-            #line 240 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 240 "LawT4.tt"
-            this.Write("} )\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 241 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 241 "LawT4.tt"
-            this.Write(" onnx shape must be {-1, 1, ");
-            
-            #line default
-            #line hidden
-            
-            #line 241 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 241 "LawT4.tt"
-            this.Write("}\");\n      \n    // float precision model our convention\n    if(tensor_info.GetElementType()!=ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT)\n      throw Arcane::FatalErrorException(\"");
-            
-            #line default
-            #line hidden
-            
-            #line 245 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 245 "LawT4.tt"
+            #line 232 "LawT4.tt"
             this.Write(" onnx element type must be float\");\n  }\n  \n");
             
             #line default
             #line hidden
             
-            #line 248 "LawT4.tt"
+            #line 235 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 249 "LawT4.tt"
+            #line 236 "LawT4.tt"
             this.Write("  void _ckeck_signature()\n  {\n    Law::PropertyVector v;\n");
             
             #line default
             #line hidden
             
-            #line 252 "LawT4.tt"
- foreach(var p in InOutputs) { 
+            #line 239 "LawT4.tt"
+ foreach(var p in Outputs) { 
             
             #line default
             #line hidden
             
-            #line 253 "LawT4.tt"
+            #line 240 "LawT4.tt"
    if(p.dim == PropertyDim.multiscalar) { 
             
             #line default
             #line hidden
             
-            #line 254 "LawT4.tt"
+            #line 241 "LawT4.tt"
             this.Write("    for(auto i = 0; i < m_signature.");
             
             #line default
             #line hidden
             
-            #line 254 "LawT4.tt"
+            #line 241 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 254 "LawT4.tt"
+            #line 241 "LawT4.tt"
             this.Write(".size(); ++i)\n      _check_prop_uniq(v, m_signature.");
             
             #line default
             #line hidden
             
-            #line 255 "LawT4.tt"
+            #line 242 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 255 "LawT4.tt"
+            #line 242 "LawT4.tt"
             this.Write("[i], \"");
             
             #line default
             #line hidden
             
-            #line 255 "LawT4.tt"
+            #line 242 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 255 "LawT4.tt"
+            #line 242 "LawT4.tt"
             this.Write("[\"+std::to_string(i)+\"]\");\n");
             
             #line default
             #line hidden
             
-            #line 256 "LawT4.tt"
+            #line 243 "LawT4.tt"
  } else { 
             
             #line default
             #line hidden
             
-            #line 257 "LawT4.tt"
+            #line 244 "LawT4.tt"
             this.Write("    _check_prop_uniq(v, m_signature.");
             
             #line default
             #line hidden
             
-            #line 257 "LawT4.tt"
+            #line 244 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 257 "LawT4.tt"
+            #line 244 "LawT4.tt"
             this.Write(", \"");
             
             #line default
             #line hidden
             
-            #line 257 "LawT4.tt"
+            #line 244 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 257 "LawT4.tt"
+            #line 244 "LawT4.tt"
             this.Write("\");\n");
             
             #line default
             #line hidden
             
-            #line 258 "LawT4.tt"
+            #line 245 "LawT4.tt"
    } 
             
             #line default
             #line hidden
             
-            #line 259 "LawT4.tt"
+            #line 246 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 260 "LawT4.tt"
+            #line 247 "LawT4.tt"
             this.Write("  }\n  \n  void _check_prop_uniq(Law::PropertyVector& v, const Law::Property& p, const std::string& p_name)\n  {\n    if(v.contains(p)) _error_signature(p_name);\n    v << p;\n  }\n  \n  void _error_signature(const std::string& prop_name)\n  {\n    throw Arcane::FatalErrorException(\n       \"");
             
             #line default
             #line hidden
             
-            #line 271 "LawT4.tt"
+            #line 258 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
             
             #line default
             #line hidden
             
-            #line 271 "LawT4.tt"
+            #line 258 "LawT4.tt"
             this.Write("::Signature property uniqueness error, check \" + prop_name + \" property signature assignment\"\n    );\n  }\n\npublic:\n\n  void evaluate(const Law::VariableAccessor& accessor,\n                const Arcane::ItemGroup& group,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    _evaluate(mode, static_size, accessor, group);\n  }\n\n  void evaluate(const Law::PartialVariableAccessor& accessor,\n                const Arcane::ItemGroup& group,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    _evaluate(mode, static_size, accessor, group);\n  }\n\n  void evaluate(const Law::ArrayAccessor& accessor,\n                const Arcane::Integer& begin,\n                const Arcane::Integer& end,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    _evaluate(mode, static_size, accessor, begin, end);\n  }\n\n  void evaluate(const Law::ScalarAccessor& accessor,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    _evaluate(mode, static_size, accessor);\n  }\n\nprivate:\n\n");
             
             #line default
             #line hidden
             
-            #line 311 "LawT4.tt"
+            #line 298 "LawT4.tt"
  if(Inference == InferenceMode.ONNX) { 
             
             #line default
             #line hidden
             
-            #line 312 "LawT4.tt"
-            this.Write("  void _computeOnnxInference(std::vector<float>& onnx_input_buffer, \n                             std::vector<float>& onnx_output_buffer, \n                             const int batch_size) const\n  {\n\t// input output dims + batch size all group\n    Ort::TypeInfo input_type_info = m_session->GetInputTypeInfo(0);\n    auto input_tensor_info = input_type_info.GetTensorTypeAndShapeInfo();\n    std::vector<int64_t> input_dims = input_tensor_info.GetShape();\n    input_dims[0] = batch_size;\n\t\n    // output dims + batch size all group\n    Ort::TypeInfo output_type_info = m_session->GetOutputTypeInfo(0);\n    auto output_tensor_info = output_type_info.GetTensorTypeAndShapeInfo();\n    std::vector<int64_t> output_dims = output_tensor_info.GetShape();\n    output_dims[0] = batch_size;\n\t\n\t// tensors creation\n    std::vector<Ort::Value> input_tensors;\n    std::vector<Ort::Value> output_tensors;\n\n    Ort::MemoryInfo memory_info = Ort::MemoryInfo::CreateCpu( \n                                  OrtAllocatorType::OrtArenaAllocator, \n                                  OrtMemType::OrtMemTypeDefault);   \n               \n    input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, \n                              onnx_input_buffer.data(), onnx_input_buffer.size(),\n                              input_dims.data(), input_dims.size()));      \n    \n    output_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info,\n                              onnx_output_buffer.data(), onnx_output_buffer.size(), \n                              output_dims.data(), output_dims.size()));\n            \n    // serving names\n    std::string input_name = m_session->GetInputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();\n    std::vector<const char*>  input_names{input_name.c_str()};\n    std::string output_name = m_session->GetOutputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();\n    std::vector<const char*> output_names{output_name.c_str()};\n    \n    // model inference\n    m_session->Run(Ort::RunOptions{nullptr}, \n\t               input_names.data(), input_tensors.data(), 1, \n\t               output_names.data(),output_tensors.data(), 1);\n  }\n\n  void _evaluateOnlyValues(const Law::VariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n\n");
+            #line 299 "LawT4.tt"
+            this.Write("\n  int _get_nb_output_properties() const {\n    int nb_law_output_prop = 0;\n");
             
             #line default
             #line hidden
             
-            #line 360 "LawT4.tt"
- AccessGlobalValues (); 
+            #line 302 "LawT4.tt"
+ foreach(var p in Outputs) {
+   switch(p.dim) {
+    case PropertyDim.scalar : 
             
             #line default
             #line hidden
             
-            #line 361 "LawT4.tt"
-            this.Write("  \n    // change to constructor for less memory create\n    const int group_size = group.size();\n    std::vector<float> onnx_input_buffer(");
+            #line 305 "LawT4.tt"
+            this.Write("    nb_law_output_prop++;\n");
             
             #line default
             #line hidden
             
-            #line 364 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
+            #line 306 "LawT4.tt"
+  break; 
+    case PropertyDim.multiscalar : 
             
             #line default
             #line hidden
             
-            #line 364 "LawT4.tt"
-            this.Write("*group_size);\n    std::vector<float> onnx_output_buffer(");
+            #line 308 "LawT4.tt"
+            this.Write("    nb_law_output_prop+=m_signature.");
             
             #line default
             #line hidden
             
-            #line 365 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 365 "LawT4.tt"
-            this.Write("*group_size);\n    \n    // copy + cast\n    int in_index = 0;\n    ENUMERATE_ITEM(iitem, group)\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 371 "LawT4.tt"
- foreach(var p in Inputs) { 
-            
-            #line default
-            #line hidden
-            
-            #line 372 "LawT4.tt"
-            this.Write("      onnx_input_buffer[in_index++] = var_");
-            
-            #line default
-            #line hidden
-            
-            #line 372 "LawT4.tt"
+            #line 308 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
             
             #line default
             #line hidden
             
-            #line 372 "LawT4.tt"
-            this.Write("[iitem];\n");
+            #line 308 "LawT4.tt"
+            this.Write(".size();\n");
             
             #line default
             #line hidden
             
-            #line 373 "LawT4.tt"
- } 
+            #line 309 "LawT4.tt"
+  break;
+    }
+   } 
             
             #line default
             #line hidden
             
-            #line 374 "LawT4.tt"
-            this.Write("    } \n\n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    ENUMERATE_ITEM(iitem, group) \n    {\n");
+            #line 312 "LawT4.tt"
+            this.Write("    return nb_law_output_prop;\n  }\n  int _get_nb_input_properties() const {\n    int nb_law_input_prop = 0;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 316 "LawT4.tt"
+ foreach(var p in Inputs) {
+   switch(p.dim) {
+    case PropertyDim.scalar : 
+            
+            #line default
+            #line hidden
+            
+            #line 319 "LawT4.tt"
+            this.Write("    nb_law_input_prop++;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 320 "LawT4.tt"
+  break; 
+    case PropertyDim.multiscalar : 
+            
+            #line default
+            #line hidden
+            
+            #line 322 "LawT4.tt"
+            this.Write("    nb_law_input_prop+=m_signature.");
+            
+            #line default
+            #line hidden
+            
+            #line 322 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 322 "LawT4.tt"
+            this.Write(".size();\n");
+            
+            #line default
+            #line hidden
+            
+            #line 323 "LawT4.tt"
+  break;
+    }
+   } 
+            
+            #line default
+            #line hidden
+            
+            #line 326 "LawT4.tt"
+            this.Write("    return nb_law_input_prop;\n  }\n  \n  void _computeOnnxInference(std::vector<float>& onnx_input_buffer, \n                             std::vector<float>& onnx_output_buffer, \n                             const int batch_size) const\n  {\n\t// input output dims + batch size all group\n    Ort::TypeInfo input_type_info = m_session->GetInputTypeInfo(0);\n    auto input_tensor_info = input_type_info.GetTensorTypeAndShapeInfo();\n    std::vector<int64_t> input_dims = input_tensor_info.GetShape();\n    input_dims[0] = batch_size;\n\t\n    // output dims + batch size all group\n    Ort::TypeInfo output_type_info = m_session->GetOutputTypeInfo(0);\n    auto output_tensor_info = output_type_info.GetTensorTypeAndShapeInfo();\n    std::vector<int64_t> output_dims = output_tensor_info.GetShape();\n    output_dims[0] = batch_size;\n\t\n\t// tensors creation\n    std::vector<Ort::Value> input_tensors;\n    std::vector<Ort::Value> output_tensors;\n\n    Ort::MemoryInfo memory_info = Ort::MemoryInfo::CreateCpu( \n                                  OrtAllocatorType::OrtArenaAllocator, \n                                  OrtMemType::OrtMemTypeDefault);   \n               \n    input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, \n                              onnx_input_buffer.data(), onnx_input_buffer.size(),\n                              input_dims.data(), input_dims.size()));      \n    \n    output_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info,\n                              onnx_output_buffer.data(), onnx_output_buffer.size(), \n                              output_dims.data(), output_dims.size()));\n            \n    // serving names\n    std::string input_name = m_session->GetInputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();\n    std::vector<const char*>  input_names{input_name.c_str()};\n    std::string output_name = m_session->GetOutputNameAllocated(0, Ort::AllocatorWithDefaultOptions()).get();\n    std::vector<const char*> output_names{output_name.c_str()};\n    \n    // model inference\n    m_session->Run(Ort::RunOptions{nullptr}, \n\t               input_names.data(), input_tensors.data(), 1, \n\t               output_names.data(),output_tensors.data(), 1);\n  }\n\n  void _evaluateOnlyValues(const Law::VariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n\n");
+            
+            #line default
+            #line hidden
+            
+            #line 377 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 378 "LawT4.tt"
+            this.Write("  \n    // change to constructor for less memory create\n    const int group_size = group.size();\n");
+            
+            #line default
+            #line hidden
+            
+            #line 381 "LawT4.tt"
+ AllocateOnnxLocalData ("*group_size"); 
             
             #line default
             #line hidden
             
             #line 382 "LawT4.tt"
- foreach(var p in Outputs) { 
+            this.Write("    \n    // copy + cast\n    int in_index = 0;\n    ENUMERATE_ITEM(iitem, group)\n    {\n");
             
             #line default
             #line hidden
             
-            #line 383 "LawT4.tt"
-            this.Write("      var_");
+            #line 387 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 383 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+            #line 388 "LawT4.tt"
+            this.Write("    } \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    ENUMERATE_ITEM(iitem, group) \n    {\n");
             
             #line default
             #line hidden
             
-            #line 383 "LawT4.tt"
-            this.Write("[iitem] = onnx_output_buffer[out_index++]; \n");
+            #line 395 "LawT4.tt"
+ CopyLocalOnnxValuesToGlobalValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 384 "LawT4.tt"
- } 
+            #line 396 "LawT4.tt"
+            this.Write("      out_index += nb_law_derivatives;\n    }                    \n  }\n\n  void _evaluateOnlyValues(const Law::PartialVariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n  \n");
             
             #line default
             #line hidden
             
-            #line 385 "LawT4.tt"
-            this.Write("    }                    \n  }\n\n  void _evaluateOnlyValues(const Law::PartialVariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n  \n");
-            
-            #line default
-            #line hidden
-            
-            #line 392 "LawT4.tt"
+            #line 404 "LawT4.tt"
  AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 393 "LawT4.tt"
-            this.Write("\n    // change to constructor for less memory create\n    const int group_size = group.size();\n    std::vector<float> onnx_input_buffer(");
-            
-            #line default
-            #line hidden
-            
-            #line 396 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 396 "LawT4.tt"
-            this.Write("*group_size);\n    std::vector<float> onnx_output_buffer(");
-            
-            #line default
-            #line hidden
-            
-            #line 397 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 397 "LawT4.tt"
-            this.Write("*group_size);\n    \n    // copy + cast\n    int in_index = 0;\n    ENUMERATE_ITEM(iitem, group)\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 403 "LawT4.tt"
- foreach(var p in Inputs) { 
-            
-            #line default
-            #line hidden
-            
-            #line 404 "LawT4.tt"
-            this.Write("      onnx_input_buffer[in_index++] = var_");
-            
-            #line default
-            #line hidden
-            
-            #line 404 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 404 "LawT4.tt"
-            this.Write("[iitem];\n");
             
             #line default
             #line hidden
             
             #line 405 "LawT4.tt"
- } 
+            this.Write("\n    // change to constructor for less memory create\n    const int group_size = group.size();\n");
             
             #line default
             #line hidden
             
-            #line 406 "LawT4.tt"
-            this.Write("    }\n \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    ENUMERATE_ITEM(iitem, group) \n    {\n");
+            #line 408 "LawT4.tt"
+ AllocateOnnxLocalData ("*group_size"); 
+            
+            #line default
+            #line hidden
+            
+            #line 409 "LawT4.tt"
+            this.Write("    \n    // copy + cast\n    int in_index = 0;\n    ENUMERATE_ITEM(iitem, group)\n    {\n");
             
             #line default
             #line hidden
             
             #line 414 "LawT4.tt"
- foreach(var p in Outputs) { 
+ CopyGlobalValuesToLocalOnnxValues ("[iitem]"); 
             
             #line default
             #line hidden
             
             #line 415 "LawT4.tt"
-            this.Write("      var_");
+            this.Write("    }\n \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    ENUMERATE_ITEM(iitem, group) \n    {\n");
             
             #line default
             #line hidden
             
-            #line 415 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+            #line 423 "LawT4.tt"
+ CopyLocalOnnxValuesToGlobalValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 415 "LawT4.tt"
-            this.Write("[iitem] = onnx_output_buffer[out_index++]; \n");
+            #line 424 "LawT4.tt"
+            this.Write("      out_index += nb_law_derivatives;\n    }\n\n  }\n  \n  void _evaluateOnlyValues(const Law::ArrayAccessor& accessor,\n                           const Arcane::Integer& begin,\n                           const Arcane::Integer& end) const\n  {\n\n");
             
             #line default
             #line hidden
             
-            #line 416 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 417 "LawT4.tt"
-            this.Write("    }\n\n  }\n  \n  void _evaluateOnlyValues(const Law::ArrayAccessor& accessor,\n                           const Arcane::Integer& begin,\n                           const Arcane::Integer& end) const\n  {\n    // change to constructor for less memory create\n    const int vector_size = end - begin;\n    std::vector<float> onnx_input_buffer(");
-            
-            #line default
-            #line hidden
-            
-            #line 427 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 427 "LawT4.tt"
-            this.Write("*vector_size);\n    std::vector<float> onnx_output_buffer(");
-            
-            #line default
-            #line hidden
-            
-            #line 428 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 428 "LawT4.tt"
-            this.Write("*vector_size);\n  \n");
-            
-            #line default
-            #line hidden
-            
-            #line 430 "LawT4.tt"
+            #line 434 "LawT4.tt"
  AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 431 "LawT4.tt"
-            this.Write("    \n    // copy + cast\n    int in_index=0;\n    for(int index = begin; index < end; ++index) {\n");
             
             #line default
             #line hidden
             
             #line 435 "LawT4.tt"
- foreach(var p in Inputs) { 
-            
-            #line default
-            #line hidden
-            
-            #line 436 "LawT4.tt"
-            this.Write("    onnx_input_buffer[in_index++] = var_");
-            
-            #line default
-            #line hidden
-            
-            #line 436 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 436 "LawT4.tt"
-            this.Write("[index];\n");
-            
-            #line default
-            #line hidden
-            
-            #line 437 "LawT4.tt"
- } 
+            this.Write("\n    // change to constructor for less memory create\n    const int vector_size = end - begin;\n");
             
             #line default
             #line hidden
             
             #line 438 "LawT4.tt"
-            this.Write("    }\n    \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, vector_size);\n    \n    // copy onnx results into law data\n    int out_index=0;\n    for(int index = begin; index < end; ++index) {\n");
+ AllocateOnnxLocalData ("*vector_size"); 
+            
+            #line default
+            #line hidden
+            
+            #line 439 "LawT4.tt"
+            this.Write("  \n    \n    // copy + cast\n    int in_index=0;\n    for(int index = begin; index < end; ++index) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 444 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("[index]"); 
             
             #line default
             #line hidden
             
             #line 445 "LawT4.tt"
- foreach(var p in Outputs) { 
+            this.Write("    }\n    \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, vector_size);\n    \n    // copy onnx results into law data\n    int out_index=0;\n    for(int index = begin; index < end; ++index) {\n");
             
             #line default
             #line hidden
             
-            #line 446 "LawT4.tt"
-            this.Write("       var_");
+            #line 452 "LawT4.tt"
+ CopyLocalOnnxValuesToGlobalValues ("[index]"); 
             
             #line default
             #line hidden
             
-            #line 446 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
+            #line 453 "LawT4.tt"
+            this.Write("      out_index += nb_law_derivatives;\n    }\n  }\n  \n  void _evaluateOnlyValues(const Law::ScalarAccessor& accessor) const\n  {\n\n");
             
             #line default
             #line hidden
             
-            #line 446 "LawT4.tt"
-            this.Write("[index] = onnx_output_buffer[out_index++];\n");
-            
-            #line default
-            #line hidden
-            
-            #line 447 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 448 "LawT4.tt"
-            this.Write("    }\n  }\n  \n  void _evaluateOnlyValues(const Law::ScalarAccessor& accessor) const\n  {\n    // change to constructor for less memory create\n    std::vector<float> onnx_input_buffer(");
-            
-            #line default
-            #line hidden
-            
-            #line 454 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Inputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 454 "LawT4.tt"
-            this.Write(");\n    std::vector<float> onnx_output_buffer(");
-            
-            #line default
-            #line hidden
-            
-            #line 455 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Outputs.Count() ));
-            
-            #line default
-            #line hidden
-            
-            #line 455 "LawT4.tt"
-            this.Write(");\n    \n");
-            
-            #line default
-            #line hidden
-            
-            #line 457 "LawT4.tt"
+            #line 460 "LawT4.tt"
  AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 458 "LawT4.tt"
-            this.Write("    \n    // copy + cast\n    int in_index=0;\n");
             
             #line default
             #line hidden
             
             #line 461 "LawT4.tt"
- foreach(var p in Inputs) { 
+            this.Write("\n");
             
             #line default
             #line hidden
             
             #line 462 "LawT4.tt"
-            this.Write("    onnx_input_buffer[in_index++] = var_");
-            
-            #line default
-            #line hidden
-            
-            #line 462 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 462 "LawT4.tt"
-            this.Write("();\n");
+ AllocateOnnxLocalData (""); 
             
             #line default
             #line hidden
             
             #line 463 "LawT4.tt"
- } 
+            this.Write("    \n    // copy + cast\n    int in_index=0;\n");
             
             #line default
             #line hidden
             
-            #line 464 "LawT4.tt"
+            #line 466 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("()"); 
+            
+            #line default
+            #line hidden
+            
+            #line 467 "LawT4.tt"
             this.Write("    \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, 1);\n    \n    // copy onnx results into law data\n    int out_index=0;\n");
             
             #line default
             #line hidden
             
-            #line 469 "LawT4.tt"
- foreach(var p in Outputs) { 
-            
-            #line default
-            #line hidden
-            
-            #line 470 "LawT4.tt"
-            this.Write("    var_");
-            
-            #line default
-            #line hidden
-            
-            #line 470 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( p.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 470 "LawT4.tt"
-            this.Write(" = onnx_input_buffer[out_index++];\n");
-            
-            #line default
-            #line hidden
-            
-            #line 471 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
             #line 472 "LawT4.tt"
-            this.Write("\n  }\n\n");
+ CopyLocalOnnxValuesToGlobalValues (""); 
             
             #line default
             #line hidden
             
-            #line 475 "LawT4.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            
-            #line 476 "LawT4.tt"
-            this.Write("\n  void _evaluateOnlyValues(const Law::VariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 480 "LawT4.tt"
- AccessGlobalValues (); 
+            #line 473 "LawT4.tt"
+            this.Write("\n  }\n  \n  void _evaluate(Arcane::Integer size,\n                 const Law::VariableAccessor& accessor,\n                 const Arcane::ItemGroup& group) const\n  {\n\n");
             
             #line default
             #line hidden
             
             #line 481 "LawT4.tt"
- String groupName = "group"; 
+ AccessGlobalValues (); 
             
             #line default
             #line hidden
             
             #line 482 "LawT4.tt"
- AllocateLocalData (); 
+ AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 483 "LawT4.tt"
-            this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
+ ResizeGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 484 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
-            
-            #line default
-            #line hidden
-            
-            #line 484 "LawT4.tt"
-            this.Write(") {\n");
+ CreateDerivativesOffsets (); 
             
             #line default
             #line hidden
             
             #line 485 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 486 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+            this.Write("\n    // change to constructor for less memory create\n    const int group_size = group.size();  \n");
             
             #line default
             #line hidden
             
             #line 488 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+ AllocateOnnxLocalData ("*group_size"); 
             
             #line default
             #line hidden
             
-            #line 488 "LawT4.tt"
-            this.Write("\n      );\n");
+            #line 489 "LawT4.tt"
+            this.Write(" \n    \n    // copy + cast\n    int in_index = 0;\n    ENUMERATE_ITEM(iitem, group)\n    {\n");
             
             #line default
             #line hidden
             
-            #line 490 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
+            #line 495 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 491 "LawT4.tt"
-            this.Write("    }\n  }\n\n  void _evaluateOnlyValues(const Law::PartialVariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 497 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 498 "LawT4.tt"
- groupName = "group"; 
-            
-            #line default
-            #line hidden
-            
-            #line 499 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 500 "LawT4.tt"
-            this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
-            
-            #line default
-            #line hidden
-            
-            #line 501 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
-            
-            #line default
-            #line hidden
-            
-            #line 501 "LawT4.tt"
-            this.Write(") {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 502 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[iitem]"); 
+            #line 496 "LawT4.tt"
+            this.Write("    } \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    ENUMERATE_ITEM(iitem, group) \n    {\n");
             
             #line default
             #line hidden
             
             #line 503 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+ CopyLocalOnnxValuesToGlobalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 504 "LawT4.tt"
+ CopyLocalOnnxOutputsDerivativesToGlobalDerivatives ("[iitem]"); 
             
             #line default
             #line hidden
             
             #line 505 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            this.Write("    }                    \n  }\n  \n  void _evaluate(Arcane::Integer size,\n                 const Law::PartialVariableAccessor& accessor,\n                 const Arcane::ItemGroup& group) const\n  {\n");
             
             #line default
             #line hidden
             
-            #line 505 "LawT4.tt"
-            this.Write("\n      );\n");
+            #line 512 "LawT4.tt"
+ AccessGlobalValues (); 
             
             #line default
             #line hidden
             
-            #line 507 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
+            #line 513 "LawT4.tt"
+ AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
-            #line 508 "LawT4.tt"
-            this.Write("    }\n  }\n\n  void _evaluateOnlyValues(const Law::ArrayAccessor& accessor,\n                           const Arcane::Integer& begin,\n                           const Arcane::Integer& end) const\n  {\n");
+            #line 514 "LawT4.tt"
+ ResizeGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 515 "LawT4.tt"
- AccessGlobalValues (); 
+ CreateDerivativesOffsets (); 
             
             #line default
             #line hidden
             
             #line 516 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 517 "LawT4.tt"
-            this.Write("    // Evaluation loop\n    for(Arcane::Integer index = begin; index < end; ++index) {\n");
+            this.Write("\n    // change to constructor for less memory create\n    const int group_size = group.size();  \n");
             
             #line default
             #line hidden
             
             #line 519 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[index]"); 
+ AllocateOnnxLocalData ("*group_size"); 
             
             #line default
             #line hidden
             
             #line 520 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+            this.Write(" \n    \n    // copy + cast\n    int in_index = 0;\n    ENUMERATE_ITEM(iitem, group)\n    {\n");
             
             #line default
             #line hidden
             
-            #line 522 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            #line 526 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 522 "LawT4.tt"
-            this.Write("\n      ); \n");
-            
-            #line default
-            #line hidden
-            
-            #line 524 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues ("[index]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 525 "LawT4.tt"
-            this.Write("    }\n  }\n\n  void _evaluateOnlyValues(const Law::ScalarAccessor& accessor) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 530 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 531 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 532 "LawT4.tt"
-            this.Write("    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 533 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("()", true); 
+            #line 527 "LawT4.tt"
+            this.Write("    } \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, group_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    ENUMERATE_ITEM(iitem, group) \n    {\n");
             
             #line default
             #line hidden
             
             #line 534 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+ CopyLocalOnnxValuesToGlobalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 535 "LawT4.tt"
+ CopyLocalOnnxOutputsDerivativesToGlobalDerivatives ("[iitem]"); 
             
             #line default
             #line hidden
             
             #line 536 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            this.Write("    }\n  }\n  \n  void _evaluate(Arcane::Integer size,\n                 const Law::ArrayAccessor& accessor,\n                 const Arcane::Integer& begin,\n                 const Arcane::Integer& end) const\n  {\n");
             
             #line default
             #line hidden
             
-            #line 536 "LawT4.tt"
-            this.Write("\n      ); \n");
+            #line 544 "LawT4.tt"
+ AccessGlobalValues (); 
             
             #line default
             #line hidden
             
-            #line 538 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues (""); 
+            #line 545 "LawT4.tt"
+ AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
-            #line 539 "LawT4.tt"
-            this.Write("    }\n  }\n\nprotected:\n  void _evaluate(Arcane::Integer size,\n                 const Law::VariableAccessor& accessor,\n                 const Arcane::ItemGroup& group) const\n  {\n");
+            #line 546 "LawT4.tt"
+ ResizeGlobalDerivatives (true); 
             
             #line default
             #line hidden
             
             #line 547 "LawT4.tt"
- AccessGlobalValues (); 
+ CreateDerivativesOffsets (); 
             
             #line default
             #line hidden
             
             #line 548 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 549 "LawT4.tt"
- ResizeGlobalDerivatives (); 
+            this.Write("   // change to constructor for less memory create\n   const int vector_size = end - begin;\n");
             
             #line default
             #line hidden
             
             #line 550 "LawT4.tt"
- groupName = "group"; 
+ AllocateOnnxLocalData ("*vector_size"); 
             
             #line default
             #line hidden
             
             #line 551 "LawT4.tt"
- 
-  
-   if(MultiThread == MultiThreadMode.ArcaneTBB) { 
-     groupName = "items"; 
+            this.Write(" \n    \n    // copy + cast\n    int in_index = 0;\n    for(Arcane::Integer index = begin; index < end; ++index)\n    {\n");
             
             #line default
             #line hidden
             
-            #line 555 "LawT4.tt"
-            this.Write("    auto partialEvaluateItem = [&](Arcane::ItemVectorView items) {\n");
+            #line 557 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("[index]"); 
             
             #line default
             #line hidden
             
-            #line 556 "LawT4.tt"
- }
-   else if(MultiThread == MultiThreadMode.Kokkos) {
-
-            
-            #line default
-            #line hidden
-            
-            #line 559 "LawT4.tt"
-            this.Write("     auto group_view = group.view();\n     auto partialEvaluateItem = [&](const int i) {\n     auto iitem = group_view[i];\n");
-            
-            #line default
-            #line hidden
-            
-            #line 562 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 563 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 564 "LawT4.tt"
- CreateDerivativesOffsets (); 
+            #line 558 "LawT4.tt"
+            this.Write("    } \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, vector_size);\n                    \n    // copy onnx results into law data             \n    int out_index = 0;\n    for(Arcane::Integer index = begin; index < end; ++index)\n    {\n");
             
             #line default
             #line hidden
             
             #line 565 "LawT4.tt"
- if(MultiThread != MultiThreadMode.Kokkos) { 
+ CopyLocalOnnxValuesToGlobalValues ("[index]"); 
             
             #line default
             #line hidden
             
             #line 566 "LawT4.tt"
-            this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
+ CopyLocalOnnxOutputsDerivativesToGlobalDerivatives ("[index]"); 
             
             #line default
             #line hidden
             
             #line 567 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
-            
-            #line default
-            #line hidden
-            
-            #line 567 "LawT4.tt"
-            this.Write(") {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 568 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 569 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 570 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
-            
-            #line default
-            #line hidden
-            
-            #line 572 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
-            
-            #line default
-            #line hidden
-            
-            #line 572 "LawT4.tt"
-            this.Write("\n      );\n");
+            this.Write("    }\n  }\n  \n  void _evaluate(Arcane::Integer size,\n                 const Law::ScalarAccessor& accessor) const\n  {\n    \n");
             
             #line default
             #line hidden
             
             #line 574 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 575 "LawT4.tt"
- CopyLocalOutputsDerivativesToGlobalDerivatives ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 576 "LawT4.tt"
- if(MultiThread != MultiThreadMode.Kokkos){ 
-            
-            #line default
-            #line hidden
-            
-            #line 577 "LawT4.tt"
-            this.Write("    }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 578 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 579 "LawT4.tt"
- if(MultiThread == MultiThreadMode.ArcaneTBB){ 
-            
-            #line default
-            #line hidden
-            
-            #line 580 "LawT4.tt"
-            this.Write("    };\n");
-            
-            #line default
-            #line hidden
-            
-            #line 581 "LawT4.tt"
- parallelEnumerate("group","partialEvaluateItem");  
-  } 
-            
-            #line default
-            #line hidden
-            
-            #line 583 "LawT4.tt"
- if(MultiThread == MultiThreadMode.Kokkos){ 
-            
-            #line default
-            #line hidden
-            
-            #line 584 "LawT4.tt"
-            this.Write("    };\n");
-            
-            #line default
-            #line hidden
-            
-            #line 585 "LawT4.tt"
- parallelEnumerate(Model.name, "partialEvaluateItem");  
-  } 
-            
-            #line default
-            #line hidden
-            
-            #line 587 "LawT4.tt"
-            this.Write("  }\n\n  void _evaluate(Arcane::Integer size,\n                 const Law::PartialVariableAccessor& accessor,\n                 const Arcane::ItemGroup& group) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 593 "LawT4.tt"
  AccessGlobalValues (); 
             
             #line default
             #line hidden
             
-            #line 594 "LawT4.tt"
+            #line 575 "LawT4.tt"
  AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
-            #line 595 "LawT4.tt"
+            #line 576 "LawT4.tt"
  ResizeGlobalDerivatives (); 
             
             #line default
             #line hidden
             
-            #line 596 "LawT4.tt"
+            #line 577 "LawT4.tt"
+ CreateDerivativesOffsets (); 
+            
+            #line default
+            #line hidden
+            
+            #line 578 "LawT4.tt"
+            this.Write("\n");
+            
+            #line default
+            #line hidden
+            
+            #line 579 "LawT4.tt"
+ AllocateOnnxLocalData (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 580 "LawT4.tt"
+            this.Write("    \n    // copy + cast\n    int in_index=0;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 583 "LawT4.tt"
+ CopyGlobalValuesToLocalOnnxValues ("()"); 
+            
+            #line default
+            #line hidden
+            
+            #line 584 "LawT4.tt"
+            this.Write("    \n    _computeOnnxInference(onnx_input_buffer, onnx_output_buffer, 1);\n    \n    // copy onnx results into law data\n    int out_index=0;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 589 "LawT4.tt"
+ CopyLocalOnnxValuesToGlobalValues (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 590 "LawT4.tt"
+ CopyLocalOnnxOutputsDerivativesToGlobalDerivatives (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 591 "LawT4.tt"
+            this.Write("\n  }\n\n");
+            
+            #line default
+            #line hidden
+            
+            #line 594 "LawT4.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            
+            #line 595 "LawT4.tt"
+            this.Write("\n  void _evaluateOnlyValues(const Law::VariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 599 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 600 "LawT4.tt"
+ String groupName = "group"; 
+            
+            #line default
+            #line hidden
+            
+            #line 601 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 602 "LawT4.tt"
+            this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
+            
+            #line default
+            #line hidden
+            
+            #line 603 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
+            
+            #line default
+            #line hidden
+            
+            #line 603 "LawT4.tt"
+            this.Write(") {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 604 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 605 "LawT4.tt"
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+            
+            #line default
+            #line hidden
+            
+            #line 607 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            
+            #line default
+            #line hidden
+            
+            #line 607 "LawT4.tt"
+            this.Write("\n      );\n");
+            
+            #line default
+            #line hidden
+            
+            #line 609 "LawT4.tt"
+ CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 610 "LawT4.tt"
+            this.Write("    }\n  }\n\n  void _evaluateOnlyValues(const Law::PartialVariableAccessor& accessor,\n                           const Arcane::ItemGroup& group) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 616 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 617 "LawT4.tt"
  groupName = "group"; 
             
             #line default
             #line hidden
             
-            #line 597 "LawT4.tt"
+            #line 618 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 619 "LawT4.tt"
+            this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
+            
+            #line default
+            #line hidden
+            
+            #line 620 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
+            
+            #line default
+            #line hidden
+            
+            #line 620 "LawT4.tt"
+            this.Write(") {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 621 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 622 "LawT4.tt"
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+            
+            #line default
+            #line hidden
+            
+            #line 624 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            
+            #line default
+            #line hidden
+            
+            #line 624 "LawT4.tt"
+            this.Write("\n      );\n");
+            
+            #line default
+            #line hidden
+            
+            #line 626 "LawT4.tt"
+ CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 627 "LawT4.tt"
+            this.Write("    }\n  }\n\n  void _evaluateOnlyValues(const Law::ArrayAccessor& accessor,\n                           const Arcane::Integer& begin,\n                           const Arcane::Integer& end) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 634 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 635 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 636 "LawT4.tt"
+            this.Write("    // Evaluation loop\n    for(Arcane::Integer index = begin; index < end; ++index) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 638 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 639 "LawT4.tt"
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+            
+            #line default
+            #line hidden
+            
+            #line 641 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            
+            #line default
+            #line hidden
+            
+            #line 641 "LawT4.tt"
+            this.Write("\n      ); \n");
+            
+            #line default
+            #line hidden
+            
+            #line 643 "LawT4.tt"
+ CopyLocalOutputsValuesToGlobalValues ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 644 "LawT4.tt"
+            this.Write("    }\n  }\n\n  void _evaluateOnlyValues(const Law::ScalarAccessor& accessor) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 649 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 650 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 651 "LawT4.tt"
+            this.Write("    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 652 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("()", true); 
+            
+            #line default
+            #line hidden
+            
+            #line 653 "LawT4.tt"
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
+            
+            #line default
+            #line hidden
+            
+            #line 655 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            
+            #line default
+            #line hidden
+            
+            #line 655 "LawT4.tt"
+            this.Write("\n      ); \n");
+            
+            #line default
+            #line hidden
+            
+            #line 657 "LawT4.tt"
+ CopyLocalOutputsValuesToGlobalValues (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 658 "LawT4.tt"
+            this.Write("    }\n  }\n\nprotected:\n  void _evaluate(Arcane::Integer size,\n                 const Law::VariableAccessor& accessor,\n                 const Arcane::ItemGroup& group) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 666 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 667 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 668 "LawT4.tt"
+ ResizeGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 669 "LawT4.tt"
+ groupName = "group"; 
+            
+            #line default
+            #line hidden
+            
+            #line 670 "LawT4.tt"
  
   
    if(MultiThread == MultiThreadMode.ArcaneTBB) { 
@@ -8513,13 +8868,13 @@ this.Write("      }\n");
             #line default
             #line hidden
             
-            #line 601 "LawT4.tt"
+            #line 674 "LawT4.tt"
             this.Write("    auto partialEvaluateItem = [&](Arcane::ItemVectorView items) {\n");
             
             #line default
             #line hidden
             
-            #line 602 "LawT4.tt"
+            #line 675 "LawT4.tt"
  }
    else if(MultiThread == MultiThreadMode.Kokkos) {
 
@@ -8527,1443 +8882,1159 @@ this.Write("      }\n");
             #line default
             #line hidden
             
-            #line 605 "LawT4.tt"
+            #line 678 "LawT4.tt"
             this.Write("     auto group_view = group.view();\n     auto partialEvaluateItem = [&](const int i) {\n     auto iitem = group_view[i];\n");
             
             #line default
             #line hidden
             
-            #line 608 "LawT4.tt"
+            #line 681 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 609 "LawT4.tt"
+            #line 682 "LawT4.tt"
  AllocateLocalData (); 
             
             #line default
             #line hidden
             
-            #line 610 "LawT4.tt"
+            #line 683 "LawT4.tt"
  CreateDerivativesOffsets (); 
             
             #line default
             #line hidden
             
-            #line 611 "LawT4.tt"
+            #line 684 "LawT4.tt"
  if(MultiThread != MultiThreadMode.Kokkos) { 
             
             #line default
             #line hidden
             
-            #line 612 "LawT4.tt"
+            #line 685 "LawT4.tt"
             this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
             
             #line default
             #line hidden
             
-            #line 613 "LawT4.tt"
+            #line 686 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
             
             #line default
             #line hidden
             
-            #line 613 "LawT4.tt"
+            #line 686 "LawT4.tt"
             this.Write(") {\n");
             
             #line default
             #line hidden
             
-            #line 614 "LawT4.tt"
+            #line 687 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 615 "LawT4.tt"
+            #line 688 "LawT4.tt"
  CopyGlobalValuesToLocalValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 616 "LawT4.tt"
+            #line 689 "LawT4.tt"
             this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
             
             #line default
             #line hidden
             
-            #line 618 "LawT4.tt"
+            #line 691 "LawT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
             
             #line default
             #line hidden
             
-            #line 618 "LawT4.tt"
+            #line 691 "LawT4.tt"
             this.Write("\n      );\n");
             
             #line default
             #line hidden
             
-            #line 620 "LawT4.tt"
+            #line 693 "LawT4.tt"
  CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 621 "LawT4.tt"
+            #line 694 "LawT4.tt"
  CopyLocalOutputsDerivativesToGlobalDerivatives ("[iitem]"); 
             
             #line default
             #line hidden
             
-            #line 622 "LawT4.tt"
+            #line 695 "LawT4.tt"
  if(MultiThread != MultiThreadMode.Kokkos){ 
             
             #line default
             #line hidden
             
-            #line 623 "LawT4.tt"
+            #line 696 "LawT4.tt"
             this.Write("    }\n");
             
             #line default
             #line hidden
             
-            #line 624 "LawT4.tt"
+            #line 697 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 625 "LawT4.tt"
+            #line 698 "LawT4.tt"
  if(MultiThread == MultiThreadMode.ArcaneTBB){ 
             
             #line default
             #line hidden
             
-            #line 626 "LawT4.tt"
+            #line 699 "LawT4.tt"
             this.Write("    };\n");
             
             #line default
             #line hidden
             
-            #line 627 "LawT4.tt"
+            #line 700 "LawT4.tt"
  parallelEnumerate("group","partialEvaluateItem");  
   } 
             
             #line default
             #line hidden
             
-            #line 629 "LawT4.tt"
+            #line 702 "LawT4.tt"
  if(MultiThread == MultiThreadMode.Kokkos){ 
             
             #line default
             #line hidden
             
-            #line 630 "LawT4.tt"
+            #line 703 "LawT4.tt"
             this.Write("    };\n");
             
             #line default
             #line hidden
             
-            #line 631 "LawT4.tt"
+            #line 704 "LawT4.tt"
  parallelEnumerate(Model.name, "partialEvaluateItem");  
   } 
             
             #line default
             #line hidden
             
-            #line 633 "LawT4.tt"
-            this.Write("  }\n\n  void _evaluate(Arcane::Integer size,\n                 const Law::ArrayAccessor& accessor,\n                 const Arcane::Integer& begin,\n                 const Arcane::Integer& end) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 640 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 641 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 642 "LawT4.tt"
- ResizeGlobalDerivatives (true); 
-            
-            #line default
-            #line hidden
-            
-            #line 643 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 644 "LawT4.tt"
- CreateDerivativesOffsets (); 
-            
-            #line default
-            #line hidden
-            
-            #line 645 "LawT4.tt"
-            this.Write("    // Evaluation loop\n    for(Arcane::Integer index = begin; index < end; ++index) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 647 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[index]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 648 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
-            
-            #line default
-            #line hidden
-            
-            #line 650 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
-            
-            #line default
-            #line hidden
-            
-            #line 650 "LawT4.tt"
-            this.Write("\n      );\n");
-            
-            #line default
-            #line hidden
-            
-            #line 652 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues ("[index]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 653 "LawT4.tt"
- CopyLocalOutputsDerivativesToGlobalDerivatives ("[index]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 654 "LawT4.tt"
-            this.Write("    }\n  }\n\n  void _evaluate(Arcane::Integer size,\n                 const Law::ScalarAccessor& accessor) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 660 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 661 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 662 "LawT4.tt"
- ResizeGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 663 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 664 "LawT4.tt"
- CreateDerivativesOffsets (); 
-            
-            #line default
-            #line hidden
-            
-            #line 665 "LawT4.tt"
-            this.Write("    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 666 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("()", true); 
-            
-            #line default
-            #line hidden
-            
-            #line 667 "LawT4.tt"
-            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
-            
-            #line default
-            #line hidden
-            
-            #line 669 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
-            
-            #line default
-            #line hidden
-            
-            #line 669 "LawT4.tt"
-            this.Write("\n      );\n");
-            
-            #line default
-            #line hidden
-            
-            #line 671 "LawT4.tt"
- CopyLocalOutputsValuesToGlobalValues (""); 
-            
-            #line default
-            #line hidden
-            
-            #line 672 "LawT4.tt"
- CopyLocalOutputsDerivativesToGlobalDerivatives (""); 
-            
-            #line default
-            #line hidden
-            
-            #line 673 "LawT4.tt"
-            this.Write("    }\n  }\n\n");
-            
-            #line default
-            #line hidden
-            
-            #line 676 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 677 "LawT4.tt"
-            this.Write("//\n// split and pass private\n\npublic:\n\n  void derivativesCorrection(const Law::VariableAccessor& accessor,\n                             const Arcane::ItemGroup& group,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
-            
-            #line default
-            #line hidden
-            
-            #line 687 "LawT4.tt"
- if(Inference == InferenceMode.ONNX) {  
-            
-            #line default
-            #line hidden
-            
-            #line 688 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not avalaible with onnx\");\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 691 "LawT4.tt"
- } else if(containsVectorProperty()) {  
-            
-            #line default
-            #line hidden
-            
-            #line 692 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 695 "LawT4.tt"
- } else {  
-            
-            #line default
-            #line hidden
-            
-            #line 696 "LawT4.tt"
-            this.Write("  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 697 "LawT4.tt"
- StaticGlobalDependenciesSize (); 
-            
-            #line default
-            #line hidden
-            
-            #line 698 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 699 "LawT4.tt"
-            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 702 "LawT4.tt"
- ComputeDerivativesReorderOffset (); 
-            
-            #line default
-            #line hidden
-            
-            #line 703 "LawT4.tt"
-            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
-            
-            #line default
-            #line hidden
-            
             #line 706 "LawT4.tt"
- ReorderDerivativesAndNullify ("[iitem]"); 
+            this.Write("  }\n\n  void _evaluate(Arcane::Integer size,\n                 const Law::PartialVariableAccessor& accessor,\n                 const Arcane::ItemGroup& group) const\n  {\n");
             
             #line default
             #line hidden
             
-            #line 707 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
+            #line 712 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 713 "LawT4.tt"
+ AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 714 "LawT4.tt"
- ComputeDerivativesCorrectionOffset (); 
+ ResizeGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 715 "LawT4.tt"
-            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
+ groupName = "group"; 
             
             #line default
             #line hidden
             
-            #line 718 "LawT4.tt"
-  ApplyDerivativesCorrection("[iitem]"); 
+            #line 716 "LawT4.tt"
+ 
+  
+   if(MultiThread == MultiThreadMode.ArcaneTBB) { 
+     groupName = "items"; 
             
             #line default
             #line hidden
             
-            #line 719 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
+            #line 720 "LawT4.tt"
+            this.Write("    auto partialEvaluateItem = [&](Arcane::ItemVectorView items) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 721 "LawT4.tt"
+ }
+   else if(MultiThread == MultiThreadMode.Kokkos) {
+
             
             #line default
             #line hidden
             
             #line 724 "LawT4.tt"
- ResizeGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 725 "LawT4.tt"
-            this.Write("  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 726 "LawT4.tt"
- } 
+            this.Write("     auto group_view = group.view();\n     auto partialEvaluateItem = [&](const int i) {\n     auto iitem = group_view[i];\n");
             
             #line default
             #line hidden
             
             #line 727 "LawT4.tt"
-            this.Write(" \n\n  void derivativesCorrection(const Law::PartialVariableAccessor& accessor,\n                             const Arcane::ItemGroup& group,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 728 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 729 "LawT4.tt"
+ CreateDerivativesOffsets (); 
+            
+            #line default
+            #line hidden
+            
+            #line 730 "LawT4.tt"
+ if(MultiThread != MultiThreadMode.Kokkos) { 
+            
+            #line default
+            #line hidden
+            
+            #line 731 "LawT4.tt"
+            this.Write("    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, ");
+            
+            #line default
+            #line hidden
+            
+            #line 732 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(groupName));
+            
+            #line default
+            #line hidden
+            
+            #line 732 "LawT4.tt"
+            this.Write(") {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 733 "LawT4.tt"
+ } 
             
             #line default
             #line hidden
             
             #line 734 "LawT4.tt"
- if(Inference == InferenceMode.ONNX) {  
+ CopyGlobalValuesToLocalValues ("[iitem]"); 
             
             #line default
             #line hidden
             
             #line 735 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not avalaible with onnx\");\n  }\n");
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
             
             #line default
             #line hidden
             
-            #line 738 "LawT4.tt"
- } else if(containsVectorProperty()) {  
+            #line 737 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
+            
+            #line default
+            #line hidden
+            
+            #line 737 "LawT4.tt"
+            this.Write("\n      );\n");
             
             #line default
             #line hidden
             
             #line 739 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
+ CopyLocalOutputsValuesToGlobalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 740 "LawT4.tt"
+ CopyLocalOutputsDerivativesToGlobalDerivatives ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 741 "LawT4.tt"
+ if(MultiThread != MultiThreadMode.Kokkos){ 
             
             #line default
             #line hidden
             
             #line 742 "LawT4.tt"
- } else {  
+            this.Write("    }\n");
             
             #line default
             #line hidden
             
             #line 743 "LawT4.tt"
-            this.Write("  {\n");
+ } 
             
             #line default
             #line hidden
             
             #line 744 "LawT4.tt"
- StaticGlobalDependenciesSize (); 
+ if(MultiThread == MultiThreadMode.ArcaneTBB){ 
             
             #line default
             #line hidden
             
             #line 745 "LawT4.tt"
- AccessGlobalDerivatives (); 
+            this.Write("    };\n");
             
             #line default
             #line hidden
             
             #line 746 "LawT4.tt"
-            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
+ parallelEnumerate("group","partialEvaluateItem");  
+  } 
+            
+            #line default
+            #line hidden
+            
+            #line 748 "LawT4.tt"
+ if(MultiThread == MultiThreadMode.Kokkos){ 
             
             #line default
             #line hidden
             
             #line 749 "LawT4.tt"
- ComputeDerivativesReorderOffset (); 
+            this.Write("    };\n");
             
             #line default
             #line hidden
             
             #line 750 "LawT4.tt"
-            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
+ parallelEnumerate(Model.name, "partialEvaluateItem");  
+  } 
             
             #line default
             #line hidden
             
-            #line 753 "LawT4.tt"
- ReorderDerivativesAndNullify ("[iitem]"); 
+            #line 752 "LawT4.tt"
+            this.Write("  }\n\n  void _evaluate(Arcane::Integer size,\n                 const Law::ArrayAccessor& accessor,\n                 const Arcane::Integer& begin,\n                 const Arcane::Integer& end) const\n  {\n");
             
             #line default
             #line hidden
             
-            #line 754 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
+            #line 759 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 760 "LawT4.tt"
+ AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 761 "LawT4.tt"
- ComputeDerivativesCorrectionOffset (); 
-            
-            #line default
-            #line hidden
-            
-            #line 762 "LawT4.tt"
-            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 765 "LawT4.tt"
-  ApplyDerivativesCorrection("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 766 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 771 "LawT4.tt"
- ResizeGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 772 "LawT4.tt"
-            this.Write("  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 773 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 774 "LawT4.tt"
-            this.Write(" \n\n  void derivativesCorrection(const Law::ArrayAccessor& accessor,\n                             const Arcane::Integer& begin,\n                             const Arcane::Integer& end,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
-            
-            #line default
-            #line hidden
-            
-            #line 782 "LawT4.tt"
- if(Inference == InferenceMode.ONNX) {  
-            
-            #line default
-            #line hidden
-            
-            #line 783 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not avalaible with onnx\");\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 786 "LawT4.tt"
- } else if(containsVectorProperty()) {  
-            
-            #line default
-            #line hidden
-            
-            #line 787 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 790 "LawT4.tt"
- } else {  
-            
-            #line default
-            #line hidden
-            
-            #line 791 "LawT4.tt"
-            this.Write("  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 792 "LawT4.tt"
- StaticGlobalDependenciesSize (); 
-            
-            #line default
-            #line hidden
-            
-            #line 793 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 794 "LawT4.tt"
-            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 797 "LawT4.tt"
- ComputeDerivativesReorderOffset (); 
-            
-            #line default
-            #line hidden
-            
-            #line 798 "LawT4.tt"
-            this.Write("      //\n      // Evaluation loop\n      for(Arcane::Integer i = begin; i < end; ++i) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 801 "LawT4.tt"
- ReorderDerivativesAndNullify ("[i]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 802 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 809 "LawT4.tt"
- ComputeDerivativesCorrectionOffset (); 
-            
-            #line default
-            #line hidden
-            
-            #line 810 "LawT4.tt"
-            this.Write("      //\n      // Evaluation loop\n      for(Arcane::Integer i = begin; i < end; ++i) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 813 "LawT4.tt"
-  ApplyDerivativesCorrection("[i]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 814 "LawT4.tt"
-            this.Write("      }\n    }  \n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 819 "LawT4.tt"
  ResizeGlobalDerivatives (true); 
             
             #line default
             #line hidden
             
-            #line 820 "LawT4.tt"
-            this.Write("  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 821 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 822 "LawT4.tt"
-            this.Write(" \n\n  void derivativesCorrection(const Law::ScalarAccessor& accessor,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
-            
-            #line default
-            #line hidden
-            
-            #line 828 "LawT4.tt"
- if(Inference == InferenceMode.ONNX) {  
-            
-            #line default
-            #line hidden
-            
-            #line 829 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not avalaible with onnx\");\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 832 "LawT4.tt"
- } else if(containsVectorProperty()) {  
-            
-            #line default
-            #line hidden
-            
-            #line 833 "LawT4.tt"
-            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 836 "LawT4.tt"
- } else {  
-            
-            #line default
-            #line hidden
-            
-            #line 837 "LawT4.tt"
-            this.Write("  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 838 "LawT4.tt"
- StaticGlobalDependenciesSize (); 
-            
-            #line default
-            #line hidden
-            
-            #line 839 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 840 "LawT4.tt"
-            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 843 "LawT4.tt"
- ComputeDerivativesReorderOffset (); 
-            
-            #line default
-            #line hidden
-            
-            #line 844 "LawT4.tt"
-            this.Write("      //\n      //\n      {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 847 "LawT4.tt"
- ReorderDerivativesAndNullify (""); 
-            
-            #line default
-            #line hidden
-            
-            #line 848 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 855 "LawT4.tt"
- ComputeDerivativesCorrectionOffset (); 
-            
-            #line default
-            #line hidden
-            
-            #line 856 "LawT4.tt"
-            this.Write("      //\n      // \n      {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 859 "LawT4.tt"
-  ApplyDerivativesCorrection(""); 
-            
-            #line default
-            #line hidden
-            
-            #line 860 "LawT4.tt"
-            this.Write("      }\n    }\n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 865 "LawT4.tt"
- ResizeGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 866 "LawT4.tt"
-            this.Write("  }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 867 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 868 "LawT4.tt"
-            this.Write(" \n\nprotected:\n\n  template<typename... T>\n  void _evaluate(const Law::EvaluationMode mode, Arcane::Integer static_size, const T&... args) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 875 "LawT4.tt"
- if(Inference == InferenceMode.ONNX){ 
-            
-            #line default
-            #line hidden
-            
-            #line 876 "LawT4.tt"
-            this.Write("    _evaluateOnlyValues(args...);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 877 "LawT4.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            
-            #line 878 "LawT4.tt"
-            this.Write("    switch(mode)\n    {\n    case Law::eWithoutDerivative :\n      _evaluateOnlyValues(args...);\n      break;\n    case Law::eWithDerivative :\n      if(static_size != 0) {\n        _evaluate(static_size, args...);\n      } else {\n        _evaluate(in().dataSize(), args...);\n      }\n      break;\n    default:\n      throw Arcane::FatalErrorException(\"evaluation case default error\");\n    }\n");
-            
-            #line default
-            #line hidden
-            
-            #line 893 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 894 "LawT4.tt"
-            this.Write(" \n  }\n\nprotected:\n\n  Signature m_signature;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 900 "LawT4.tt"
- if(Inference == InferenceMode.ONNX){ 
-            
-            #line default
-            #line hidden
-            
-            #line 901 "LawT4.tt"
-            this.Write(" \n  std::unique_ptr<Ort::Session> m_session;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 903 "LawT4.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            
-            #line 904 "LawT4.tt"
-            this.Write("  std::function<\n    void(");
-            
-            #line default
-            #line hidden
-            
-            #line 905 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Signature ));
-            
-            #line default
-            #line hidden
-            
-            #line 905 "LawT4.tt"
-            this.Write(")\n  > m_invoker;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 907 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 908 "LawT4.tt"
-            this.Write("  \n};\n\n/*---------------------------------------------------------------------------*/\n/*---------------------------------------------------------------------------*/\n");
-            
-            #line default
-            #line hidden
-            
-            #line 913 "LawT4.tt"
- if(Debug) { 
-            
-            #line default
-            #line hidden
-            
-            #line 914 "LawT4.tt"
-            this.Write("struct EpsilonDerivatives\n{\n");
-            
-            #line default
-            #line hidden
-            
-            #line 916 "LawT4.tt"
- foreach(var i in Inputs) { 
-            
-            #line default
-            #line hidden
-            
-            #line 917 "LawT4.tt"
-            this.Write("  Arcane::Real ");
-            
-            #line default
-            #line hidden
-            
-            #line 917 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 917 "LawT4.tt"
-            this.Write(" = 1.e-6;\n");
-            
-            #line default
-            #line hidden
-            
-            #line 918 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 919 "LawT4.tt"
-            this.Write("};\n\nclass DebugFunction\n  : public Function\n{\npublic:\n\n  template<typename UserAlgo, typename Method>\n  DebugFunction(const Signature& s,\n                UserAlgo& kernel,\n                Method method,\n                const EpsilonDerivatives& epsilon,\n                Arcane::ITraceMng* trace_mng):\n                Function(s,kernel,method),\n                m_epsilon(epsilon),\n                m_trace_mng(trace_mng)\n                {};\n\nprotected:\n  \n  void evaluate(const Law::VariableAccessor& accessor,\n                const Arcane::ItemGroup& group,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, group, mode, static_size);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 945 "LawT4.tt"
- if(Inputs.Count()>0)
-   { 
-            
-            #line default
-            #line hidden
-            
-            #line 947 "LawT4.tt"
-            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor, group);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 949 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 950 "LawT4.tt"
-            this.Write("  }\n  \n  void evaluate(const Law::PartialVariableAccessor& accessor,\n                const Arcane::ItemGroup& group,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, group, mode, static_size);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 958 "LawT4.tt"
- if(Inputs.Count()>0)
-   { 
-            
-            #line default
-            #line hidden
-            
-            #line 960 "LawT4.tt"
-            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor, group);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 962 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 963 "LawT4.tt"
-            this.Write("  }\n  \n  void evaluate(const Law::ArrayAccessor& accessor,\n                const Arcane::Integer& begin,\n                const Arcane::Integer& end,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, begin, end, mode, static_size);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 972 "LawT4.tt"
- if(Inputs.Count()>0)
-   { 
-            
-            #line default
-            #line hidden
-            
-            #line 974 "LawT4.tt"
-            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor,  begin, end);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 976 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 977 "LawT4.tt"
-            this.Write("  }\n  \n  void evaluate(const Law::ScalarAccessor& accessor,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, mode, static_size);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 984 "LawT4.tt"
- if(Inputs.Count()>0)
-   { 
-            
-            #line default
-            #line hidden
-            
-            #line 986 "LawT4.tt"
-            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor);\n");
-            
-            #line default
-            #line hidden
-            
-            #line 988 "LawT4.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 989 "LawT4.tt"
-            this.Write("  }\n\n");
-            
-            #line default
-            #line hidden
-            
-            #line 991 "LawT4.tt"
- if(Inputs.Count()>0)
-   { 
-            
-            #line default
-            #line hidden
-            
-            #line 993 "LawT4.tt"
-            this.Write("private:\n\n  void _check_derivatives(const Law::VariableAccessor& accessor,\n                          const Arcane::ItemGroup& group) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 998 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 999 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1000 "LawT4.tt"
+            #line 762 "LawT4.tt"
  AllocateLocalData (); 
             
             #line default
             #line hidden
             
-            #line 1001 "LawT4.tt"
- AllocateLocalDataFiniteDiff (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1002 "LawT4.tt"
+            #line 763 "LawT4.tt"
  CreateDerivativesOffsets (); 
             
             #line default
             #line hidden
             
-            #line 1003 "LawT4.tt"
-            this.Write("    m_trace_mng->info()<<\"");
+            #line 764 "LawT4.tt"
+            this.Write("    // Evaluation loop\n    for(Arcane::Integer index = begin; index < end; ++index) {\n");
             
             #line default
             #line hidden
             
-            #line 1003 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 1003 "LawT4.tt"
-            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, group) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 1007 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1008 "LawT4.tt"
- CopyGlobalValuesOutputToLocalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1009 "LawT4.tt"
- ComputeDifferenceFiniteDerivatives(); 
-            
-            #line default
-            #line hidden
-            
-            #line 1010 "LawT4.tt"
- PrintDebugValuesInfos ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1011 "LawT4.tt"
- PrintDebugDerivativesInfos ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1012 "LawT4.tt"
- CopyLocalOutputsDerivativesDiffToGlobalDerivatives ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1013 "LawT4.tt"
-            this.Write("    }\n  }\n  \n  void _check_derivatives(const Law::PartialVariableAccessor& accessor,\n                          const Arcane::ItemGroup& group) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 1019 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1020 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1021 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1022 "LawT4.tt"
- AllocateLocalDataFiniteDiff (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1023 "LawT4.tt"
- CreateDerivativesOffsets (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1024 "LawT4.tt"
-            this.Write("    m_trace_mng->info()<<\"");
-            
-            #line default
-            #line hidden
-            
-            #line 1024 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 1024 "LawT4.tt"
-            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, group) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 1028 "LawT4.tt"
- CopyGlobalValuesToLocalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1029 "LawT4.tt"
- CopyGlobalValuesOutputToLocalValues ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1030 "LawT4.tt"
- ComputeDifferenceFiniteDerivatives(); 
-            
-            #line default
-            #line hidden
-            
-            #line 1031 "LawT4.tt"
- PrintDebugValuesInfos ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1032 "LawT4.tt"
- PrintDebugDerivativesInfos ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1033 "LawT4.tt"
- CopyLocalOutputsDerivativesDiffToGlobalDerivatives ("[iitem]"); 
-            
-            #line default
-            #line hidden
-            
-            #line 1034 "LawT4.tt"
-            this.Write("    }\n  }\n  \n  void _check_derivatives(const Law::ArrayAccessor& accessor,\n                          const Arcane::Integer& begin,\n                          const Arcane::Integer& end) const\n  {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 1041 "LawT4.tt"
- AccessGlobalValues (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1042 "LawT4.tt"
- AccessGlobalDerivatives (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1043 "LawT4.tt"
- AllocateLocalData (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1044 "LawT4.tt"
- AllocateLocalDataFiniteDiff (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1045 "LawT4.tt"
- CreateDerivativesOffsets (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1046 "LawT4.tt"
-            this.Write("    m_trace_mng->info()<<\"");
-            
-            #line default
-            #line hidden
-            
-            #line 1046 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 1046 "LawT4.tt"
-            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation loop\n    for(Arcane::Integer index = begin; index < end; ++index) {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 1050 "LawT4.tt"
+            #line 766 "LawT4.tt"
  CopyGlobalValuesToLocalValues ("[index]"); 
             
             #line default
             #line hidden
             
-            #line 1051 "LawT4.tt"
- CopyGlobalValuesOutputToLocalValues ("[index]"); 
+            #line 767 "LawT4.tt"
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
             
             #line default
             #line hidden
             
-            #line 1052 "LawT4.tt"
- ComputeDifferenceFiniteDerivatives(); 
+            #line 769 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
             
             #line default
             #line hidden
             
-            #line 1053 "LawT4.tt"
- PrintDebugValuesInfos ("[index]"); 
+            #line 769 "LawT4.tt"
+            this.Write("\n      );\n");
             
             #line default
             #line hidden
             
-            #line 1054 "LawT4.tt"
- PrintDebugDerivativesInfos ("[index]"); 
+            #line 771 "LawT4.tt"
+ CopyLocalOutputsValuesToGlobalValues ("[index]"); 
             
             #line default
             #line hidden
             
-            #line 1055 "LawT4.tt"
- CopyLocalOutputsDerivativesDiffToGlobalDerivatives ("[index]"); 
+            #line 772 "LawT4.tt"
+ CopyLocalOutputsDerivativesToGlobalDerivatives ("[index]"); 
             
             #line default
             #line hidden
             
-            #line 1056 "LawT4.tt"
-            this.Write("    }\n  }\n  \n  void _check_derivatives(const Law::ScalarAccessor& accessor) const\n  {\n");
+            #line 773 "LawT4.tt"
+            this.Write("    }\n  }\n\n  void _evaluate(Arcane::Integer size,\n                 const Law::ScalarAccessor& accessor) const\n  {\n");
             
             #line default
             #line hidden
             
-            #line 1061 "LawT4.tt"
+            #line 779 "LawT4.tt"
  AccessGlobalValues (); 
             
             #line default
             #line hidden
             
-            #line 1062 "LawT4.tt"
+            #line 780 "LawT4.tt"
  AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
-            #line 1063 "LawT4.tt"
+            #line 781 "LawT4.tt"
+ ResizeGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 782 "LawT4.tt"
  AllocateLocalData (); 
             
             #line default
             #line hidden
             
-            #line 1064 "LawT4.tt"
- AllocateLocalDataFiniteDiff (); 
-            
-            #line default
-            #line hidden
-            
-            #line 1065 "LawT4.tt"
+            #line 783 "LawT4.tt"
  CreateDerivativesOffsets (); 
             
             #line default
             #line hidden
             
-            #line 1066 "LawT4.tt"
-            this.Write("    m_trace_mng->info()<<\"");
+            #line 784 "LawT4.tt"
+            this.Write("    {\n");
             
             #line default
             #line hidden
             
-            #line 1066 "LawT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
-            
-            #line default
-            #line hidden
-            
-            #line 1066 "LawT4.tt"
-            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation\n    {\n");
-            
-            #line default
-            #line hidden
-            
-            #line 1070 "LawT4.tt"
+            #line 785 "LawT4.tt"
  CopyGlobalValuesToLocalValues ("()", true); 
             
             #line default
             #line hidden
             
-            #line 1071 "LawT4.tt"
- CopyGlobalValuesOutputToLocalValues ("()", true); 
+            #line 786 "LawT4.tt"
+            this.Write("      // Invoke user kernel\n      m_invoker(\n        ");
             
             #line default
             #line hidden
             
-            #line 1072 "LawT4.tt"
- ComputeDifferenceFiniteDerivatives(); 
+            #line 788 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( InvokerCallSignature ));
             
             #line default
             #line hidden
             
-            #line 1073 "LawT4.tt"
- PrintDebugValuesInfos ("()"); 
+            #line 788 "LawT4.tt"
+            this.Write("\n      );\n");
             
             #line default
             #line hidden
             
-            #line 1074 "LawT4.tt"
- PrintDebugDerivativesInfos (""); 
+            #line 790 "LawT4.tt"
+ CopyLocalOutputsValuesToGlobalValues (""); 
             
             #line default
             #line hidden
             
-            #line 1075 "LawT4.tt"
- CopyLocalOutputsDerivativesDiffToGlobalDerivatives (""); 
+            #line 791 "LawT4.tt"
+ CopyLocalOutputsDerivativesToGlobalDerivatives (""); 
             
             #line default
             #line hidden
             
-            #line 1076 "LawT4.tt"
-            this.Write("    }\n  }\n");
+            #line 792 "LawT4.tt"
+            this.Write("    }\n  }\n\n");
             
             #line default
             #line hidden
             
-            #line 1078 "LawT4.tt"
+            #line 795 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 1079 "LawT4.tt"
-            this.Write("private:\n\n");
+            #line 796 "LawT4.tt"
+            this.Write("//\n// split and pass private\n\npublic:\n\n  void derivativesCorrection(const Law::VariableAccessor& accessor,\n                             const Arcane::ItemGroup& group,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
+            
+            #line default
+            #line hidden
+            
+            #line 806 "LawT4.tt"
+ if(containsVectorProperty()) {  
+            
+            #line default
+            #line hidden
+            
+            #line 807 "LawT4.tt"
+            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 810 "LawT4.tt"
+ } else {  
+            
+            #line default
+            #line hidden
+            
+            #line 811 "LawT4.tt"
+            this.Write("  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 812 "LawT4.tt"
+ StaticGlobalDependenciesSize (); 
+            
+            #line default
+            #line hidden
+            
+            #line 813 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 814 "LawT4.tt"
+            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 817 "LawT4.tt"
+ ComputeDerivativesReorderOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 818 "LawT4.tt"
+            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 821 "LawT4.tt"
+ ReorderDerivativesAndNullify ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 822 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 829 "LawT4.tt"
+ ComputeDerivativesCorrectionOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 830 "LawT4.tt"
+            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 833 "LawT4.tt"
+  ApplyDerivativesCorrection("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 834 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 839 "LawT4.tt"
+ ResizeGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 840 "LawT4.tt"
+            this.Write("  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 841 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 842 "LawT4.tt"
+            this.Write(" \n\n  void derivativesCorrection(const Law::PartialVariableAccessor& accessor,\n                             const Arcane::ItemGroup& group,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
+            
+            #line default
+            #line hidden
+            
+            #line 849 "LawT4.tt"
+ if(containsVectorProperty()) {  
+            
+            #line default
+            #line hidden
+            
+            #line 850 "LawT4.tt"
+            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 853 "LawT4.tt"
+ } else {  
+            
+            #line default
+            #line hidden
+            
+            #line 854 "LawT4.tt"
+            this.Write("  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 855 "LawT4.tt"
+ StaticGlobalDependenciesSize (); 
+            
+            #line default
+            #line hidden
+            
+            #line 856 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 857 "LawT4.tt"
+            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 860 "LawT4.tt"
+ ComputeDerivativesReorderOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 861 "LawT4.tt"
+            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 864 "LawT4.tt"
+ ReorderDerivativesAndNullify ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 865 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 872 "LawT4.tt"
+ ComputeDerivativesCorrectionOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 873 "LawT4.tt"
+            this.Write("      //\n      // Evaluation loop over items\n      ENUMERATE_ITEM(iitem, group) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 876 "LawT4.tt"
+  ApplyDerivativesCorrection("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 877 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 882 "LawT4.tt"
+ ResizeGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 883 "LawT4.tt"
+            this.Write("  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 884 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 885 "LawT4.tt"
+            this.Write(" \n\n  void derivativesCorrection(const Law::ArrayAccessor& accessor,\n                             const Arcane::Integer& begin,\n                             const Arcane::Integer& end,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
+            
+            #line default
+            #line hidden
+            
+            #line 893 "LawT4.tt"
+ if(containsVectorProperty()) {  
+            
+            #line default
+            #line hidden
+            
+            #line 894 "LawT4.tt"
+            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 897 "LawT4.tt"
+ } else {  
+            
+            #line default
+            #line hidden
+            
+            #line 898 "LawT4.tt"
+            this.Write("  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 899 "LawT4.tt"
+ StaticGlobalDependenciesSize (); 
+            
+            #line default
+            #line hidden
+            
+            #line 900 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 901 "LawT4.tt"
+            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 904 "LawT4.tt"
+ ComputeDerivativesReorderOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 905 "LawT4.tt"
+            this.Write("      //\n      // Evaluation loop\n      for(Arcane::Integer i = begin; i < end; ++i) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 908 "LawT4.tt"
+ ReorderDerivativesAndNullify ("[i]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 909 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 916 "LawT4.tt"
+ ComputeDerivativesCorrectionOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 917 "LawT4.tt"
+            this.Write("      //\n      // Evaluation loop\n      for(Arcane::Integer i = begin; i < end; ++i) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 920 "LawT4.tt"
+  ApplyDerivativesCorrection("[i]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 921 "LawT4.tt"
+            this.Write("      }\n    }  \n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 926 "LawT4.tt"
+ ResizeGlobalDerivatives (true); 
+            
+            #line default
+            #line hidden
+            
+            #line 927 "LawT4.tt"
+            this.Write("  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 928 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 929 "LawT4.tt"
+            this.Write(" \n\n  void derivativesCorrection(const Law::ScalarAccessor& accessor,\n                             Law::PropertyVector graph_dependencies,\n                             std::map<Law::Property, Law::PropertyVector> in_composed_derivative_ofs,\n                             Arcane::Integer nb_unknown_resize) const\n");
+            
+            #line default
+            #line hidden
+            
+            #line 935 "LawT4.tt"
+ if(containsVectorProperty()) {  
+            
+            #line default
+            #line hidden
+            
+            #line 936 "LawT4.tt"
+            this.Write("  {\n    throw Arcane::FatalErrorException(\"Graph composed derivatives correction not available with vector properties error\");\n  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 939 "LawT4.tt"
+ } else {  
+            
+            #line default
+            #line hidden
+            
+            #line 940 "LawT4.tt"
+            this.Write("  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 941 "LawT4.tt"
+ StaticGlobalDependenciesSize (); 
+            
+            #line default
+            #line hidden
+            
+            #line 942 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 943 "LawT4.tt"
+            this.Write("    // Re order derivatives and nullify before correction\n    // Could be done directly in _evaluate method with offset as argument\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 946 "LawT4.tt"
+ ComputeDerivativesReorderOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 947 "LawT4.tt"
+            this.Write("      //\n      //\n      {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 950 "LawT4.tt"
+ ReorderDerivativesAndNullify (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 951 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Derivatives correction\n    Arcane::Integer direct_composed_index = nb_graph_prop - 1;\n    for(auto iter_composed : in_composed_derivative_ofs)\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 958 "LawT4.tt"
+ ComputeDerivativesCorrectionOffset (); 
+            
+            #line default
+            #line hidden
+            
+            #line 959 "LawT4.tt"
+            this.Write("      //\n      // \n      {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 962 "LawT4.tt"
+  ApplyDerivativesCorrection(""); 
+            
+            #line default
+            #line hidden
+            
+            #line 963 "LawT4.tt"
+            this.Write("      }\n    }\n    //\n    // Resize to root prop \n    const Arcane::Integer size = nb_unknown_resize;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 968 "LawT4.tt"
+ ResizeGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 969 "LawT4.tt"
+            this.Write("  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 970 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 971 "LawT4.tt"
+            this.Write(" \n\nprotected:\n\n  template<typename... T>\n  void _evaluate(const Law::EvaluationMode mode, Arcane::Integer static_size, const T&... args) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 978 "LawT4.tt"
+ if(Inference == InferenceMode.ONNX && containsVectorProperty()) { 
+            
+            #line default
+            #line hidden
+            
+            #line 979 "LawT4.tt"
+            this.Write("    throw Arcane::FatalErrorException(\"ONNX evaluation available with vector properties error\");\n");
+            
+            #line default
+            #line hidden
+            
+            #line 980 "LawT4.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            
+            #line 981 "LawT4.tt"
+            this.Write("    switch(mode)\n    {\n    case Law::eWithoutDerivative :\n      _evaluateOnlyValues(args...);\n      break;\n    case Law::eWithDerivative :\n      if(isDifferentiable()){\n        if(static_size != 0) {\n          _evaluate(static_size, args...);\n        } else {\n          _evaluate(in().dataSize(), args...);\n        }\n      }\n      else{\n        throw Arcane::FatalErrorException(\"evaluation with derivatives not available error\");\n      }\n      break;\n    default:\n      throw Arcane::FatalErrorException(\"evaluation case default error\");\n    }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1001 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1002 "LawT4.tt"
+            this.Write("  }\n\nprotected:\n\n  Signature m_signature;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1007 "LawT4.tt"
+ if(Inference == InferenceMode.ONNX){ 
+            
+            #line default
+            #line hidden
+            
+            #line 1008 "LawT4.tt"
+            this.Write(" \n  Ort::Env m_environment;\n  std::unique_ptr<Ort::Session> m_session;\n  bool m_is_differentiable;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1012 "LawT4.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            
+            #line 1013 "LawT4.tt"
+            this.Write("  std::function<\n    void(");
+            
+            #line default
+            #line hidden
+            
+            #line 1014 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( Signature ));
+            
+            #line default
+            #line hidden
+            
+            #line 1014 "LawT4.tt"
+            this.Write(")\n  > m_invoker;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1016 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1017 "LawT4.tt"
+            this.Write("  \n};\n\n/*---------------------------------------------------------------------------*/\n/*---------------------------------------------------------------------------*/\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1022 "LawT4.tt"
+ if(Debug) { 
+            
+            #line default
+            #line hidden
+            
+            #line 1023 "LawT4.tt"
+            this.Write("struct EpsilonDerivatives\n{\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1025 "LawT4.tt"
+ foreach(var i in Inputs) { 
+            
+            #line default
+            #line hidden
+            
+            #line 1026 "LawT4.tt"
+            this.Write("  Arcane::Real ");
+            
+            #line default
+            #line hidden
+            
+            #line 1026 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( i.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 1026 "LawT4.tt"
+            this.Write(" = 1.e-6;\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1027 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1028 "LawT4.tt"
+            this.Write("};\n\nclass DebugFunction\n  : public Function\n{\npublic:\n\n  template<typename UserAlgo, typename Method>\n  DebugFunction(const Signature& s,\n                UserAlgo& kernel,\n                Method method,\n                const EpsilonDerivatives& epsilon,\n                Arcane::ITraceMng* trace_mng):\n                Function(s,kernel,method),\n                m_epsilon(epsilon),\n                m_trace_mng(trace_mng)\n                {};\n\nprotected:\n  \n  void evaluate(const Law::VariableAccessor& accessor,\n                const Arcane::ItemGroup& group,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, group, mode, static_size);\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1054 "LawT4.tt"
+ if(Inputs.Count()>0)
+   { 
+            
+            #line default
+            #line hidden
+            
+            #line 1056 "LawT4.tt"
+            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor, group);\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1058 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1059 "LawT4.tt"
+            this.Write("  }\n  \n  void evaluate(const Law::PartialVariableAccessor& accessor,\n                const Arcane::ItemGroup& group,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, group, mode, static_size);\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1067 "LawT4.tt"
+ if(Inputs.Count()>0)
+   { 
+            
+            #line default
+            #line hidden
+            
+            #line 1069 "LawT4.tt"
+            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor, group);\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1071 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1072 "LawT4.tt"
+            this.Write("  }\n  \n  void evaluate(const Law::ArrayAccessor& accessor,\n                const Arcane::Integer& begin,\n                const Arcane::Integer& end,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, begin, end, mode, static_size);\n");
             
             #line default
             #line hidden
@@ -9976,30 +10047,465 @@ this.Write("      }\n");
             #line hidden
             
             #line 1083 "LawT4.tt"
-            this.Write("  void _print_value(const Arcane::String value_name, const Arcane::Real& value) const\n  {\n    m_trace_mng->info() << value_name <<\" value   = \"<< value ;\n  }\n\n  void _print_derivatives(const Arcane::String deriv_name, const Arcane::Real& deriv_ref, const Arcane::Real& deriv_test) const\n  {\n    m_trace_mng->info() << deriv_name <<\" ref   = \"<< deriv_ref ;\n    m_trace_mng->info() << deriv_name <<\" test  = \"<< deriv_test ;\n    m_trace_mng->info() << deriv_name <<\" error = \"<< (deriv_ref - deriv_test) / (fabs(deriv_ref) + 1.e-20);\n  }\n");
+            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor,  begin, end);\n");
             
             #line default
             #line hidden
             
-            #line 1094 "LawT4.tt"
+            #line 1085 "LawT4.tt"
  } 
             
             #line default
             #line hidden
             
+            #line 1086 "LawT4.tt"
+            this.Write("  }\n  \n  void evaluate(const Law::ScalarAccessor& accessor,\n                const Law::EvaluationMode mode,\n                Arcane::Integer static_size = 0) const\n  {\n    Function::evaluate(accessor, mode, static_size);\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1093 "LawT4.tt"
+ if(Inputs.Count()>0)
+   { 
+            
+            #line default
+            #line hidden
+            
             #line 1095 "LawT4.tt"
-            this.Write("\nprivate:\n\n  //! Epsilon values to compute derivatives\n  EpsilonDerivatives m_epsilon;\n  \n  //! Manager de trace\n  Arcane::ITraceMng* m_trace_mng;\n\n};\n\n/*---------------------------------------------------------------------------*/\n/*---------------------------------------------------------------------------*/\n");
+            this.Write("    if(mode==Law::eWithDerivative) \n      _check_derivatives(accessor);\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1097 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1098 "LawT4.tt"
+            this.Write("  }\n\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1100 "LawT4.tt"
+ if(Inputs.Count()>0)
+   { 
+            
+            #line default
+            #line hidden
+            
+            #line 1102 "LawT4.tt"
+            this.Write("private:\n\n  void _check_derivatives(const Law::VariableAccessor& accessor,\n                          const Arcane::ItemGroup& group) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1107 "LawT4.tt"
+ AccessGlobalValues (); 
             
             #line default
             #line hidden
             
             #line 1108 "LawT4.tt"
-  } 
+ AccessGlobalDerivatives (); 
             
             #line default
             #line hidden
             
             #line 1109 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1110 "LawT4.tt"
+ AllocateLocalDataFiniteDiff (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1111 "LawT4.tt"
+ CreateDerivativesOffsets (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1112 "LawT4.tt"
+            this.Write("    m_trace_mng->info()<<\"");
+            
+            #line default
+            #line hidden
+            
+            #line 1112 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 1112 "LawT4.tt"
+            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, group) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1116 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1117 "LawT4.tt"
+ CopyGlobalValuesOutputToLocalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1118 "LawT4.tt"
+ ComputeDifferenceFiniteDerivatives(); 
+            
+            #line default
+            #line hidden
+            
+            #line 1119 "LawT4.tt"
+ PrintDebugValuesInfos ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1120 "LawT4.tt"
+ PrintDebugDerivativesInfos ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1121 "LawT4.tt"
+ CopyLocalOutputsDerivativesDiffToGlobalDerivatives ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1122 "LawT4.tt"
+            this.Write("    }\n  }\n  \n  void _check_derivatives(const Law::PartialVariableAccessor& accessor,\n                          const Arcane::ItemGroup& group) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1128 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1129 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1130 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1131 "LawT4.tt"
+ AllocateLocalDataFiniteDiff (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1132 "LawT4.tt"
+ CreateDerivativesOffsets (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1133 "LawT4.tt"
+            this.Write("    m_trace_mng->info()<<\"");
+            
+            #line default
+            #line hidden
+            
+            #line 1133 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 1133 "LawT4.tt"
+            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation loop over items\n    ENUMERATE_ITEM(iitem, group) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1137 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1138 "LawT4.tt"
+ CopyGlobalValuesOutputToLocalValues ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1139 "LawT4.tt"
+ ComputeDifferenceFiniteDerivatives(); 
+            
+            #line default
+            #line hidden
+            
+            #line 1140 "LawT4.tt"
+ PrintDebugValuesInfos ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1141 "LawT4.tt"
+ PrintDebugDerivativesInfos ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1142 "LawT4.tt"
+ CopyLocalOutputsDerivativesDiffToGlobalDerivatives ("[iitem]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1143 "LawT4.tt"
+            this.Write("    }\n  }\n  \n  void _check_derivatives(const Law::ArrayAccessor& accessor,\n                          const Arcane::Integer& begin,\n                          const Arcane::Integer& end) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1150 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1151 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1152 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1153 "LawT4.tt"
+ AllocateLocalDataFiniteDiff (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1154 "LawT4.tt"
+ CreateDerivativesOffsets (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1155 "LawT4.tt"
+            this.Write("    m_trace_mng->info()<<\"");
+            
+            #line default
+            #line hidden
+            
+            #line 1155 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 1155 "LawT4.tt"
+            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation loop\n    for(Arcane::Integer index = begin; index < end; ++index) {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1159 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1160 "LawT4.tt"
+ CopyGlobalValuesOutputToLocalValues ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1161 "LawT4.tt"
+ ComputeDifferenceFiniteDerivatives(); 
+            
+            #line default
+            #line hidden
+            
+            #line 1162 "LawT4.tt"
+ PrintDebugValuesInfos ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1163 "LawT4.tt"
+ PrintDebugDerivativesInfos ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1164 "LawT4.tt"
+ CopyLocalOutputsDerivativesDiffToGlobalDerivatives ("[index]"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1165 "LawT4.tt"
+            this.Write("    }\n  }\n  \n  void _check_derivatives(const Law::ScalarAccessor& accessor) const\n  {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1170 "LawT4.tt"
+ AccessGlobalValues (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1171 "LawT4.tt"
+ AccessGlobalDerivatives (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1172 "LawT4.tt"
+ AllocateLocalData (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1173 "LawT4.tt"
+ AllocateLocalDataFiniteDiff (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1174 "LawT4.tt"
+ CreateDerivativesOffsets (); 
+            
+            #line default
+            #line hidden
+            
+            #line 1175 "LawT4.tt"
+            this.Write("    m_trace_mng->info()<<\"");
+            
+            #line default
+            #line hidden
+            
+            #line 1175 "LawT4.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture( Model.name ));
+            
+            #line default
+            #line hidden
+            
+            #line 1175 "LawT4.tt"
+            this.Write("\"<< \" debug evaluation\";\n    m_trace_mng->info()<<\"Check consistency between law derivatives and finite difference ones\";\n    // Evaluation\n    {\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1179 "LawT4.tt"
+ CopyGlobalValuesToLocalValues ("()", true); 
+            
+            #line default
+            #line hidden
+            
+            #line 1180 "LawT4.tt"
+ CopyGlobalValuesOutputToLocalValues ("()", true); 
+            
+            #line default
+            #line hidden
+            
+            #line 1181 "LawT4.tt"
+ ComputeDifferenceFiniteDerivatives(); 
+            
+            #line default
+            #line hidden
+            
+            #line 1182 "LawT4.tt"
+ PrintDebugValuesInfos ("()"); 
+            
+            #line default
+            #line hidden
+            
+            #line 1183 "LawT4.tt"
+ PrintDebugDerivativesInfos (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 1184 "LawT4.tt"
+ CopyLocalOutputsDerivativesDiffToGlobalDerivatives (""); 
+            
+            #line default
+            #line hidden
+            
+            #line 1185 "LawT4.tt"
+            this.Write("    }\n  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1187 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1188 "LawT4.tt"
+            this.Write("private:\n\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1190 "LawT4.tt"
+ if(Inputs.Count()>0)
+   { 
+            
+            #line default
+            #line hidden
+            
+            #line 1192 "LawT4.tt"
+            this.Write("  void _print_value(const Arcane::String value_name, const Arcane::Real& value) const\n  {\n    m_trace_mng->info() << value_name <<\" value   = \"<< value ;\n  }\n\n  void _print_derivatives(const Arcane::String deriv_name, const Arcane::Real& deriv_ref, const Arcane::Real& deriv_test) const\n  {\n    m_trace_mng->info() << deriv_name <<\" ref   = \"<< deriv_ref ;\n    m_trace_mng->info() << deriv_name <<\" test  = \"<< deriv_test ;\n    m_trace_mng->info() << deriv_name <<\" error = \"<< (deriv_ref - deriv_test) / (fabs(deriv_ref) + 1.e-20);\n  }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1203 "LawT4.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 1204 "LawT4.tt"
+            this.Write("\nprivate:\n\n  //! Epsilon values to compute derivatives\n  EpsilonDerivatives m_epsilon;\n  \n  //! Manager de trace\n  Arcane::ITraceMng* m_trace_mng;\n\n};\n\n/*---------------------------------------------------------------------------*/\n/*---------------------------------------------------------------------------*/\n");
+            
+            #line default
+            #line hidden
+            
+            #line 1217 "LawT4.tt"
+  } 
+            
+            #line default
+            #line hidden
+            
+            #line 1218 "LawT4.tt"
             this.Write("\n}\n\n#endif\n\n/*---------------------------------------------------------------------------*/\n/*---------------------------------------------------------------------------*/\n");
             
             #line default

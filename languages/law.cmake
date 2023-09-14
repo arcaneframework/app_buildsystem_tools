@@ -8,7 +8,7 @@ endif()
 
 function(generateLaw target)
 
-  set(options        NO_COPY DEBUG_MODE SEQUENTIAL_MODE)
+  set(options        NO_COPY DEBUG_MODE SEQUENTIAL_MODE INFERENCE_MODE_ONNX)
   set(oneValueArgs   )
   set(multiValueArgs )
   
@@ -17,6 +17,7 @@ function(generateLaw target)
   set(law_path ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/law)
   
   set(multithreading_mode_generation "")
+  set(inference_mode_generation "")
   if(NOT ARGS_SEQUENTIAL_MODE)
     if(DEFINED USE_LANGUAGE_LAW_MULTI_THREADING)
       if(USE_LANGUAGE_LAW_MULTI_THREADING STREQUAL "ArcaneTBB")
@@ -36,6 +37,12 @@ function(generateLaw target)
     if(${USE_LANGUAGE_LAW_DEBUG})
       set(debug_mode_generation "--debug")
     endif()
+  endif()
+  
+  set(inference_mode_generation "")
+  if(ARGS_INFERENCE_MODE_ONNX)
+    set(inference_mode_generation "--inference=ONNX")
+    set(debug_mode_generation "")
   endif()
   
   if(NOT EXISTS ${law_path})
@@ -62,7 +69,7 @@ function(generateLaw target)
       OUTPUT  ${law_path}/${name}_law.h
       DEPENDS ${file} law
       COMMAND ${LAWCOMPILER} 
-      ARGS    --law=${file} ${debug_mode_generation} ${multithreading_mode_generation}
+      ARGS    --law=${file} ${debug_mode_generation} ${multithreading_mode_generation} ${inference_mode_generation}
               --path=${law_path}
       COMMENT "Building LAW generated file ${PROJECT_NAME}/law/${name}_law.h"
       )
