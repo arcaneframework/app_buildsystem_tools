@@ -27,14 +27,27 @@ if(USE_ALIEN_V0)
 endif()
 
 if(NOT ALIEN_ROOT)
-  set(ALIEN_ROOT $ENV{ALIEN_ROOT})
+    if ($ENV{ALIEN_ROOT})
+        set(ALIEN_ROOT $ENV{ALIEN_ROOT})
+    endif()
 endif()
 
 if(NOT ALIEN_FOUND)
 
-  set(ALIEN_DIR ${ALIEN_ROOT}/lib/cmake)
+    if (NOT ALIEN_DIR AND NOT FRAMEWORK_ROOT)
+        if (ALIEN_ROOT)
+            set(ALIEN_DIR ${ALIEN_ROOT}/lib/cmake)
+            message(STATUS "Loading alien : ALIEN DIR is" ${ALIEN_DIR})
+        else ()
+            logFatalError("No Alien directory installed given. Give ALIEN_ROOT or ALIEN_DIR)")
+        endif ()
+    endif ()
 
-  find_package(ALIEN QUIET)
+
+  if (FRAMEWORK_ROOT)
+    find_package(Alien REQUIRED)
+  endif ()
+  find_package(ALIEN REQUIRED)
 
 endif()
 
