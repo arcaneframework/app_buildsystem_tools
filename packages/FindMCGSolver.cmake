@@ -105,4 +105,9 @@ if(MCGSOLVER_FOUND AND NOT TARGET mcgsolver)
     set_property(TARGET mcgsolver APPEND PROPERTY
             INTERFACE_LINK_LIBRARIES numa)
 
+    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
+    set_property(TARGET mcgsolver APPEND PROPERTY
+        INTERFACE_LINK_LIBRARIES stdc++fs)
+    endif()
+
 endif()
