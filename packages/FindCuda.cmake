@@ -59,6 +59,27 @@ if(NOT CUDA_FOUND)
       PATH_SUFFIXES samples/common/inc
       ${_CUDA_SEARCH_OPTS}
       )
+
+  if(NOT HELPER_CUDA_INCLUDE_DIR)
+    # try to find in CUDASAMPLES_ROOT
+    if(NOT CUDASAMPLES_ROOT)
+      set(CUDASAMPLES_ROOT $ENV{CUDASAMPLES_ROOT})
+    endif()
+
+    if(CUDASAMPLES_ROOT)
+      set(_CUDASAMPLES_SEARCH_OPTS NO_DEFAULT_PATH)
+    else()
+      set(_CUDASAMPLES_SEARCH_OPTS)
+    endif()
+
+    find_path(HELPER_CUDA_INCLUDE_DIR helper_cuda.h
+        HINTS ${CUDASAMPLES_ROOT}
+        PATH_SUFFIXES Common
+        ${_CUDASAMPLES_SEARCH_OPTS}
+        )
+
+  endif()
+
   mark_as_advanced(HELPER_CUDA_INCLUDE_DIR)
   
 endif()
