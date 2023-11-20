@@ -15,6 +15,10 @@ if(NOT MKL_ROOT)
   set(MKL_ROOT $ENV{MKL_ROOT})
 endif()
 
+if(NOT MKL_ROOT)
+  set(MKL_ROOT $ENV{MKLROOT})
+endif()
+
 if(MKL_ROOT)
   set(_MKL_SEARCH_OPTS NO_DEFAULT_PATH)
 else()
@@ -22,7 +26,6 @@ else()
 endif()
 
 if(NOT MKL_FOUND)
-
   find_library(MKL_CORE_LIBRARY
     NAMES mkl_core
     HINTS ${MKL_ROOT} 
