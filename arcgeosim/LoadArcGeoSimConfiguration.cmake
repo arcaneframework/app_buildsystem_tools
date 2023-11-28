@@ -32,8 +32,8 @@ include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/ArcGeoSim/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/SharedUtils/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/ArximCpp/src)
 # needed ? todo check in ShArc
-include_directories(${PROJECT_BINARY_DIR}/src)
-include_directories(${PROJECT_SOURCE_DIR}/src)
+#include_directories(${PROJECT_BINARY_DIR}/src)
+#include_directories(${PROJECT_SOURCE_DIR}/src)
 # end needed ?
 
 # ----------------------------------------------------------------------------
