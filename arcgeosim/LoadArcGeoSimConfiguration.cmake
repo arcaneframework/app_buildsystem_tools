@@ -20,10 +20,17 @@ endif()
 
 # includes pour simplifier
 include_directories(${PROJECT_BINARY_DIR})
-include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoPhy/src)
-include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoSim/src)
-include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/SharedUtils/src)
-include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArximCpp/src)
+include_directories(${PROJECT_BINARY_DIR}/${COMMON_PREFIX}/ArcGeoPhy/src)
+include_directories(${PROJECT_SOURCE_DIR}/${COMMON_PREFIX}/ArcGeoPhy/src)
+include_directories(${PROJECT_SOURCE_DIR}/${COMMON_PREFIX}/ArcGeoPhy/src)
+include_directories(${PROJECT_BINARY_DIR}/${COMMON_PREFIX}/ArcGeoSim/src)
+include_directories(${PROJECT_SOURCE_DIR}/${COMMON_PREFIX}/ArcGeoSim/src)
+include_directories(${PROJECT_BINARY_DIR}/${COMMON_PREFIX}/SharedUtils/src)
+include_directories(${PROJECT_SOURCE_DIR}/${COMMON_PREFIX}/SharedUtils/src)
+include_directories(${PROJECT_BINARY_DIR}/${COMMON_PREFIX}/ArximCpp/src)
+include_directories(${PROJECT_SOURCE_DIR}/${COMMON_PREFIX}/ArximCpp/src)
+include_directories(${PROJECT_BINARY_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
