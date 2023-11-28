@@ -11,7 +11,23 @@
 #
 # Target mpi 
 if(MPI_FOUND)
-   return()
+    if(NOT TARGET mpi)
+
+        set(MPI_INCLUDE_DIRS "${MPI_INCLUDE_DIR}")
+
+        set(MPI_LIBRARIES "${MPI_LIBRARY}")
+
+        add_library(mpi UNKNOWN IMPORTED)
+
+        set_target_properties(mpi PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${MPI_INCLUDE_DIRS}")
+
+        set_target_properties(mpi PROPERTIES
+                IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+                IMPORTED_LOCATION "${MPI_LIBRARY}")
+
+    endif()
+    return()
 endif()
 
 if(NOT MPI_ROOT)
