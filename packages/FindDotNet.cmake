@@ -92,9 +92,8 @@ else()
   set(OutputPath ${PROJECT_BINARY_DIR}/dotnet/bin/${CMAKE_BUILD_TYPE})
   set(IntermediateOutputPath ${PROJECT_BINARY_DIR}/dotnet/obj/${CMAKE_BUILD_TYPE})
 
-# JYC test pour l'instant
-  set(XBUILD dotnet build)
-  message(status "      JYC MESSAGE : VALEUR DE XBUILD ${XBUILD}")
+# on force dotnet au lieu de mono
+  set(XBUILD dotnet publish)
 
 
 endif()
