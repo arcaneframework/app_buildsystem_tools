@@ -57,8 +57,16 @@ loadPackage(NAME Eigen3)
 loadPackage(NAME Eigen2) 
 loadPackage(NAME Umfpack) 
 loadPackage(NAME GLPK)
+loadPackage(NAME HIGHS)
 loadPackage(NAME PreCICE)
 loadPackage(NAME ONNX)
+# Remarque
+# en attendant version unique Carnot avec ECPA
+# pour l instant la version Carnot ECPA et dans Geoxim
+if(NOT DEFINED $ENV{CARNOT_ECPA})
+loadPackage(NAME Carnot)
+endif()
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
