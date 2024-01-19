@@ -96,13 +96,16 @@ namespace CMakeListGenerator
             showHelpAndExit (options, "Expected lib-path argument");
 
           String libname = extras[0];
+	Console.WriteLine(libname);
           String path = ".";
           if (extras.Count > 1)
             path = extras[1];
+Console.WriteLine(path);
 
           String outpath = path;
           if (extras.Count > 2)
             outpath = extras[2];
+Console.WriteLine(outpath);
 
           if (extras.Count > 3)
             showHelpAndExit (options, "Unexpected argument");

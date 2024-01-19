@@ -76,11 +76,9 @@ find_program(WHOLEARCHIVE_VCPROJ_TOOL
   HINTS ${BUILD_SYSTEM_PATH}/bin
   NO_DEFAULT_PATH	
   )
-find_program(CMAKELIST_GENERATOR
-  NAMES CMakeListGenerator.exe
-  HINTS ${BUILD_SYSTEM_PATH}/bin
-  NO_DEFAULT_PATH 
-  )
+
+set(CMAKELIST_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net6/CMakeListGenerator.dll)
+
 find_program(ECLIPSECDT_GENERATOR
   NAMES EclipseCDTSettings.exe
   HINTS ${BUILD_SYSTEM_PATH}/bin
