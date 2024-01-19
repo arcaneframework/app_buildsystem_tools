@@ -17,7 +17,7 @@ function(generateCMakeLists library)
     set(path ${CMAKE_CURRENT_BINARY_DIR})
   endif()
 
-  execute_process(COMMAND ${MONO_EXEC} 
+  execute_process(COMMAND
     ${CMAKELIST_GENERATOR}
     ${library}
     ${CMAKE_CURRENT_LIST_DIR}

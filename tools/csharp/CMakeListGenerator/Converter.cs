@@ -12,8 +12,11 @@ namespace CMakeListGenerator
     public Converter (bool force_overwrite, String libname, String path, String outpath, bool recurse)
     {
       System.IO.Directory.CreateDirectory (outpath);
+	Console.WriteLine("avant initialize");
 
       Makefile makefile = Initialize<Makefile> (Path.Combine(path,"config.xml"), "CMakeListGenerator.Makefile.xsd");
+
+Console.WriteLine("apres initialize");
 
       String cmake_file = Path.Combine (outpath, "CMakeLists.txt");
 
@@ -80,7 +83,7 @@ namespace CMakeListGenerator
           Console.Error.WriteLine("Please, check your xml files and reconfigure!");
         }
       }
-      
+      if (model == null) Console.WriteLine("modele null");
       return model;
     }
   }
