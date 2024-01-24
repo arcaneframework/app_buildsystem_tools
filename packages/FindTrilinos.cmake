@@ -28,17 +28,20 @@ SET(Trilinos_DIR ${TRILINOS_ROOT})
 SET(CMAKE_PREFIX_PATH ${Trilinos_PREFIX} ${CMAKE_PREFIX_PATH})
 
 # Get Trilinos as one entity
-#FIND_PACKAGE(Trilinos) 
-FIND_PACKAGE(Trilinos COMPONENTS
-        Ifpack2 Anasazi Amesos2
-        # ShyLU_Node ShyLU_NodeTacho
-        MueLu NOX
-        Belos ML Ifpack Zoltan2 Pamgen Amesos Galeri AztecOO Xpetra
-        Teuchos
-        TeuchosKokkosComm TeuchosKokkosCompat
-        TeuchosRemainder TeuchosNumerics TeuchosComm TeuchosParameterList TeuchosParser TeuchosCore
-        Kokkos KokkosAlgorithms KokkosContainers
-        KokkosCore
+
+find_package(Trilinos
+        COMPONENTS
+            Ifpack2 Anasazi Amesos2
+            # ShyLU_Node ShyLU_NodeTacho
+            MueLu NOX
+            Belos ML Ifpack Zoltan2 Amesos Galeri AztecOO Xpetra
+            Teuchos
+            TeuchosKokkosComm TeuchosKokkosCompat
+            TeuchosRemainder TeuchosNumerics TeuchosComm TeuchosParameterList TeuchosParser TeuchosCore
+            Kokkos KokkosAlgorithms KokkosContainers
+            KokkosCore
+        OPTIONAL_COMPONENTS
+            Pamgen
         PATHS ${TRILINOS_ROOT}
         HINTS lib
         )
@@ -64,7 +67,6 @@ MESSAGE("End of Trilinos details\n")
 
 message("TARGET TRILINOS :${Trilinos_FOUND}")
 if (Trilinos_FOUND AND NOT TARGET trilinos)
-    #if(Trilinos_FOUND)
 
     message(" TRILINOS INCS : ${TRILINOS_INCLUDE_DIRS}")
     set(TRILINOS_INCLUDE_DIRS ${Trilinos_INCLUDE_DIR})

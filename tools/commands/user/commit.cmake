@@ -36,9 +36,9 @@ function(__commit_library target)
   # libraries 
   get_target_property(libraries ${target} BUILDSYSTEM_LIBRARIES)
 
-  message(STATUS "BUILDSYSTEM_LIBRARIES ${libraries}")
-  get_property(target_names DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
-  message(STATUS "TARGET NAMES ${target_names}")
+#  message(STATUS "BUILDSYSTEM_LIBRARIES ${libraries}")
+#  get_property(target_names DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
+#  message(STATUS "TARGET NAMES ${target_names}")
 
   list(REMOVE_DUPLICATES libraries)
 
