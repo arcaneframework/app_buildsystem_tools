@@ -49,11 +49,15 @@ if(NOT ALIEN_FOUND)
   if (ARCANEFRAMEWORK_ROOT)
     find_package(Alien REQUIRED)
   endif ()
-  find_package(ALIEN REQUIRED)
+  if (${Arcane_VERSION} VERSION_LESS "3.12.7.0")
+    find_package(ALIEN REQUIRED)
+  else ()
+    find_package(AlienPlugins REQUIRED)
+  endif ()
 
 endif()
 
-if(ALIEN_FOUND)
+if(ALIEN_FOUND OR AlienPlugins_FOUND)
 
   if(USE_ALIEN_V20)
   message(STATUS "Found ALIEN V20 at common/ALIEN")
