@@ -33,23 +33,12 @@ namespace LawCompiler
     public static XmlReaderSettings CreateXmlSettings (string file)
     {
       var settings = new XmlReaderSettings ();
-     /*  Assembly assembly = Assembly.GetExecutingAssembly();
-      using (Stream stream = assembly.GetManifestResourceStream("Gump.xsd")) {
-        XmlSchema schema = XmlSchema.Read(stream, null);
-        settings.Schemas.Add(schema);
-      }*/
-
-    /*  string pathToXsdFile = AppDomain.CurrentDomain.BaseDirectory + "Law.xsd";
-      TextReader xsdFileReader = File.OpenText(pathToXsdFile);
-      XmlSchema schema = XmlSchema.Read(xsdFileReader, null);
-      settings.Schemas.Add(schema);*/
 
       Stream stream = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Law.xsd");
       if (stream == null)
         throw new ApplicationException ("Can not find embedded schema file 'Law.xsd'");
-       XmlSchema schema = XmlSchema.Read(stream, null);
-       settings.Schemas.Add(schema);
-
+      XmlSchema schema = XmlSchema.Read(stream, null);
+      settings.Schemas.Add(schema);
 
       settings.ValidationType = ValidationType.Schema;
       settings.ValidationFlags = 

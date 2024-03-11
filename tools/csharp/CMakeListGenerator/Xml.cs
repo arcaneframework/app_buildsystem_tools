@@ -17,17 +17,6 @@ namespace CMakeListGenerator
     public static XmlReaderSettings CreateXmlSettings (string xsd1, string file)
     {
       var settings = new XmlReaderSettings ();
-/*
-      Assembly assembly = Assembly.GetExecutingAssembly();
-      using (Stream stream = assembly.GetManifestResourceStream("CMakeListGenerator.Common.xsd")) {
-        XmlSchema schema = XmlSchema.Read(stream, null);
-        settings.Schemas.Add(schema);
-      }
-      using (Stream stream = assembly.GetManifestResourceStream(xsd1)) {
-        XmlSchema schema = XmlSchema.Read(stream, null);
-        settings.Schemas.Add(schema);
-      }
-*/
 
       Stream streamCommon = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Common.xsd");
       if (streamCommon == null)

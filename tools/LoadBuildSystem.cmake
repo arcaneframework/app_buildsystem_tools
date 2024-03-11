@@ -79,17 +79,12 @@ find_program(WHOLEARCHIVE_VCPROJ_TOOL
 
 set(CMAKELIST_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net6/CMakeListGenerator.dll)
 
-find_program(ECLIPSECDT_GENERATOR
-  NAMES EclipseCDTSettings.exe
-  HINTS ${BUILD_SYSTEM_PATH}/bin
-  NO_DEFAULT_PATH 
-  )
+set(ECLIPSECDT_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net6/EclipseCDTSettings.dll)
+
 if(WIN32)
-  find_program(WINDOWS_PATH_RESOLVER_TOOL
-    NAMES WindowsPathResolver.exe
-    HINTS ${BUILD_SYSTEM_PATH}/bin
-    NO_DEFAULT_PATH 
-    )
+  set(WINDOWS_PATH_RESOLVER_TOOL dotnet ${BUILD_SYSTEM_PATH}/csharp/WindowsPathResolver/bin/Debug/net6/WindowsPathResolver.dll)
+endif()
+
 endif()
 
 # ----------------------------------------------------------------------------

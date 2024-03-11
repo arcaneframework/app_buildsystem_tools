@@ -103,5 +103,5 @@ set(XBUILD_ARGS ${XBUILD_SPECIAL_ARGS}
   "/p:OutputPath=${OutputPath}/" 
   "/p:IntermediateOutputPath=${IntermediateOutputPath}/"
   "/p:BaseIntermediateOutputPath=${IntermediateOutputPath}/")
-# JYC suppression des arguments dans le cas de dotnet 
+# suppression des arguments dans le cas de dotnet 
 unset(XBUILD_ARGS)

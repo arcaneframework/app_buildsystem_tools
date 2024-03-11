@@ -38,7 +38,8 @@ add_custom_target(dotnet_axl2cc
   COMMENT "generate axl2cc tools")
 
 install(FILES ${PROJECT_BINARY_DIR}/bin/axl2cc.exe DESTINATION bin)
-else()
+
+else(NOT USE_ARCANE_V3)
 
 # génération de axl2cc conditionnelle au début
 add_custom_target(
@@ -46,8 +47,7 @@ add_custom_target(
   ${AXL2CC}
   )
 
-endif()
-
+endif(NOT USE_ARCANE_V3)
 
 
 # répertoire de sortie des axl
