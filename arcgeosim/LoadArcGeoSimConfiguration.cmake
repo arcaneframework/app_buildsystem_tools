@@ -19,11 +19,20 @@ if(WIN32)
 endif()
 
 # includes pour simplifier
+# for git framework only
 include_directories(${PROJECT_BINARY_DIR})
+# for git framework and ShArc or svn archi
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoPhy/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoSim/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/SharedUtils/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArximCpp/src)
-
+# for ShArc and svn archi only
+include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/ArcGeoPhy/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/ArcGeoSim/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/SharedUtils/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/ArximCpp/src)
+# for Appli (e.g. Geoxim)
+include_directories(${PROJECT_BINARY_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------

@@ -57,8 +57,16 @@ loadPackage(NAME Eigen3)
 loadPackage(NAME Eigen2) 
 loadPackage(NAME Umfpack) 
 loadPackage(NAME GLPK)
+loadPackage(NAME HIGHS)
 loadPackage(NAME PreCICE)
 loadPackage(NAME ONNX)
+# Remarque
+# en attendant version unique Carnot avec ECPA
+# pour l instant la version Carnot ECPA et dans Geoxim
+if(NOT DEFINED $ENV{CARNOT_ECPA})
+loadPackage(NAME Carnot)
+endif()
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
@@ -75,8 +83,10 @@ loadPackage(NAME Arcane ESSENTIAL)
 if(TARGET arcane_full)
     add_library(arcane INTERFACE IMPORTED)
 
+    get_target_property(ARCANE_FULL_LIBRARIES arcane_full INTERFACE_LINK_LIBRARIES)
+
    set_target_properties(arcane PROPERTIES
-       INTERFACE_LINK_LIBRARIES "arcane_mpi;arcane_thread;arcane_mpithread;arcane_utils;arcane_impl;arcane_mesh;arcane_launcher;arcane_core;arcane_geometry;arcane_std;arcane_cea;arcane_materials;arcane_cea_geometric"
+       INTERFACE_LINK_LIBRARIES "${ARCANE_FULL_LIBRARIES}"
        INTERFACE_LINK_OPTIONS "-Wl,--no-as-needed"
    )
 

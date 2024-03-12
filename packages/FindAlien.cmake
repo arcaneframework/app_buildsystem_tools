@@ -11,9 +11,11 @@
 #
 # Target alien
 
-if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.13.1")
-  cmake_policy(SET CMP0074 OLD)
-endif()
+if (NOT USE_ALIEN_V20)
+    if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.13.1")
+        cmake_policy(SET CMP0074 OLD)
+    endif()
+endif ()
 
 if(USE_ALIEN_V0)
 
@@ -34,7 +36,7 @@ endif()
 
 if(NOT ALIEN_FOUND)
 
-    if (NOT ALIEN_DIR AND NOT FRAMEWORK_ROOT)
+    if (NOT ALIEN_DIR AND NOT ARCANEFRAMEWORK_ROOT)
         if (ALIEN_ROOT)
             set(ALIEN_DIR ${ALIEN_ROOT}/lib/cmake)
             message(STATUS "Loading alien : ALIEN DIR is" ${ALIEN_DIR})
@@ -44,14 +46,18 @@ if(NOT ALIEN_FOUND)
     endif ()
 
 
-  if (FRAMEWORK_ROOT)
+  if (ARCANEFRAMEWORK_ROOT)
     find_package(Alien REQUIRED)
   endif ()
-  find_package(ALIEN REQUIRED)
+  if (${Arcane_VERSION} VERSION_LESS "3.12.7.0")
+    find_package(ALIEN REQUIRED)
+  else ()
+    find_package(AlienPlugins REQUIRED)
+  endif ()
 
 endif()
 
-if(ALIEN_FOUND)
+if(ALIEN_FOUND OR AlienPlugins_FOUND)
 
   if(USE_ALIEN_V20)
   message(STATUS "Found ALIEN V20 at common/ALIEN")
