@@ -82,9 +82,11 @@ set(CMAKELIST_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/CMakeListGenerator/bi
 set(ECLIPSECDT_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net6/EclipseCDTSettings.dll)
 
 if(WIN32)
-  set(WINDOWS_PATH_RESOLVER_TOOL dotnet ${BUILD_SYSTEM_PATH}/csharp/WindowsPathResolver/bin/Debug/net6/WindowsPathResolver.dll)
-endif()
-
+  find_program(WINDOWS_PATH_RESOLVER_TOOL
+    NAMES WindowsPathResolver.exe
+    HINTS ${BUILD_SYSTEM_PATH}/bin
+    NO_DEFAULT_PATH	
+  )
 endif()
 
 # ----------------------------------------------------------------------------
