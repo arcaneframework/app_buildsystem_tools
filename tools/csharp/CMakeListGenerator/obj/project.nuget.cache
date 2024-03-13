@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "NoYq7kV2e6oGsOxZjIGDOoLLdfILUFMhZGcC4K8xmcPM0Bl6zIOG1OKFDw2g/8Q5cX2mrzMJwCigohIB2PkagQ==",
+  "success": true,
+  "projectFilePath": "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/CMakeListGenerator.csproj",
+  "expectedPackageFiles": [
+    "/work/gaynor/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
