@@ -1,8 +1,14 @@
-include(${BUILD_SYSTEM_PATH}/languages/axl/LoadArcaneAxl.cmake)
-include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxl2ccT4.cmake)
-#include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxl2cc.cmake)
-include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxlCopy.cmake)
-include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxlDoc.cmake)
+if (NOT USE_ARCANE_V3)
+  include(${BUILD_SYSTEM_PATH}/languages/axl/LoadArcaneAxl.cmake)
+endif()
+#if (NOT USE_ARCANE_V3)
+  #include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxl2ccT4.cmake)
+  include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxl2cc.cmake)
+#endif()
+if (NOT USE_ARCANE_V3)
+  include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxlCopy.cmake)
+  #include(${BUILD_SYSTEM_PATH}/languages/axl/LoadAxlDoc.cmake)
+endif()
 
 set(axl_share_path ${CMAKE_BINARY_DIR}/share/axl)
 
@@ -31,6 +37,14 @@ function(generateAxl target)
   else()
     set(verbose_args "--verbose=0")
   endif()
+  
+  if(AXL2CC)
+    set(MY_AXL2CC ${AXL2CC})
+  elseif(AXL2CCT4)
+    set(MY_AXL2CC ${AXL2CCT4})
+  else()
+    logFatalError("AXL2CC or AXL2CCT4 vatiable not set")
+  endif()
 
   foreach(axl_file ${axl})
 
@@ -58,72 +72,58 @@ function(generateAxl target)
         logFatalError("axl file ${file} doesn't exist")
       endif()
     endif()
-    if(AXL2CCT4)
-      if(ARGS_NAMESPACE)
-        set(namespace ${ARGS_NAMESPACE})
-      else()
-        set(namespace "Arcane")
-      endif()
-      if(ARGS_NO_ARCANE)
-        set(with_arcane no)
-      else()
-        set(with_arcane yes)
-      endif()
-      if(ARGS_NO_MESH)
-        set(with_mesh no)
-      else()
-        set(with_mesh yes)
-      endif()
 
-      set(COMMENT_MESSAGE)
-
-      if(ARGS_AXL_OPTION_GENERATION_MODE STREQUAL "ALL")
-        set(options_generation_mode all)
-        set(generated_files ${axl_path}/${name}_axl.h
-                ${axl_path}/${name}_IOptions.h
-                ${axl_path}/${name}_StrongOptions.h
-                ${axl_path}/${name}_CaseOptionsT.h)
-            set(COMMENT_MESSAGE "Building AXL generated file ${name}_axl.h [CaseOptions + StrongOptions]")
-      elseif(ARGS_AXL_OPTION_GENERATION_MODE STREQUAL "STRONG_OPTIONS_ONLY")
-        set(options_generation_mode strongoption)
-        set(generated_files ${axl_path}/${name}_axl.h
-              ${axl_path}/${name}_IOptions.h
-              ${axl_path}/${name}_StrongOptions.h)
-        set(COMMENT_MESSAGE "Building AXL generated file ${name}_axl.h [StrongOptions]")
-      else()
-        set(options_generation_mode caseoption)
-        set(generated_files ${axl_path}/${name}_axl.h)
-        set(COMMENT_MESSAGE "Building AXL generated file ${name}_axl.h [CaseOptions]")
-      endif()
-      add_custom_command(
-        OUTPUT  ${generated_files}
-          DEPENDS ${file} axl
-          COMMAND ${AXL2CC} 
-          ARGS    ${header_args}
-                  ${copy_args}
-                  ${output_args}
-                  ${verbose_args}
-                  --gen-target ${options_generation_mode}
-                  --namespace-simple-types ${namespace}
-                  --with-arcane ${with_arcane}
-                  --with-mesh ${with_mesh}
-                  ${file}
-          COMMENT ${COMMENT_MESSAGE}
-      )
+	if(ARGS_NAMESPACE)
+      set(namespace ${ARGS_NAMESPACE})
     else()
-      set(generated_files ${axl_path}/${name}_axl.h)
-       add_custom_command(
-        OUTPUT  ${generated_files}
-          DEPENDS ${file} axl
-          COMMAND ${AXL2CC} 
-          ARGS    ${header_args}
-                  ${copy_args}
-                  ${output_args}
-                  ${verbose_args}
-                  ${file}
-          COMMENT "Building AXL header ${PROJECT_NAME}/axl/${name}_axl.h"
-      )
+      set(namespace "Arcane")
     endif()
+    if(ARGS_NO_ARCANE)
+      set(with_arcane no)
+    else()
+      set(with_arcane yes)
+    endif()
+    if(ARGS_NO_MESH)
+      set(with_mesh no)
+    else()
+      set(with_mesh yes)
+    endif()
+
+    set(COMMENT_MESSAGE)
+
+    if(ARGS_AXL_OPTION_GENERATION_MODE STREQUAL "ALL")
+      set(options_generation_mode all)
+      set(generated_files ${axl_path}/${name}_axl.h
+            ${axl_path}/${name}_IOptions.h
+            ${axl_path}/${name}_StrongOptions.h
+            ${axl_path}/${name}_CaseOptionsT.h)
+        set(COMMENT_MESSAGE "Building AXL generated file ${name}_axl.h [CaseOptions + StrongOptions]")
+    elseif(ARGS_AXL_OPTION_GENERATION_MODE STREQUAL "STRONG_OPTIONS_ONLY")
+      set(options_generation_mode strongoption)
+      set(generated_files ${axl_path}/${name}_axl.h
+          ${axl_path}/${name}_IOptions.h
+          ${axl_path}/${name}_StrongOptions.h)
+      set(COMMENT_MESSAGE "Building AXL generated file ${name}_axl.h [StrongOptions]")
+    else()
+      set(options_generation_mode caseoption)
+      set(generated_files ${axl_path}/${name}_axl.h)
+      set(COMMENT_MESSAGE "Building AXL generated file ${name}_axl.h [CaseOptions]")
+    endif()
+    add_custom_command(
+      OUTPUT  ${generated_files}
+        DEPENDS ${file} axl
+        COMMAND ${MY_AXL2CC} 
+        ARGS    ${header_args}
+                ${copy_args}
+                ${output_args}
+                ${verbose_args}
+                --gen-target ${options_generation_mode}
+                --namespace-simple-types ${namespace}
+                --with-arcane ${with_arcane}
+                --with-mesh ${with_mesh}
+                ${file}
+        COMMENT ${COMMENT_MESSAGE}
+    )
 
     foreach(generated_file ${generated_files})
       set_source_files_properties(

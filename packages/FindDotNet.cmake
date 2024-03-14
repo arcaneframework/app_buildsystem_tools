@@ -92,9 +92,16 @@ else()
   set(OutputPath ${PROJECT_BINARY_DIR}/dotnet/bin/${CMAKE_BUILD_TYPE})
   set(IntermediateOutputPath ${PROJECT_BINARY_DIR}/dotnet/obj/${CMAKE_BUILD_TYPE})
 
+# on force dotnet au lieu de mono
+  set(XBUILD dotnet publish)
+
+
 endif()
+
 
 set(XBUILD_ARGS ${XBUILD_SPECIAL_ARGS}
   "/p:OutputPath=${OutputPath}/" 
   "/p:IntermediateOutputPath=${IntermediateOutputPath}/"
   "/p:BaseIntermediateOutputPath=${IntermediateOutputPath}/")
+# suppression des arguments dans le cas de dotnet 
+unset(XBUILD_ARGS)

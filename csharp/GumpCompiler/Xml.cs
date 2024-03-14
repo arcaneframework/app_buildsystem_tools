@@ -17,11 +17,13 @@ namespace GumpCompiler
     public static XmlReaderSettings CreateXmlSettings (string file)
     {
       var settings = new XmlReaderSettings ();
-      Assembly assembly = Assembly.GetExecutingAssembly();
-      using (Stream stream = assembly.GetManifestResourceStream("Gump.xsd")) {
-        XmlSchema schema = XmlSchema.Read(stream, null);
-        settings.Schemas.Add(schema);
-      }
+
+      Stream stream = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Gump.xsd");
+      if (stream == null)
+        throw new ApplicationException ("Can not find embedded schema file 'Gump.xsd'");
+      XmlSchema schema = XmlSchema.Read(stream, null);
+      settings.Schemas.Add(schema);
+
       settings.ValidationType = ValidationType.Schema;
       settings.ValidationFlags = 
         XmlSchemaValidationFlags.ProcessIdentityConstraints |

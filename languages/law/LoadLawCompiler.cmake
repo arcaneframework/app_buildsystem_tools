@@ -1,17 +1,12 @@
 if(${VERBOSE})
-  logStatus("    ** Generate LawCompiler.exe")
+  logStatus("    ** Generate LawCompiler.dll")
 endif()
 	
 add_custom_command(
-  OUTPUT  ${OutputPath}/LawCompiler.exe
+  OUTPUT  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/Debug/net6/LawCompiler.dll
   COMMAND ${XBUILD} 
   ARGS    ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/LawCompiler.csproj ${XBUILD_ARGS} 
   DEPENDS ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/LawCompiler.csproj
-  )
-   
-bundle(
-  BUNDLE ${PROJECT_BINARY_DIR}/bin/LawCompiler.exe 
-  EXE    ${OutputPath}/LawCompiler.exe
   )
 
 add_custom_command(
@@ -23,10 +18,24 @@ add_custom_command(
 
 # generation de LawCompiler conditionnelle au debut
 add_custom_target(
-  law ALL DEPENDS 
-  ${PROJECT_BINARY_DIR}/bin/LawCompiler.exe
+  law_init ALL DEPENDS 
+  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/Debug/net6/LawCompiler.dll
   ${PROJECT_BINARY_DIR}/share/law.xsd
   )
+
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bin/LawCompiler)
+
+add_custom_target(law_copy_binary ALL
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/Debug/net6/publish
+  ${PROJECT_BINARY_DIR}/bin/LawCompiler
+ )
+
+add_dependencies(law_copy_binary law_init)
+
+add_custom_target(law ALL)
+
+add_dependencies(law law_copy_binary)
 
 # on cree une target pour pouvoir ecrire 
 # /> make LawCompiler
@@ -34,12 +43,10 @@ add_custom_target(dotnet_LawCompiler
   COMMAND ${XBUILD} ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/LawCompiler.csproj ${XBUILD_ARGS}
   COMMENT "generate LawCompiler tools")
 
-install(FILES ${PROJECT_BINARY_DIR}/bin/LawCompiler.exe DESTINATION bin)
-
 # repertoire de sortie des law
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/share/law)
 
 # installation de la xsd des fichiers law
 install(FILES ${PROJECT_BINARY_DIR}/share/law.xsd DESTINATION share)
 
-set(LAWCOMPILER ${PROJECT_BINARY_DIR}/bin/LawCompiler.exe)
+set(LAWCOMPILER dotnet ${PROJECT_BINARY_DIR}/bin/LawCompiler/LawCompiler.dll)

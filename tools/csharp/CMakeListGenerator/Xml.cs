@@ -17,15 +17,20 @@ namespace CMakeListGenerator
     public static XmlReaderSettings CreateXmlSettings (string xsd1, string file)
     {
       var settings = new XmlReaderSettings ();
-      Assembly assembly = Assembly.GetExecutingAssembly();
-      using (Stream stream = assembly.GetManifestResourceStream("CMakeListGenerator.Common.xsd")) {
-        XmlSchema schema = XmlSchema.Read(stream, null);
-        settings.Schemas.Add(schema);
-      }
-      using (Stream stream = assembly.GetManifestResourceStream(xsd1)) {
-        XmlSchema schema = XmlSchema.Read(stream, null);
-        settings.Schemas.Add(schema);
-      }
+
+      Stream streamCommon = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Common.xsd");
+      if (streamCommon == null)
+        throw new ApplicationException ("Can not find embedded schema file 'Common.xsd'");
+       XmlSchema schema = XmlSchema.Read(streamCommon, null);
+       settings.Schemas.Add(schema);
+
+      Stream streamMain  = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Makefile.xsd");
+      if (streamMain == null)
+        throw new ApplicationException ("Can not find embedded schema file");
+       XmlSchema schemaCommon = XmlSchema.Read(streamMain, null);
+       settings.Schemas.Add(schemaCommon);
+
+
       settings.ValidationType = ValidationType.Schema;
       settings.ValidationFlags = 
         XmlSchemaValidationFlags.ProcessIdentityConstraints |
