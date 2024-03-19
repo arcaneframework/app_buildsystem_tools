@@ -3,13 +3,6 @@ if(${VERBOSE})
 endif()
 	
 add_custom_command(
-  OUTPUT  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/Debug/net6/LawCompiler.dll
-  COMMAND ${XBUILD} 
-  ARGS    ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/LawCompiler.csproj ${XBUILD_ARGS} 
-  DEPENDS ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/LawCompiler.csproj
-  )
-
-add_custom_command(
   OUTPUT  ${PROJECT_BINARY_DIR}/share/law.xsd
   COMMAND ${CMAKE_COMMAND} -E 
   copy_if_different ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/Law.xsd ${PROJECT_BINARY_DIR}/share/law.xsd
@@ -19,7 +12,6 @@ add_custom_command(
 # generation de LawCompiler conditionnelle au debut
 add_custom_target(
   law_init ALL DEPENDS 
-  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/Debug/net6/LawCompiler.dll
   ${PROJECT_BINARY_DIR}/share/law.xsd
   )
 

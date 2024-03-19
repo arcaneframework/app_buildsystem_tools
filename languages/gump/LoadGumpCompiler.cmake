@@ -3,13 +3,6 @@ if(${VERBOSE})
 endif()
 	
 add_custom_command(
-  OUTPUT  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/bin/Debug/net6/GumpCompiler.dll
-  COMMAND ${XBUILD} 
-  ARGS    ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/GumpCompiler.csproj ${XBUILD_ARGS} 
-  DEPENDS ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/GumpCompiler.csproj
-  )
-
-add_custom_command(
   OUTPUT  ${PROJECT_BINARY_DIR}/share/gump.xsd
   COMMAND ${CMAKE_COMMAND} -E 
   copy_if_different ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/Gump.xsd ${PROJECT_BINARY_DIR}/share/gump.xsd
@@ -19,7 +12,6 @@ add_custom_command(
 # generation de GumpCompiler conditionnelle au debut
 add_custom_target(
   gump_init ALL DEPENDS 
-  ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/bin/Debug/net6/GumpCompiler.dll
   ${PROJECT_BINARY_DIR}/share/gump.xsd
   )
 
