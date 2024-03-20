@@ -119,9 +119,12 @@ endif()
 # Les macros définies sont MPI_ROOT et IFORT_ROOT
 
 # D'abord on cherche mpiifort
-
 if(NOT MPI_ROOT)
-  set(MPI_ROOT $ENV{MPI_ROOT})
+  if(DEFINED ENV{I_MPI_ROOT})
+    set(MPI_ROOT $ENV{I_MPI_ROOT})
+  else()
+    set(MPI_ROOT $ENV{MPI_ROOT})
+  endif()
 endif()
 if(MPI_ROOT)
   set(_MPI_SEARCH_OPTS NO_DEFAULT_PATH)
