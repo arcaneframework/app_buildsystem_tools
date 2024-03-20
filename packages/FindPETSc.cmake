@@ -65,7 +65,7 @@ if(NOT PETSC_FOUND)
  
   find_path(PETSC_INCLUDE_DIR petsc.h
   HINTS ${PETSC_ROOT} 
-		PATH_SUFFIXES include
+  PATH_SUFFIXES include
   ${_PETSC_SEARCH_OPTS}
   )
   mark_as_advanced(PETSC_INCLUDE_DIR)
@@ -78,7 +78,7 @@ if(NOT PETSC_FOUND)
      set(PKG_CONFIG_PATH ${PETSC_ROOT}/lib/pkgconfig)
      pkg_check_modules(PKG_PETSC PETSc)
      message(STATUS "Infos from pkg_check_modules")
-	 message(STATUS "PKGCONFIG PATH               = ${CMAKE_PREFIX_PATH}")
+     message(STATUS "PKGCONFIG PATH               = ${CMAKE_PREFIX_PATH}")
      message(STATUS "PKG_PETSC_INCLUDE_DIRS       = ${PKG_PETSC_INCLUDE_DIRS}")
      message(STATUS "PKG_PETSC_LIBRARIES          = ${PKG_PETSC_LIBRARIES}")
      message(STATUS "PKG_PETSC_LIBRARIES          = ${PKG_PETSC_STATIC_LIBRARIES}")
@@ -122,6 +122,9 @@ if(PETSC_FOUND AND NOT TARGET petsc)
   set(PETSC_LIBRARIES ${PETSC_LIBRARY})
 
   include(CheckPrototypeDefinition)
+  
+  SET(CMAKE_REQUIRED_INCLUDES ${PETSC_INCLUDE_DIR})
+  SET(CMAKE_REQUIRED_QUIET FALSE)
   
   check_prototype_definition(
     VecDestroy 
@@ -191,11 +194,27 @@ if(PETSC_FOUND AND NOT TARGET petsc)
 
   check_prototype_definition(
      KSPSetNullSpace
-     "PetscErrorCode KSPSetNullSpace(KSP ksp,MatNullSpace nullsp);" 0 "petsc.h;petscksp.h"
+     "PetscErrorCode KSPSetNullSpace(KSP ksp,MatNullSpace nullsp);" 
+     0 
+     "petsc.h;petscksp.h"
      PETSC_HAVE_KSPSETNULLSPACE
      )
+     
+  check_prototype_definition(
+    MatSetBlockSize 
+    "PETSC_EXTERN PetscErrorCode MatSetBlockSize(Mat,PetscInt);" 
+    0 
+    "petsc.h;petscmat.h"
+    PETSC_HAVE_MATSETBLOCKSIZE
+  )
 
-  message(status "CHECK PROTOTYPE PETSC_OPTIONSSETVALUE_NEW : ${PETSC_OPTIONSSETVALUE_NEW}")
+  check_prototype_definition(
+    VecSetBlockSize 
+    "PETSC_EXTERN PetscErrorCode VecSetBlockSize(Vec m, PetscInt blk_size);"
+    0 
+    "petsc.h;petscvec.h"
+    PETSC_HAVE_VECSETBLOCKSIZE
+  )
   # petsc main
 	  
   add_library(petsc_main UNKNOWN IMPORTED)
