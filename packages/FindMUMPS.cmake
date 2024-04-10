@@ -97,13 +97,14 @@ if(NOT MUMPS_FOUND)
     #             HINTS $ENV{MUMPS_ROOT} 
     #             PATH_SUFFIXES lib
     #             ${_MUMPS_SEARCH_OPTS})
-      
+
+    set(CMAKE_FIND_DEBUG_MODE ON)
     find_library(GFORTRAN_LIBRARY
-      NAMES libgfortran.so
+      NAMES gfortran
       HINTS $ENV{GCCCORE_ROOT} 
       PATH_SUFFIXES lib64
       ${_MUMPS_SEARCH_OPTS})
-    
+    set(CMAKE_FIND_DEBUG_MODE OFF)
   else()
     
     find_library(DMUMPS_LIBRARY
