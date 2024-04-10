@@ -21,6 +21,7 @@ else()
   set(_CUDA_SEARCH_OPTS)
 endif()
 
+find_package(CUDAToolkit REQUIRED)
 if(NOT CUDA_FOUND) 
 
   find_library(CUBLAS_LIBRARY 
