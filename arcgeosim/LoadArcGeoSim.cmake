@@ -84,6 +84,8 @@ set(Glib_USE_CMAKE_CONFIG TRUE)
 #set(Hypre_USE_CMAKE_CONFIG TRUE)
 #set(MTL4_USE_CMAKE_CONFIG TRUE)
 #set(SuperLU_USE_CMAKE_CONFIG TRUE)
+set(Neo_USE_CMAKE_CONFIG FALSE)
+set(Zoltan_USE_CMAKE_CONFIG FALSE)
 
 # parametrage par defaut
 include(LoadBuildSystem)

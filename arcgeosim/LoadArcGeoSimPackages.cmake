@@ -23,7 +23,8 @@ endif (NOT MKL_FOUND)
 # tools
 
 loadPackage(NAME LibXml2) 
-loadPackage(NAME Metis) 
+loadPackage(NAME Metis)
+loadPackage(NAME Zoltan)
 loadPackage(NAME HDF5) 
 loadPackage(NAME HWLoc)
 loadPackage(NAME TBB)
@@ -66,6 +67,8 @@ loadPackage(NAME ONNX)
 if(NOT DEFINED $ENV{CARNOT_ECPA})
 loadPackage(NAME Carnot)
 endif()
+# Dependency for polyhedral mesh
+loadPackage(NAME Neo ESSENTIAL)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
