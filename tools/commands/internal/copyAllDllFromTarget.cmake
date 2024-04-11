@@ -4,6 +4,12 @@ function(copyAllDllFromTarget target)
     logFatalError("target ${target} not defined")
   endif()
 
+  string(REPLACE "arccon::" "" target_name ${target})
+
+  set(target ${target_name})
+
+  message(STATUS "copy dll for target ${target}")
+
   string(TOUPPER ${target} TARGET)
   
   foreach(lib ${${TARGET}_LIBRARIES})
