@@ -69,6 +69,10 @@ if(HDF5_FOUND)
             INTERFACE_LINK_LIBRARIES "zlib")
 
   endif()
+
+  arccon_register_package_library(HDF5 HDF5)
+  add_library(hdf5::hdf5-shared ALIAS hdf5_main)
+
   return()
 endif()
 
@@ -214,3 +218,6 @@ if(HDF5_FOUND AND NOT TARGET hdf5)
     INTERFACE_LINK_LIBRARIES "zlib")
   
 endif()
+
+arccon_register_package_library(HDF5 HDF5)
+add_library(hdf5::hdf5-shared ALIAS hdf5_main)
