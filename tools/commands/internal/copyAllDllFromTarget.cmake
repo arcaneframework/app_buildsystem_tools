@@ -11,7 +11,35 @@ function(copyAllDllFromTarget target)
   message(STATUS "copy dll for target ${target}")
 
   string(TOUPPER ${target} TARGET)
-  
+
+  # Handle Arcane libs with Arcane 3: this function wants a list of path prefixed libs while target only contains libs names (arcane_mpi...)
+  if (${target} STREQUAL "Arcane::arcane_full")
+    unset(${TARGET}_LIBRARIES)
+    # Build Arcane library list for dll copy
+    get_target_property(${target}_LIBRARIES ${target} INTERFACE_LINK_LIBRARIES)
+    foreach (lib ${${target}_LIBRARIES})
+      # change Arccane::arcane_lib (mpi, core, ...) into arcane_lib (mpi,core...)
+      string(REPLACE "Arcane::" "" lib_name ${lib})
+      # get full lib pat : install_path/arcane_lib
+      find_library(${lib}_LIBRARIES ${lib_name} HINTS ${ARCANE_PREFIX_DIR}/lib)
+      list(APPEND ${TARGET}_LIBRARIES ${${lib}_LIBRARIES})
+    endforeach ()
+    message(STATUS "Arcane libraries ${${TARGET}_LIBRARIES}")
+  endif ()
+
+  # Handle Arccore libs with Arcane 3: same manip than Arcane
+  if (${target} STREQUAL "Arccore::arccore_full")
+    unset(${TARGET}_LIBRARIES)
+    # Build Arccore library list for dll copy
+    get_target_property(${target}_LIBRARIES ${target} INTERFACE_LINK_LIBRARIES)
+    foreach (lib ${${target}_LIBRARIES})
+      string(REPLACE "Arccore::" "" lib_name ${lib})
+      find_library(${lib}_LIBRARIES ${lib_name} HINTS ${ARCANE_PREFIX_DIR}/lib)
+      list(APPEND ${TARGET}_LIBRARIES ${${lib}_LIBRARIES})
+    endforeach ()
+    message(STATUS "Arcane libraries ${${TARGET}_LIBRARIES}")
+  endif ()
+
   foreach(lib ${${TARGET}_LIBRARIES})
     if(${lib} STREQUAL optimized)
       continue()
