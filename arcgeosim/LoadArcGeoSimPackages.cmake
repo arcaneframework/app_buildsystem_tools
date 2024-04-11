@@ -128,10 +128,9 @@ endif()
 
 if (TARGET arcconpkg_PETSc)
 else()
-                   add_library(arcconpkg_PETSc INTERFACE IMPORTED)
-  
-  set_property(TARGET petsc APPEND PROPERTY 
-  INTERFACE_LINK_LIBRARIES "petsc_main")
+    add_library(arcconpkg_PETSc INTERFACE IMPORTED)
+    set_property(TARGET petsc APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES "petsc_main")
 endif()
 
 if (TARGET arcconpkg_SuperLU)
