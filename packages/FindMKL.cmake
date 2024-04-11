@@ -50,6 +50,14 @@ if(NOT MKL_FOUND)
     )
   mark_as_advanced(MKL_SEQ_LIBRARY)
 
+  find_library(MKL_INTEL_THREAD_LIBRARY
+          NAMES mkl_intel_thread
+          HINTS ${MKL_ROOT}
+          PATH_SUFFIXES lib/intel64 lib/em64t
+          ${_MKL_SEARCH_OPTS}
+  )
+  mark_as_advanced(MKL_INTEL_THREAD_LIBRARY)
+
   find_library(MKL_SCALP_LIBRARY
     NAMES mkl_scalapack_lp64
     HINTS ${MKL_ROOT} 
@@ -83,9 +91,17 @@ find_package_handle_standard_args(MKL
 	MKL_INCLUDE_DIR 
 	MKL_CORE_LIBRARY 
 	MKL_LP64_LIBRARY 
-	MKL_SEQ_LIBRARY 
+	MKL_SEQ_LIBRARY
+    MKL_INTEL_THREAD_LIBRARY
 	MKL_SCALP_LIBRARY
 	MKL_BLACS_LIBRARY)
+
+# copy mkl_def.dll (no lib corresponding)
+set(EXTRA_DLLS_TO_COPY
+        ${EXTRA_DLLS_TO_COPY}
+        ${MKL_ROOT}/../redist/intel64/mkl/mkl_def.dll)
+
+
 
 if(MKL_FOUND AND NOT TARGET mkl)
   
@@ -94,6 +110,7 @@ if(MKL_FOUND AND NOT TARGET mkl)
   set(MKL_LIBRARIES ${MKL_CORE_LIBRARY}
                     ${MKL_LP64_LIBRARY}
                     ${MKL_SEQ_LIBRARY}
+                    ${MKL_INTEL_THREAD_LIBRARY}
                     ${MKL_SCALP_LIBRARY}
                     ${MKL_BLACS_LIBRARY})
   
@@ -150,7 +167,21 @@ if(MKL_FOUND AND NOT TARGET mkl)
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${MKL_SEQ_LIBRARY}"
     IMPORTED_NO_SONAME ON)
-  
+
+  # mkl thread
+  if(NOT WIN32)
+    add_library(mkl_intel_thread SHARED IMPORTED)
+  else()
+    add_library(mkl_intel_thread UNKNOWN IMPORTED)
+  endif()
+
+  set_target_properties(mkl_intel_thread PROPERTIES
+          INTERFACE_INCLUDE_DIRECTORIES "${MKL_INCLUDE_DIRS}")
+
+  set_target_properties(mkl_intel_thread PROPERTIES
+          IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+          IMPORTED_LOCATION "${MKL_INTEL_THREAD_LIBRARY}"
+          IMPORTED_NO_SONAME ON)
   # mkl scalapack lp64
 
   if(NOT WIN32)
@@ -195,6 +226,9 @@ if(MKL_FOUND AND NOT TARGET mkl)
 
   set_property(TARGET mkl APPEND PROPERTY 
     INTERFACE_LINK_LIBRARIES "mkl_sequential")
+
+  set_property(TARGET mkl APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES "mkl_intel_thread")
 
   set_property(TARGET mkl APPEND PROPERTY 
     INTERFACE_LINK_LIBRARIES "mkl_scalapack_lp64")

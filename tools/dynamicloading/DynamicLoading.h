@@ -51,11 +51,11 @@ namespace DynamicLoading
             auto* gmodule = g_module_open(path, GModuleFlags());
             g_free(path);
             if (not gmodule){
-                std::cout << " NOT FOUND\n";
+//                std::cout << " NOT FOUND\n";
                 return false;
             }
             else {
-                std::cout << " OK\n";
+//                std::cout << " OK\n";
                 m_loaded_modules.push_back(gmodule);
                 return true;
             }

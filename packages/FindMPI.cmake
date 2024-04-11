@@ -69,7 +69,7 @@ if(NOT MPI_FOUND)
     find_program(MPI_EXEC
       NAMES ${MPI_EXEC_NAME}
       HINTS ${MPI_ROOT}
-      PATH_SUFFIXES bin bin64
+      PATH_SUFFIXES bin bin64 intel64/bin
       ${_MPI_SEARCH_OPTS}
       )
   endif()
@@ -78,14 +78,14 @@ if(NOT MPI_FOUND)
   find_library(MPI_LIBRARY 
     NAMES ${MPI_LIBRARY_NAME}
     HINTS ${MPI_ROOT}
-		PATH_SUFFIXES lib lib64 lib/${CMAKE_BUILD_TYPE} lib64/${CMAKE_BUILD_TYPE}  lib/release lib/debug
+		PATH_SUFFIXES lib lib64 lib/${CMAKE_BUILD_TYPE} lib64/${CMAKE_BUILD_TYPE}  lib/release lib/debug intel64/lib/release intel64/lib/debug
 		${_MPI_SEARCH_OPTS}
   )
   mark_as_advanced(MPI_LIBRARY)
   
   find_path(MPI_INCLUDE_DIR mpi.h
-    HINTS ${MPI_ROOT} 
-		PATH_SUFFIXES include include64
+    HINTS ${MPI_ROOT}
+		PATH_SUFFIXES include include64 intel64/include
     ${_MPI_SEARCH_OPTS}
   )
   mark_as_advanced(MPI_INCLUDE_DIR)
