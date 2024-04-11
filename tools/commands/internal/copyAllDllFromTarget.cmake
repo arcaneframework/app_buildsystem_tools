@@ -52,6 +52,43 @@ function(copyAllDllFromTarget target)
     if("${path}" STREQUAL "") # lib locale ? lib systeme ?
       continue()
     endif()
+    get_filename_component(extension ${lib} EXT) # Handle static lib
+    file(GLOB dlls "${path}/*${dll}*.dll")
+    if ("${dlls}" STREQUAL "" AND ${TARGET} STREQUAL "MKL") # patch for mkl, dll are in redist directory
+      string(REPLACE "windows/mkl/lib/intel64" "windows/redist/intel64_win/mkl" path_dlls ${path})
+      set(path ${path_dlls})
+      file(GLOB dlls "${path}/*${dll}*.dll")
+    elseif ("${dlls}" STREQUAL "" AND ${TARGET} STREQUAL "IFPSOLVER") # patch for ifpsolver static lib
+      file(GLOB dlls "${path}/*${dll}*.a")
+    endif ()
+
+    get_filename_component(path ${path} PATH)
+    if("${path}" STREQUAL "") # lib locale ? lib systeme ?
+      continue()
+    endif()
+    file(GLOB lib_dlls "${path}/lib/*${dll}*.dll")
+    file(GLOB bin_dlls "${path}/bin/*${dll}*.dll")
+    file(GLOB bin_dlls2 "${path}/../bin/*${dll}*.dll")
+    list(APPEND dlls  ${bin_dlls} ${bin_dlls2} ${lib_dlls})
+    list(REMOVE_DUPLICATES dlls)
+    foreach(dll ${dlls})
+      copyOneDllFile(${dll})
+    endforeach()
+  endforeach()
+
+  # Sometimes target or TARGET. Todo : refactor, at least create a function
+  foreach(lib ${${target}_LIBRARIES})
+    if(${lib} STREQUAL optimized)
+      continue()
+    endif()
+    if(${lib} STREQUAL debug)
+      continue()
+    endif()
+    get_filename_component(dll ${lib} NAME_WE)
+    get_filename_component(path ${lib} PATH)
+    if("${path}" STREQUAL "") # lib locale ? lib systeme ?
+      continue()
+    endif()
     file(GLOB dlls "${path}/*${dll}*.dll")
     get_filename_component(path ${path} PATH)
     if("${path}" STREQUAL "") # lib locale ? lib systeme ?
@@ -59,7 +96,8 @@ function(copyAllDllFromTarget target)
     endif()
     file(GLOB lib_dlls "${path}/lib/*${dll}*.dll")
     file(GLOB bin_dlls "${path}/bin/*${dll}*.dll")
-    list(APPEND dlls ${bin_dlls} ${lib_dlls})
+    file(GLOB bin_dlls2 "${path}/../bin/*${dll}*.dll")
+    list(APPEND dlls ${bin_dlls} ${bin_dlls2} ${lib_dlls})
     list(REMOVE_DUPLICATES dlls)
     foreach(dll ${dlls})
       copyOneDllFile(${dll})
