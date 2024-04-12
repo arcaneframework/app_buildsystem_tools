@@ -180,38 +180,6 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
       INTERFACE_LINK_LIBRARIES "ALIEN-ExternalPackages")
   endif()
 
-  # Only for vs15 2017
-  if(MSVC_VERSION GREATER 1900)
-      if(TARGET hypre)
-        get_target_property(HYPRE_LIBRARY hypre IMPORTED_LOCATION)
-        get_filename_component(HYPRE_DIR ${HYPRE_LIBRARY} DIRECTORY)
-        set(HYPRE_DLL_DIR "${HYPRE_DIR}")
-        set(EXTRA_DLLS_TO_COPY 
-           ${EXTRA_DLLS_TO_COPY}
-           ${HYPRE_DLL_DIR}/hypre.dll)
-      endif()
-      if(TARGET petsc)
-        get_target_property(PETSC_LIBRARY petsc_main IMPORTED_LOCATION)
-        get_filename_component(PETSC_DIR ${PETSC_LIBRARY} DIRECTORY)
-        set(PETSC_DLL_DIR "${PETSC_DIR}")
-        # We need to add superlu, superlu_dist and its dependency
-         set(EXTRA_DLLS_TO_COPY 
-           ${EXTRA_DLLS_TO_COPY}
-           //irfich3/R11-Group/Rt40_50_prj/D/D1653_Arcane/Public/Windows64/Softs/superlu/5.2.1-vs15/${CMAKE_BUILD_TYPE}/lib/libsuperlu_5.2.dll
-           //irfich3/R11-Group/Rt40_50_prj/D/D1653_Arcane/Public/Windows64/Softs/superlu_dist/5.4.0-vs15/${CMAKE_BUILD_TYPE}/lib/superlu_dist.dll
-           //irfich3/R11-Group/Rt40_50_prj/D/D1653_Arcane/Public/Windows64/Softs/superlu_dist/5.4.0-vs15/${CMAKE_BUILD_TYPE}/lib/blas.dll
-           ${PETSC_DLL_DIR}/libpetsc.dll)
-      endif()
-      if(TARGET ifpsolver_main)
-        get_target_property(IFPSOLVER_LIBRARY ifpsolver_main IMPORTED_LOCATION)
-        get_target_property(IFPSOLVER_DOMAINDECOMP_LIBRARY ifpsolver_domaindecomp IMPORTED_LOCATION)
-        # We need to add ifpsolver_decomp
-         set(EXTRA_DLLS_TO_COPY 
-           ${EXTRA_DLLS_TO_COPY}
-           ${IFPSOLVER_LIBRARY}
-           ${IFPSOLVER_DOMAINDECOMP_LIBRARY})
-      endif()
-  endif()
   if(USE_ALIEN_V20)
     add_definitions(-DUSE_ALIEN_V2)
     add_definitions(-DUSE_ALIEN_V20)

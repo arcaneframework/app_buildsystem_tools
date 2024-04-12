@@ -15,6 +15,10 @@ if(NOT LIBXML2_ROOT)
   set(LIBXML2_ROOT $ENV{LIBXML2_ROOT})
 endif()
 
+if(NOT ICONV_ROOT)
+    set(ICONV_ROOT $ENV{ICONV_ROOT})
+endif()
+
 if(LIBXML2_ROOT)
   set(_LIBXML2_SEARCH_OPTS NO_DEFAULT_PATH)
 else()
@@ -25,24 +29,24 @@ if(NOT LIBXML2_FOUND)
 
   if(WIN32)
     find_library(LIBXML2_LIBRARY 
-      NAMES xml2
+      NAMES xml2 libxml2
       HINTS ${LIBXML2_ROOT}
-      PATH_SUFFIXES lib VC12/lib
+      PATH_SUFFIXES lib VC12/lib bin
       ${_LIBXML2_SEARCH_OPTS}
       )
     mark_as_advanced(LIBXML2_LIBRARY)
   
     find_path(LIBXML2_INCLUDE_DIR libxml/parser.h
       HINTS ${LIBXML2_ROOT} 
-      PATH_SUFFIXES include
+      PATH_SUFFIXES include/libxml2
       ${_LIBXML2_SEARCH_OPTS}
       )
     mark_as_advanced(LIBXML2_INCLUDE_DIR)
   
     find_library(ICONV_LIBRARY 
-      NAMES iconv
+      NAMES iconv iconv-2
       HINTS ${ICONV_ROOT}
-      PATH_SUFFIXES lib VC12/lib
+      PATH_SUFFIXES lib VC12/lib bin
       ${_LIBXML2_SEARCH_OPTS}
       )
     mark_as_advanced(ICONV_LIBRARY)
@@ -78,7 +82,7 @@ endif()
 # pour limiter le mode verbose
 set(Libxml2_FIND_QUIETLY ON)
 
-find_package_handle_standard_args(Libxml2 
+find_package_handle_standard_args(LibXml2
 	DEFAULT_MSG 
 	LIBXML2_INCLUDE_DIR 
 	LIBXML2_LIBRARY)

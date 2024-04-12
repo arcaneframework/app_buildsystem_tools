@@ -1,7 +1,7 @@
 set(HIGHS_NAME "highs")
 
 set(HIGHS_ROOT $ENV{HIGHS_ROOT})
-message(status "FIND HIGHS : ${HIGHS_ROOT}")
+message(STATUS "FIND HIGHS : ${HIGHS_ROOT}")
 
 if(HIGHS_ROOT)
   set(_HIGHS_SEARCH_OPTS NO_DEFAULT_PATH)

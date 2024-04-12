@@ -24,7 +24,7 @@ endif()
 if(NOT SUPERLU_FOUND)
 
   find_library(SUPERLU_LIBRARY
-    NAMES superlu_3.1 superlu_4.0 superlu
+    NAMES superlu_3.1 superlu_4.0 superlu libsuperlu_5.2
     HINTS ${SUPERLU_ROOT} 
     PATH_SUFFIXES lib
     ${_SUPERLU_SEARCH_OPTS}
