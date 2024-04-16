@@ -1,0 +1,15 @@
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.deps.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.runtimeconfig.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/bin/Debug/net6/ref/WholeArchiveVCProj.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.csproj.AssemblyReference.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.GeneratedMSBuildEditorConfig.editorconfig
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.AssemblyInfoInputs.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.AssemblyInfo.cs
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.csproj.CoreCompileInputs.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/ref/WholeArchiveVCProj.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/Debug/net6/WholeArchiveVCProj.genruntimeconfig.cache
