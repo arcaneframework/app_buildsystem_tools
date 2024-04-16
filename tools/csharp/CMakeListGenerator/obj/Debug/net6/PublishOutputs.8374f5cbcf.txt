@@ -1,6 +1,0 @@
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/bin/Debug/net6/publish/CMakeListGenerator
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/bin/Debug/net6/publish/CMakeListGenerator.dll
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/bin/Debug/net6/publish/CMakeListGenerator.deps.json
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/bin/Debug/net6/publish/CMakeListGenerator.runtimeconfig.json
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/bin/Debug/net6/publish/CMakeListGenerator.pdb
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/CMakeListGenerator/bin/Debug/net6/publish/System.CodeDom.dll
