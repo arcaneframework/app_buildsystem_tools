@@ -2,7 +2,7 @@
 # Find the MPI includes and library
 #
 # This module uses
-# MPI_ROOT
+# MPI_ROOT I_MPI_ROOT
 #
 # This module defines
 # MPI_FOUND
@@ -31,7 +31,11 @@ if(MPI_FOUND)
 endif()
 
 if(NOT MPI_ROOT)
-  set(MPI_ROOT $ENV{MPI_ROOT})
+  if(DEFINED ENV{I_MPI_ROOT})
+    set(MPI_ROOT $ENV{I_MPI_ROOT})
+  else()
+    set(MPI_ROOT $ENV{MPI_ROOT})
+  endif()
 endif()
 
 if(MPI_ROOT)
@@ -57,7 +61,6 @@ logStatus("MPI_FOUND            : ${MPI_FOUND}")
 logStatus("MPI_BIN_FROM_ENV     : ${MPI_BIN_FROM_ENV}")
 logStatus("MPI_EXEC             : ${MPI_EXEC}")
 if(NOT MPI_FOUND)
-
   if(MPI_BIN_FROM_ENV)
     # on cherche mpiexec dans l'environnement
 	find_program(MPI_EXEC ${MPI_EXEC_NAME})
@@ -66,7 +69,7 @@ if(NOT MPI_FOUND)
     find_program(MPI_EXEC
       NAMES ${MPI_EXEC_NAME}
       HINTS ${MPI_ROOT}
-      PATH_SUFFIXES bin bin64
+      PATH_SUFFIXES bin bin64 intel64/bin
       ${_MPI_SEARCH_OPTS}
       )
   endif()
@@ -75,14 +78,14 @@ if(NOT MPI_FOUND)
   find_library(MPI_LIBRARY 
     NAMES ${MPI_LIBRARY_NAME}
     HINTS ${MPI_ROOT}
-		PATH_SUFFIXES lib lib64 lib/${CMAKE_BUILD_TYPE} lib64/${CMAKE_BUILD_TYPE}  lib/release lib/debug
+		PATH_SUFFIXES lib lib64 lib/${CMAKE_BUILD_TYPE} lib64/${CMAKE_BUILD_TYPE}  lib/release lib/debug intel64/lib/release intel64/lib/debug
 		${_MPI_SEARCH_OPTS}
   )
   mark_as_advanced(MPI_LIBRARY)
   
   find_path(MPI_INCLUDE_DIR mpi.h
-    HINTS ${MPI_ROOT} 
-		PATH_SUFFIXES include include64
+    HINTS ${MPI_ROOT}
+		PATH_SUFFIXES include include64 intel64/include
     ${_MPI_SEARCH_OPTS}
   )
   mark_as_advanced(MPI_INCLUDE_DIR)

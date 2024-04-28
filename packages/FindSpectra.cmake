@@ -24,7 +24,7 @@ if(NOT SPECTRA_FOUND)
 
   find_path(SPECTRA_INCLUDE_DIR SymGEigsSolver.h
     HINTS ${SPECTRA_ROOT} 
-		PATH_SUFFIXES include include
+		PATH_SUFFIXES include include/Spectra
     ${_SPECTRA_SEARCH_OPTS}
     )
   mark_as_advanced(SPECTRA_INCLUDE_DIR)

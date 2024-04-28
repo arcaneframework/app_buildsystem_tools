@@ -23,7 +23,8 @@ endif (NOT MKL_FOUND)
 # tools
 
 loadPackage(NAME LibXml2) 
-loadPackage(NAME Metis) 
+loadPackage(NAME Metis)
+loadPackage(NAME Zoltan)
 loadPackage(NAME HDF5) 
 loadPackage(NAME HWLoc)
 loadPackage(NAME TBB)
@@ -66,6 +67,8 @@ loadPackage(NAME ONNX)
 if(NOT DEFINED $ENV{CARNOT_ECPA})
 loadPackage(NAME Carnot)
 endif()
+# Dependency for polyhedral mesh
+loadPackage(NAME Neo ESSENTIAL)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
@@ -75,10 +78,8 @@ endif()
 # NB: en avant-dernier car arcane charge eventuellement d'autres packages
 #     si le package existe deja, on ne fait rien
 
-if(USE_ARCANE_V3)
-  loadPackage(NAME Arccore ESSENTIAL)
-  loadPackage(NAME Axlstar ESSENTIAL) 
-endif()
+loadPackage(NAME Arccore ESSENTIAL)
+loadPackage(NAME Axlstar ESSENTIAL) 
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
     add_library(arcane INTERFACE IMPORTED)
@@ -93,10 +94,7 @@ if(TARGET arcane_full)
     set_target_properties(arcane PROPERTIES 
         INTERFACE_INCLUDE_DIRECTORIES "${Arcane_INCLUDE_DIRS}")
 
-    if(USE_ARCANE_V3)
-      target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)
-      #add_definitions(USE_ARCANE_V3)
-    endif()        
+    target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)     
 else()
   message(status "TARGET ARCANE_FULL NOT FOUND")
 endif()
@@ -109,7 +107,6 @@ endif()
 #     si le package existe deja, on ne fait rien
 loadPackage(NAME Alien)
 
-if(USE_ARCANE_V3)
 # arccon fix
 if (TARGET arcconpkg_Hypre)
 else()
@@ -125,10 +122,9 @@ endif()
 
 if (TARGET arcconpkg_PETSc)
 else()
-                   add_library(arcconpkg_PETSc INTERFACE IMPORTED)
-  
-  set_property(TARGET petsc APPEND PROPERTY 
-  INTERFACE_LINK_LIBRARIES "petsc_main")
+    add_library(arcconpkg_PETSc INTERFACE IMPORTED)
+    set_property(TARGET petsc APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES "petsc_main")
 endif()
 
 if (TARGET arcconpkg_SuperLU)
@@ -176,7 +172,7 @@ else()
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${HDF5_LIBRARY}")
 endif()
-endif()
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 

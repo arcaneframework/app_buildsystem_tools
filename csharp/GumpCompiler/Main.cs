@@ -173,7 +173,7 @@ namespace GumpCompiler
       }
 
       { // Type de Entités
-        var gen = new EntityKind ();
+        var gen = new EntityKindT4 ();
         gen.Session = session;
         var file = path + "Entities/EntityKind.h";
         if (verbose) {
@@ -215,7 +215,7 @@ namespace GumpCompiler
       }
 
       { // Toutes les entités
-        var gen = new AllEntities ();
+        var gen = new AllEntitiesT4 ();
         gen.Session = session;
         var file = path + "Entities.h";
         if (verbose) {
@@ -229,7 +229,7 @@ namespace GumpCompiler
       }
 
       { // Toutes les propriétés
-        var gen = new AllProperties ();
+        var gen = new AllPropertiesT4 ();
         gen.Session = session;
         var file = path + "Properties.h";
         if (verbose) {
