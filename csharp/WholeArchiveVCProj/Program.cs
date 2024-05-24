@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -94,6 +94,10 @@ namespace ArcaneInfra.WholeArchiveVCProj
             {
                 vstudio = VisualStudioKind.VCXProj;
             }
+            else if (vstudio_name == "Visual Studio 15 2017")
+            {
+                vstudio = VisualStudioKind.VCXProj;
+            }						            
             else
             {
                 Console.Error.WriteLine("Unknown visual studio name '{0}'", vstudio_name);
