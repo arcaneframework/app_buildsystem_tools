@@ -8,9 +8,6 @@ add_custom_target(
 # répertoire de sortie des axl
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/share/axl)
 
-# installation de la xsd des fichiers axl
-install(FILES ${PROJECT_BINARY_DIR}/share/axl.xsd DESTINATION share)
-
 set(axl_share_path ${CMAKE_BINARY_DIR}/share/axl)
 
 if(NOT EXISTS ${axl_share_path})
