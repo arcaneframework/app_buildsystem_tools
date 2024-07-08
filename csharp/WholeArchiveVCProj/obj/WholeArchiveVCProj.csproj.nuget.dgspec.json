@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj": {}
+    "/work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj": {}
   },
   "projects": {
-    "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj": {
+    "/work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj",
+        "projectUniqueName": "/work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj",
         "projectName": "WholeArchiveVCProj",
-        "projectPath": "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj",
+        "projectPath": "/work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj",
         "packagesPath": "/work/gaynor/.nuget/packages/",
-        "outputPath": "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/",
+        "outputPath": "/work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/work/gaynor/.nuget/NuGet/NuGet.Config"

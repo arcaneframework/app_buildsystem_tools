@@ -7,4 +7,4 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WholeArchiveVCProj
-build_property.ProjectDir = /work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/WholeArchiveVCProj/
+build_property.ProjectDir = /work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/
