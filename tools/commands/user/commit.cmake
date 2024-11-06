@@ -91,11 +91,13 @@ function(__commit_executable target)
   
   # cibles internes (compilées par le projet et déclarées via createLibrary)
   get_property(BUILTIN GLOBAL PROPERTY BUILDSYSTEM_BUILTIN_LIBRARIES)
-
+  if(WIN32)
+	get_target_property(DLOPEN ${target} NEED_DLOPEN)
+  endif()
+  
   set(libraries_whole_archive)
-	
+  
   foreach(library ${libraries})
-
     # check
     if(NOT TARGET ${library})
       logFatalError("undefined library ${library} linked with ${target}")
@@ -116,7 +118,11 @@ function(__commit_executable target)
       else()
 	    target_link_libraries(${target} PUBLIC ${library})
       endif()
-    else()
+	elseif(${library} IN_LIST DLOPEN AND WIN32)
+	    # pour le chargement dynamique
+        set_property(TARGET ${target} APPEND PROPERTY DYNAMIC_LIBRARIES ${library})
+		target_link_libraries(${target} PUBLIC ${library})
+	else()
       target_link_libraries(${target} PUBLIC ${library})
     endif()
 	
