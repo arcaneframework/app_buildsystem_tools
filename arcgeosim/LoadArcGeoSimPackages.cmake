@@ -78,10 +78,8 @@ loadPackage(NAME Neo ESSENTIAL)
 # NB: en avant-dernier car arcane charge eventuellement d'autres packages
 #     si le package existe deja, on ne fait rien
 
-if(USE_ARCANE_V3)
-  loadPackage(NAME Arccore ESSENTIAL)
-  loadPackage(NAME Axlstar ESSENTIAL) 
-endif()
+loadPackage(NAME Arccore ESSENTIAL)
+loadPackage(NAME Axlstar ESSENTIAL) 
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
     add_library(arcane INTERFACE IMPORTED)
@@ -96,10 +94,7 @@ if(TARGET arcane_full)
     set_target_properties(arcane PROPERTIES 
         INTERFACE_INCLUDE_DIRECTORIES "${Arcane_INCLUDE_DIRS}")
 
-    if(USE_ARCANE_V3)
-      target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)
-      #add_definitions(USE_ARCANE_V3)
-    endif()        
+    target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)     
 else()
   message(status "TARGET ARCANE_FULL NOT FOUND")
 endif()
@@ -112,7 +107,6 @@ endif()
 #     si le package existe deja, on ne fait rien
 loadPackage(NAME Alien)
 
-if(USE_ARCANE_V3)
 # arccon fix
 if (TARGET arcconpkg_Hypre)
 else()
@@ -178,7 +172,7 @@ else()
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${HDF5_LIBRARY}")
 endif()
-endif()
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
