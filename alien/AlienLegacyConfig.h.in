@@ -17,7 +17,9 @@
 //Works with any compiler but might be improved by using attribute.
 #define ALIEN_UNUSED(var) do { (void)(var) ; } while(0)
 //#define ALIEN_UNUSED_PARAM  __attribute__((unused))
+#ifndef ALIEN_UNUSED_PARAM
 #define ALIEN_UNUSED_PARAM
+#endif
 
 /* Conditional compilation */
 
@@ -69,6 +71,8 @@
   #cmakedefine PETSC_HAVE_KSPRICHARDSONSETSELFSCALE
   #cmakedefine PETSC_HAVE_KSPSETNULLSPACE
   #cmakedefine PETSC_HAVE_VIEWERANDFORMAT
+  #cmakedefine PETSC_HAVE_MATSETBLOCKSIZE
+  #cmakedefine PETSC_HAVE_VECSETBLOCKSIZE
 #endif // ALIEN_USE_PETSC
 
 #ifndef PETSC_OPTIONSSETVALUE_NEW
@@ -133,6 +137,12 @@
 
 // HPDDM
 #cmakedefine ALIEN_USE_HPDDM
+
+// COMPOSYX
+#cmakedefine ALIEN_USE_COMPOSYX
+
+// SYCL
+#cmakedefine ALIEN_USE_SYCL
 
 #ifndef ALIEN_USE_ARCANE
 #include "alien/ServiceOptions.h"
