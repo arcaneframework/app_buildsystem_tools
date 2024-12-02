@@ -49,6 +49,9 @@ loadPackage(NAME FFTW3)
 
 # solveurs
 
+# Needed to use the find_package provided by Arccon
+set (Hypre_USE_CMAKE_CONFIG TRUE)
+
 #loadPackage(NAME Umfpack)
 loadPackage(NAME PETSc)
 loadPackage(NAME SLEPc)
@@ -69,9 +72,19 @@ loadPackage(NAME HPDDM)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
+# Packages already loaded for Arcane : added here for dll copy on Windows
+loadPackage(NAME Zoltan)
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
 # arccon fix
 if (TARGET arcconpkg_Hypre)
   add_library(hypre ALIAS arcconpkg_Hypre)
+elseif (TARGET HYPRE::HYPRE)
+  # Target 'HYPRE::HYPRE' is defined when Hypre is compiled with CMake
+  # and provide a config file
+  add_library(hypre ALIAS HYPRE::HYPRE)
 endif()
 
 if (TARGET arcconpkg_MPI)
@@ -101,6 +114,30 @@ endif()
 # load package can't deal with this...
 find_package(Boost COMPONENTS program_options system REQUIRED)
 
+if(TARGET petsc)
+
+    get_target_property(INC_DIR petsc INTERFACE_INCLUDE_DIRECTORIES)
+
+    # TODO: petscconf.h is supposed to exist in petsc include dir
+    # but for some obvious reasons this file is not found on IFPEN
+    # windows build.
+    if(EXISTS ${INC_DIR}/petscconf.h)
+        file(READ ${INC_DIR}/petscconf.h PETSCCONF_H)
+
+        # check for SPAI in PETSc
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_SPAI")
+            add_library(petsc::spai INTERFACE IMPORTED)
+        endif()
+
+        # check for MUMPS in PETSc
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_MUMPS")
+            add_library(petsc::mumps INTERFACE IMPORTED)
+        endif()
+    else()
+        MESSAGE(WARNING "target petsc: file ${INC_DIR}/petscconf.h not found")
+    endif()
+
+endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
