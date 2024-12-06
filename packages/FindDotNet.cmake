@@ -63,27 +63,31 @@ if(WIN32)
   set(IntermediateOutputPath ${PROJECT_BINARY_DIR}/dotnet/obj/$(Configuration))
 
 else()
+
+  # make no sense to check for mono since XBUILD is override at the end
+  #if(NOT ${MONO_FOUND})
+  #  message(FATAL_ERROR "Can not find a valid installed mono")
+  #endif()
   
-  if(NOT ${MONO_FOUND}) 
-    message(FATAL_ERROR "Can not find a valid installed mono")
-  endif()
-  
-  find_program(XBUILD 
-    NAMES msbuild
-    HINTS ${MONO_EXEC_PATH}
-	  NO_DEFAULT_PATH)
+  #find_program(XBUILD
+  #  NAMES msbuild
+  #  HINTS ${MONO_EXEC_PATH}
+  #	  NO_DEFAULT_PATH)
 
   set(XBUILD_SPECIAL_ARGS "/p:Platform=\"Any CPU\"")
-  if(NOT XBUILD)
-      find_program(XBUILD
-              NAMES xbuild
-              HINTS ${MONO_EXEC_PATH}
-              NO_DEFAULT_PATH)
-      set(XBUILD_SPECIAL_ARGS "/p:DefineConstants=DEBUG,MONO_COMPILER" ${XBUILD_SPECIAL_ARGS})
-  endif(NOT XBUILD)
+  #if(NOT XBUILD)
+  #    find_program(XBUILD
+  #            NAMES xbuild
+  #            HINTS ${MONO_EXEC_PATH}
+  #            NO_DEFAULT_PATH)
+  #    set(XBUILD_SPECIAL_ARGS "/p:DefineConstants=DEBUG,MONO_COMPILER" ${XBUILD_SPECIAL_ARGS})
+  #endif(NOT XBUILD)
 
-      # pour limiter le mode verbose
+  # pour limiter le mode verbose
   set(DOTNET_FIND_QUIETLY ON)
+
+  # on force dotnet au lieu de mono
+  set(XBUILD dotnet publish)
 
   find_package_handle_standard_args(DOTNET
 	  DEFAULT_MSG 
@@ -91,10 +95,6 @@ else()
 
   set(OutputPath ${PROJECT_BINARY_DIR}/dotnet/bin/${CMAKE_BUILD_TYPE})
   set(IntermediateOutputPath ${PROJECT_BINARY_DIR}/dotnet/obj/${CMAKE_BUILD_TYPE})
-
-# on force dotnet au lieu de mono
-  set(XBUILD dotnet publish)
-
 
 endif()
 

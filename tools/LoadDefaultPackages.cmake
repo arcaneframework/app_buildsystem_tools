@@ -11,9 +11,9 @@ if(USE_ARCCON)
       loadPackage(NAME Axlstar ESSENTIAL)
     endif ()
 
-    if(NOT WIN32)
-      loadPackage(NAME Mono)
-    endif()
+    #if(NOT WIN32)
+    #  loadPackage(NAME Mono)
+    #endif()
 
     loadPackage(NAME DotNet ESSENTIAL)
   endif()
