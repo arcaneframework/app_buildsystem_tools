@@ -12,7 +12,7 @@ if(USE_ARCCON)
     endif ()
 
     if(NOT WIN32)
-      loadPackage(NAME Mono ESSENTIAL)
+      loadPackage(NAME Mono)
     endif()
 
     loadPackage(NAME DotNet ESSENTIAL)
