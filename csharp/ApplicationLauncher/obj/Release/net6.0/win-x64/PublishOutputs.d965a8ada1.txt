@@ -1,2 +1,0 @@
-/work/tuncx/work/work/app_buildsystem_tools.github.tuncx/csharp/ApplicationLauncher/bin/Release/net6.0/win-x64/publish/ApplicationLauncher.dotnet.pdb
-/work/tuncx/work/work/app_buildsystem_tools.github.tuncx/csharp/ApplicationLauncher/bin/Release/net6.0/win-x64/publish/ApplicationLauncher.dotnet.exe
