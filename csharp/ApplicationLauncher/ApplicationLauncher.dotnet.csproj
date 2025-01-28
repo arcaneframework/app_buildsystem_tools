@@ -10,5 +10,13 @@
     <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Banners.resx">
+      <LogicalName>ApplicationLauncher.Resources.Banners.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationConfiguration.xsd">
+      <LogicalName>ApplicationConfiguration.xsd</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
