@@ -9,10 +9,7 @@ namespace ApplicationLauncher
   {
     public static void Initialize() {
       Logger.log (Logger.Channel.DevDebug, "Initializing AssemblyResolver");
-      Assembly thisAssembly = Assembly.GetExecutingAssembly();
-      String thisPath = thisAssembly.Location;
-      String directory = Path.GetDirectoryName(thisPath);
-
+      String directory = AppContext.BaseDirectory;
       AddDirectory (directory);
 
       AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler( ResolveEventHandler );
@@ -34,8 +31,7 @@ namespace ApplicationLauncher
         newAssemblyName = onlyName [0];
 
       try {
-        Assembly thisAssembly = Assembly.GetExecutingAssembly();
-        String thisPath = thisAssembly.Location;        
+	String thisPath = AppContext.BaseDirectory;
 
         foreach(String directory in m_directories) 
         {
@@ -47,7 +43,7 @@ namespace ApplicationLauncher
         }
 
         if (newAssembly != null)
-          Logger.log (Logger.Channel.DevDebug, "Resolving assembly '{0}' with '{1}'", newAssemblyName, newAssembly.Location);
+          Logger.log (Logger.Channel.DevDebug, "Resolving assembly '{0}' with '{1}'", newAssemblyName, AppContext.BaseDirectory);
         else
           Logger.log (Logger.Channel.DevDebug, "Resolving assembly '{0}' failed", newAssemblyName);
       } catch (Exception e) {
