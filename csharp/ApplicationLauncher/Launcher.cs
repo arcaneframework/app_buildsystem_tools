@@ -617,7 +617,7 @@ namespace ApplicationLauncher
       // foreach(string s in names) { log (Logger.Channel.Debug, "Name = {0}",s); }
       
       string processPath = System.Diagnostics.Process.GetCurrentProcess ().MainModule.FileName;
-      string assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly ().Location;
+      string assemblyLocation = AppContext.BaseDirectory;
       bool is_rooted = Path.IsPathRooted (assemblyLocation); // is assemblyLocation defined as a full path
       if (is_rooted)
         proc.StartInfo.FileName = assemblyLocation;
