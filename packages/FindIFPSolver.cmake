@@ -294,7 +294,7 @@ if(NOT IFPSOLVER_FOUND)
     )
   mark_as_advanced(IFPSOLVER_DOMAINDECOMP_LIBRARY)
   
-  find_path(IFPSOLVER_INCLUDE_DIR m_bcgssolver_module.mod
+  find_path(IFPSOLVER_INCLUDE_DIR IFPSolver.h
     HINTS ${IFPSOLVER_ROOT} 
 		PATH_SUFFIXES include
     ${_IFPSOLVER_SEARCH_OPTS}
