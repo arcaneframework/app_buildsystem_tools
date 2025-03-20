@@ -24,6 +24,7 @@ include_directories(${PROJECT_BINARY_DIR})
 # for git framework and ShArc or svn archi
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoPhy/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoSim/src)
+include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArcGeoSimR/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/SharedUtils/src)
 include_directories(${ARCGEOSIM_FRAMEWORK_ROOT}/ArximCpp/src)
 # for ShArc and svn archi only
