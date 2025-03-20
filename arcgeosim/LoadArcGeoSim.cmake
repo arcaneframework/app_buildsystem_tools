@@ -64,7 +64,7 @@ endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 #set(USE_PROJECT_CONFIG_HEADER TRUE)
-set(REQUIRE_INSTALL_PROJECTTARGETS FALSE)
+set(REQUIRE_INSTALL_PROJECTTARGETS TRUE)
 set(Arccon_USE_CMAKE_CONFIG TRUE)
 set(Arccore_USE_CMAKE_CONFIG TRUE)
 set(Axlstar_USE_CMAKE_CONFIG TRUE)
@@ -86,6 +86,9 @@ set(Glib_USE_CMAKE_CONFIG TRUE)
 #set(SuperLU_USE_CMAKE_CONFIG TRUE)
 set(Neo_USE_CMAKE_CONFIG FALSE)
 set(Zoltan_USE_CMAKE_CONFIG FALSE)
+
+set(ArcGeoSim_USE_CMAKE_CONFIG TRUE)
+set(ArcGeoSimR_USE_CMAKE_CONFIG TRUE)
 
 # parametrage par defaut
 include(LoadBuildSystem)

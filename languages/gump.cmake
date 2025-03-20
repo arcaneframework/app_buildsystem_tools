@@ -6,7 +6,7 @@ if(NOT EXISTS ${gump_share_path})
   file(MAKE_DIRECTORY ${gump_share_path})
 endif()
 
-function(generateGumpModel xml)
+function(generateGumpModel xml target)
   
   get_filename_component(model ${xml} NAME_WE)
   
@@ -59,7 +59,17 @@ function(generateGumpModel xml)
     ${gump_path}/Entities.h
     )
 	  
-  target_include_directories(${lib} PUBLIC 
+  target_include_directories(${lib} PRIVATE
     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/gump)
+    
+  
+  target_include_directories(${target} PRIVATE
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/gump)
+  
+  
+  install(TARGETS ${lib}
+    DESTINATION lib
+    EXPORT ${PROJECT_NAME}Targets
+    )
 
 endfunction()
