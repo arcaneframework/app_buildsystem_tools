@@ -68,7 +68,7 @@ if(NOT DEFINED $ENV{CARNOT_ECPA})
 loadPackage(NAME Carnot)
 endif()
 # Dependency for polyhedral mesh
-#loadPackage(NAME Neo ESSENTIAL)
+loadPackage(NAME Neo ESSENTIAL)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
