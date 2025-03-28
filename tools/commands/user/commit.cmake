@@ -1,4 +1,4 @@
-function(__commit_library target)
+function(__commit_library target destination)
 
   # export pour les dlls
   get_target_property(export_dll ${target} BUILDSYSTEM_EXPORT_DLL)
@@ -11,10 +11,15 @@ function(__commit_library target)
   get_filename_component(path ${export_dll} DIRECTORY)
 
   # installation du fichier d'export pour les dll
+  if("${destination}" STREQUAL "None")
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
-          DESTINATION include/${path}
+          DESTINATION include/ArcGeoSim/${path}
           )
-
+  else()
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+          DESTINATION include/ArcGeoSim/${destination}/${path}
+          )
+  endif()
   # installation de la librairie
   if(REQUIRE_INSTALL_PROJECTTARGETS)
   install(TARGETS ${target}
@@ -91,11 +96,13 @@ function(__commit_executable target)
   
   # cibles internes (compilées par le projet et déclarées via createLibrary)
   get_property(BUILTIN GLOBAL PROPERTY BUILDSYSTEM_BUILTIN_LIBRARIES)
-
+  if(WIN32)
+	get_target_property(DLOPEN ${target} NEED_DLOPEN)
+  endif()
+  
   set(libraries_whole_archive)
-	
+  
   foreach(library ${libraries})
-
     # check
     if(NOT TARGET ${library})
       logFatalError("undefined library ${library} linked with ${target}")
@@ -116,7 +123,11 @@ function(__commit_executable target)
       else()
 	    target_link_libraries(${target} PUBLIC ${library})
       endif()
-    else()
+	elseif(${library} IN_LIST DLOPEN AND WIN32)
+	    # pour le chargement dynamique
+        set_property(TARGET ${target} APPEND PROPERTY DYNAMIC_LIBRARIES ${library})
+		target_link_libraries(${target} PUBLIC ${library})
+	else()
       target_link_libraries(${target} PUBLIC ${library})
     endif()
 	
@@ -132,7 +143,7 @@ endfunction()
 function(commit target)
 
   set(options       )
-  set(oneValueArgs  )
+  set(oneValueArgs DESTINATION )
   set(multiValueArgs)
   
   cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -171,7 +182,11 @@ function(commit target)
   endif()
 
   if(${is_lib})
-    __commit_library(${target})
+    if(ARGS_DESTINATION)
+    __commit_library(${target} ${ARGS_DESTINATION})
+    else()
+    __commit_library(${target} "None")
+    endif()
   endif()
 
   if(${is_exe})
