@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Deterministic>True</Deterministic>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Banners.resx">
+      <LogicalName>ApplicationLauncher.Resources.Banners.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationConfiguration.xsd">
+      <LogicalName>ApplicationConfiguration.xsd</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

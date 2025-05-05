@@ -1,0 +1,15 @@
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.deps.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.runtimeconfig.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/ref/PkgListLoader.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.csproj.AssemblyReference.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.GeneratedMSBuildEditorConfig.editorconfig
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.AssemblyInfoInputs.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.AssemblyInfo.cs
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.csproj.CoreCompileInputs.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/ref/PkgListLoader.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/obj/Debug/net6/PkgListLoader.genruntimeconfig.cache
