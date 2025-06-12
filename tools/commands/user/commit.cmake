@@ -79,6 +79,10 @@ function(__commit_library target destination)
       target_link_libraries(${target} PUBLIC ${MY_TARGET})
     endif ()
   endforeach()
+  
+  
+  target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+  
 
 endfunction()
 
