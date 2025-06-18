@@ -82,7 +82,9 @@ loadPackage(NAME Arccore ESSENTIAL)
 loadPackage(NAME Axlstar ESSENTIAL) 
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
-    add_library(arcane INTERFACE IMPORTED)
+    if (NOT TARGET arcane)
+        add_library(arcane INTERFACE IMPORTED)
+    endif ()
 
     get_target_property(ARCANE_FULL_LIBRARIES arcane_full INTERFACE_LINK_LIBRARIES)
 
