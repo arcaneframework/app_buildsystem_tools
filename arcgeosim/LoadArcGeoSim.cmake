@@ -64,7 +64,7 @@ endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 #set(USE_PROJECT_CONFIG_HEADER TRUE)
-set(REQUIRE_INSTALL_PROJECTTARGETS TRUE)
+set(BUILDSYSTEM_INSTALL_TARGETS TRUE)
 set(Arccon_USE_CMAKE_CONFIG TRUE)
 set(Arccore_USE_CMAKE_CONFIG TRUE)
 set(Axlstar_USE_CMAKE_CONFIG TRUE)

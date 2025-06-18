@@ -35,6 +35,7 @@ set(ARCGEOSIM_BUILD_MODE @ARCGEOSIM_BUILD_MODE@)
 check_required_components(ArcGeoSim)
 
 set(ArcGeoSim_FOUND YES)
+set(BUILDSYSTEM_INSTALL_EXPORT FALSE)
 
 # ----------------------------------------------------------------------------
 # Local Variables:
