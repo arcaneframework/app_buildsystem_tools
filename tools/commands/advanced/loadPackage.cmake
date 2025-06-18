@@ -15,6 +15,17 @@ macro(loadPackage)
       cmake_policy(SET CMP0144 NEW)
   endif ()
 
+  if(POLICY CMP0167)
+      cmake_policy(SET CMP0167 OLD)
+  endif()
+
+  if(POLICY CMP0125)
+      cmake_policy(SET CMP0125 NEW)
+  endif()
+
+  if(POLICY CMP0160)
+      cmake_policy(SET CMP0160 OLD)
+  endif()
 
   if(ARGS_UNPARSED_ARGUMENTS)
     logFatalError("unparsed arguments '${ARGS_UNPARSED_ARGUMENTS}'")
