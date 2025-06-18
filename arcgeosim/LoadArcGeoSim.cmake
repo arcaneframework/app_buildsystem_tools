@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.7.1)
+cmake_minimum_required(VERSION 3.13)
 
 # pour VERSION dans la commande project
 cmake_policy(SET CMP0048 NEW)
@@ -20,6 +20,7 @@ set(INFRA_BUILDSYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system)
 set(ARCGEOSIM_BUILD_SYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system) 
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH}/tools)
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH})
+list(APPEND CMAKE_PREFIX_PATH ${ARCGEOSIM_FRAMEWORK_ROOT})
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
