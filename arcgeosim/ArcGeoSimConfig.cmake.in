@@ -6,7 +6,7 @@ include(${PACKAGE_PREFIX_DIR}/@config_install_dir@/@ARCGEOSIM_EXPORT_TARGET@.cma
 
 include(CMakeFindDependencyMacro)
 
-get_target_property(_AFULL @namespace@arcgeosim_full INTERFACE_LINK_LIBRARIES)
+get_target_property(_AFULL @namespace@arcgeosim INTERFACE_LINK_LIBRARIES)
 
 # Parcours l'ensemble des cibles de cette bibliothèque interface
 # et définit une variable 'Arcane_INCLUDE_DIRS' qui
@@ -25,7 +25,7 @@ endforeach(package ${_AFULL})
 list(REMOVE_DUPLICATES _AINCFULL)
 
 
-set(ArcGeoSim_LIBRARIES @namespace@arcgeosim_full)
+set(ArcGeoSim_LIBRARIES @namespace@arcgeosim)
 set(ArcGeoSim_INCLUDE_DIRS ${_AINCFULL})
 
 set(ARCGEOSIM_CHECK @ARCGEOSIM_CHECK@)
@@ -35,6 +35,7 @@ set(ARCGEOSIM_BUILD_MODE @ARCGEOSIM_BUILD_MODE@)
 check_required_components(ArcGeoSim)
 
 set(ArcGeoSim_FOUND YES)
+set(BUILDSYSTEM_INSTALL_EXPORT FALSE)
 
 # ----------------------------------------------------------------------------
 # Local Variables:

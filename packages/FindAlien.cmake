@@ -130,7 +130,9 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
                           ${ALIEN_EXTERNALPACKAGES_LIBRARY})
       endif()
   endif()
-  add_library(alien INTERFACE IMPORTED)
+  if (NOT TARGET alien)
+    add_library(alien INTERFACE IMPORTED)
+  endif ()
   
   if(USE_ALIEN_V20)
     set_property(TARGET alien APPEND PROPERTY 

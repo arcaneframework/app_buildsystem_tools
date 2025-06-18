@@ -1,9 +1,11 @@
 
 # génération de axl2cc conditionnelle au début
-add_custom_target(
-  axl ALL DEPENDS 
-  ${AXL2CC}
-  )
+if (NOT TARGET axl)
+    add_custom_target(
+        axl ALL DEPENDS
+        ${AXL2CC}
+    )
+endif ()
 
 # répertoire de sortie des axl
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/share/axl)

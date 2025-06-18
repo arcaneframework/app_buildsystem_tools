@@ -21,17 +21,19 @@ function(__commit_library target destination)
           )
   endif()
   # installation de la librairie
-  if(REQUIRE_INSTALL_PROJECTTARGETS)
-  install(TARGETS ${target}
-	  DESTINATION lib
-	  EXPORT ${PROJECT_NAME}Targets
-	  )
+  if(BUILDSYSTEM_INSTALL_TARGETS)
+    install(TARGETS ${target}
+        DESTINATION lib
+        EXPORT ${PROJECT_NAME}Targets
+        )
+  endif()
 
-  # installation du CMake pour l'installation
-  install(EXPORT ${PROJECT_NAME}Targets
-	  DESTINATION lib/cmake
-	  EXPORT_LINK_INTERFACE_LIBRARIES
-	  )
+    # installation du CMake pour l'installation
+  if (BUILDSYSTEM_INSTALL_EXPORT)
+    install(EXPORT ${PROJECT_NAME}Targets
+          DESTINATION lib/cmake
+          EXPORT_LINK_INTERFACE_LIBRARIES
+          )
   endif()
   # sources 
   get_target_property(sources ${target} BUILDSYSTEM_SOURCES)
@@ -73,14 +75,12 @@ function(__commit_library target destination)
     else()
       set_property(GLOBAL APPEND PROPERTY BUILDSYSTEM_EXTERNAL_LIBRARIES ${MY_TARGET})
     endif()
-    if (FRAMEWORK_INSTALL)
-      target_link_libraries(${target} PUBLIC $<BUILD_INTERFACE:${MY_TARGET}>)
-    else ()
+    # SdC: the link_libraries is reactivated.
+    # If a problem occur with multiple export, set BUILDSYSTEM_INSTALL_EXPORT to FALSE
       target_link_libraries(${target} PUBLIC ${MY_TARGET})
-    endif ()
   endforeach()
   
-  
+  # SdC: this shouldn't be needed now the target_link_libraries is reactivated. To check and remove if ok
   target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
   
 
