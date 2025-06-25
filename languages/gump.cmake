@@ -6,8 +6,8 @@ if(NOT EXISTS ${gump_share_path})
   file(MAKE_DIRECTORY ${gump_share_path})
 endif()
 
-function(generateGumpModel xml target)
-  
+function(generateGumpModel xml)
+
   get_filename_component(model ${xml} NAME_WE)
   
   logStatus("  * Load gump component ${BoldMagenta}${model}${ColourReset}")
@@ -54,22 +54,22 @@ function(generateGumpModel xml target)
 
   string(TOLOWER ${model} lib) 
 
+# When compiling ArcGeoSim tests from an application, target may be defined twice
+if (NOT TARGET ${lib})
   add_library(${lib} 
     ${gump_path}/${model}.cc 
     ${gump_path}/Entities.h
     )
+
 	  
-  target_include_directories(${lib} PRIVATE
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/gump)
-    
-  
-  target_include_directories(${target} PRIVATE
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/gump)
-  
+  target_include_directories(${lib} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${PROJECT_NAME}/gump>)
   
   install(TARGETS ${lib}
     DESTINATION lib
     EXPORT ${PROJECT_NAME}Targets
     )
+
+endif ()
 
 endfunction()
