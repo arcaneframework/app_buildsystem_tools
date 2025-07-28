@@ -98,8 +98,12 @@ endif()
 
 # où sont placés le exe  et les libs
 # NB: en fait, ne retire pas les répertoires des configurations avec Visual/XCode
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+endif ()
+if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif ()
 
 # Répertoire de copie des dlls pour windows
 if(NOT BUILDSYSTEM_DLL_COPY_DIRECTORY)
@@ -114,8 +118,12 @@ if(BUILDSYSTEM_NO_CONFIGURATION_OUTPUT_DIRECTORY)
     # les dlls/libs/exe ne sont pas placés dans des répertoires de configuration
     # Pour Visual/XCode, pas de chemin bin/Release ou lib/Release (par exemple)
     # NB: Sous linux, cela ne change rien
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/lib)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/bin)
+    if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG})
+      set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/lib)
+    endif ()
+    if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG})
+      set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/bin)
+    endif ()
   endforeach()
 endif()
 
