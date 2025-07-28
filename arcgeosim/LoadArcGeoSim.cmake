@@ -34,7 +34,9 @@ set(BUILDSYSTEM_NO_CONFIGURATION_OUTPUT_DIRECTORY ON)
 
 # Repertoire d'exportation des dlls (pour windows)
 # NB: important pour les tests : pas de mise a jour de PATH necessaire pour la recherche de dlls
-set(BUILDSYSTEM_DLL_COPY_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+if (NOT BUILDSYSTEM_DLL_COPY_DIRECTORY)
+  set(BUILDSYSTEM_DLL_COPY_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif ()
 
 # par defaut, on a que axl
 if(NOT USE_LANGUAGE_GUMP)
