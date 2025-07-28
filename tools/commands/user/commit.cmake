@@ -20,6 +20,8 @@ function(__commit_library target destination)
           DESTINATION include/ArcGeoSim/${destination}/${path}
           )
   endif()
+  # Ajout d'un repertoire d'include pour trouver les export en mode BUILD (et non install)
+  target_include_directories(${target} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
   # installation de la librairie
   if(BUILDSYSTEM_INSTALL_TARGETS)
     install(TARGETS ${target}
