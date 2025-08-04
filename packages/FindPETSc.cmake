@@ -215,6 +215,14 @@ if(PETSC_FOUND AND NOT TARGET petsc)
     "petsc.h;petscvec.h"
     PETSC_HAVE_VECSETBLOCKSIZE
   )
+  
+  check_prototype_definition(
+    KSPGMRESSetBreakdownTolerance
+    "PETSC_EXTERN PetscErrorCode KSPGMRESSetBreakdownTolerance(KSP, PetscReal)" 
+    0 
+    "petsc.h;petscksp.h"
+    PETSC_HAVE_KSPGMRESSETBREAKDOWNTOLERANCE
+  )
   # petsc main
 	  
   add_library(petsc_main UNKNOWN IMPORTED)
