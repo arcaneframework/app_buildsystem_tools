@@ -30,8 +30,8 @@ if(WIN32)
       logStatus(" * dll : ${dll}")
     endforeach()
   endif()
-  
-  add_custom_target(copy_dll ALL
+
+  add_custom_target(copy_dll_${PROJECT_NAME} ALL
     DEPENDS ${DLLS}
 	)
   

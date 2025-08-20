@@ -26,196 +26,197 @@ file(MAKE_DIRECTORY ${TEST_OUTPUT_ROOT_DIR})
 #set(CODE_NAME ${PROJECT_NAME})
 
 # Main ArcGeoSim test
-macro(_arcgeosim_add_test)
-  # More infos in http://www.cmake.org/cmake/help/v2.8.8/cmake.html#section_PropertiesonTests
-  # CDash example : http://cdash.inria.fr/CDash/
-  
-  set(options WILL_FAIL RUN_SERIAL SEQUENTIAL)
-  set(oneValueArgs TEST_NAME CONFIG_FILE CASE_FILE CASE_DIR)
-  list(APPEND oneValueArgs MPI TIMEOUT ENVIRONMENT RESOURCE_LOCK RESTART)
-  set(multiValueArgs CONFIGURATIONS)
-  
-  cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-  
-  if(ARGS_UNPARSED_ARGUMENTS)
-    logFatalError("unparsed arguments '${ARGS_UNPARSED_ARGUMENTS}'")
-  endif()
+if (NOT DEFINED _arcgeosim_add_test2)
+  macro(_arcgeosim_add_test2) # SdC: need to change the name or an infinite recursion (?) occurs with recent CMake...
+    # More infos in http://www.cmake.org/cmake/help/v2.8.8/cmake.html#section_PropertiesonTests
+    # CDash example : http://cdash.inria.fr/CDash/
 
-  if(NOT ARGS_TEST_NAME)
-    logFatalError("_arcgeosim_add_test needs TEST_NAME")
-  endif()
+    set(options WILL_FAIL RUN_SERIAL SEQUENTIAL)
+    set(oneValueArgs TEST_NAME CONFIG_FILE CASE_FILE CASE_DIR)
+    list(APPEND oneValueArgs MPI TIMEOUT ENVIRONMENT RESOURCE_LOCK RESTART)
+    set(multiValueArgs CONFIGURATIONS)
 
-  if(NOT ARGS_CONFIG_FILE)
-    logFatalError("_arcgeosim_add_test needs CONFIG_FILE")
-  endif()
+    cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  if(NOT ARGS_CASE_FILE)
-    logFatalError("_arcgeosim_add_test needs CASE_FILE")
-  endif()
-
-  if(NOT ARGS_CASE_DIR)
-    logFatalError("_arcgeosim_add_test needs ARGS_CASE_DIR")
-  endif()
-
-  if(ARGS_MPI)
-    if(ARGS_SEQUENTIAL)
-      logFatalError("MPI and SEQUENTIAL can't be used in same test")
+    if(ARGS_UNPARSED_ARGUMENTS)
+      logFatalError("unparsed arguments '${ARGS_UNPARSED_ARGUMENTS}'")
     endif()
-    string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_MPI})
-    if(NOT CURRENT_ARG_IS_NUMBER)
-      logFatalError("MPI argument is not a positive number : ${ARGS_MPI}")
+
+    if(NOT ARGS_TEST_NAME)
+      logFatalError("_arcgeosim_add_test2 needs TEST_NAME")
     endif()
-    set(OPT_RUN_MODE Mpi)
-    set(OPT_PROCESSORS ${ARGS_MPI})
-  else() # d�faut
-    set(OPT_RUN_MODE Seq)
-    set(OPT_PROCESSORS 1)
-  endif()
 
-  
-  if(ARGS_ENVIRONMENT)
-    set(OPT_ENVIRONMENT ${ARGS_ENVIRONMENT})
-  else()
-    unset(OPT_ENVIRONMENT)
-  endif()
-
-  if(ARGS_RESOURCE_LOCK)
-    set(OPT_RESOURCE_LOCK ${ARGS_RESOURCE_LOCK})
-  endif()
-
-  if(ARGS_TIMEOUT)
-    string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_TIMEOUT})
-    if(NOT CURRENT_ARG_IS_NUMBER)
-      logFatalError("TIMEOUT argument is not a positive number : ${ARGS_TIMEOUT}")
+    if(NOT ARGS_CONFIG_FILE)
+      logFatalError("_arcgeosim_add_test2 needs CONFIG_FILE")
     endif()
-    set(OPT_TIMEOUT ${ARGS_TIMEOUT})
-  else()
-    set(OPT_TIMEOUT 120)
-  endif()
 
-  if(ARGS_RESTART)
-    string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_RESTART})
-    if(NOT CURRENT_ARG_IS_NUMBER)
-      logFatalError("RESTART argument is not a positive number : ${ARGS_RESTART}")
+    if(NOT ARGS_CASE_FILE)
+      logFatalError("_arcgeosim_add_test2 needs CASE_FILE")
     endif()
-    set(OPT_RESTART ${ARGS_RESTART})
-  else()
-    set(OPT_RESTART 0)
-  endif()
 
-  if(ARGS_WILL_FAIL)
-    set(OPT_WILL_FAIL "true")
-  else()
-    set(OPT_WILL_FAIL "false")
-  endif()
-
-  if(ARGS_RUN_SERIAL)
-    set(ARGS_RUN_SERIAL "true")
-  else()
-    set(ARGS_RUN_SERIAL "false")
-  endif()
-
-  set(FULL_TEST_NAME)
-  if(${OPT_RUN_MODE} STREQUAL "Seq")
-    set(FULL_TEST_NAME "${ARGS_TEST_NAME}")
-  elseif(${OPT_RUN_MODE} STREQUAL "Mpi")
-    set(FULL_TEST_NAME "${ARGS_TEST_NAME}_${OPT_PROCESSORS}proc")
-  else()
-    logFatalError("'${OPT_RUN_MODE}' run mode not supported")
-  endif()
-
-  if(FORCE_EMBEDDED)
-    set(OPT_RUN_MODE "Embedded")
-  endif(FORCE_EMBEDDED)
-
-  set(TEST_UNITARY_OUTPUT_DIR ${TEST_OUTPUT_ROOT_DIR}/${FULL_TEST_NAME})
-  # creation du repertoire pour les outputs du test
-  file(MAKE_DIRECTORY ${TEST_UNITARY_OUTPUT_DIR})
-  if(NOT TESTING_FILTER OR ${ARGS_CONFIG_FILE} STREQUAL ${PROJECT_NAME})
-    
-    if(NOT ${NewBuildSystem})
-	    add_test(
-			  NAME ${FULL_TEST_NAME}
-			  COMMAND ${SCRIPT_DRIVER} ${PROJECT_SOURCE_DIR}/common/ArcaneInfra/bin/ArcaneTest.sh
-				${ARGS_TEST_NAME}
-				${FULL_TEST_NAME}
-				${PROJECT_SOURCE_DIR} 
-				${PROJECT_BINARY_DIR}
-				${PROJECT_BIN}
-				${PROJECT_NAME}
-				${ARGS_CONFIG_FILE} 
-				${ARGS_CASE_FILE} 
-				${TEST_VALI_DIR}
-				${OPT_RUN_MODE}
-				${OPT_PROCESSORS}
-				${OPT_RESTART}
-				)
-	  else()
-	    add_test(
-			  NAME ${FULL_TEST_NAME}
-			  COMMAND ${SCRIPT_DRIVER} ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/bin/ArcaneTest.sh
-				${ARGS_TEST_NAME}
-				${FULL_TEST_NAME}
-				${PROJECT_SOURCE_DIR} 
-				${PROJECT_BINARY_DIR}
-				$<TARGET_FILE:${PROJECT_NAME}.exe>
-				${PROJECT_NAME}
-				${ARGS_CONFIG_FILE} 
-				${ARGS_CASE_FILE} 
-				${TEST_VALI_DIR}
-				${OPT_RUN_MODE}
-				${OPT_PROCESSORS}
-				${OPT_RESTART}
-				)
-	  endif()
-    
-    set_tests_properties(${FULL_TEST_NAME} PROPERTIES WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/${ARGS_CASE_DIR})
-    set_tests_properties(${FULL_TEST_NAME} PROPERTIES TIMEOUT ${OPT_TIMEOUT})
-    set_tests_properties(${FULL_TEST_NAME} PROPERTIES PROCESSORS ${OPT_PROCESSORS})
-    
-    set_tests_properties(${FULL_TEST_NAME} PROPERTIES ENVIRONMENT ARCANE_OUTPUT_ROOT_PATH=${TEST_UNITARY_OUTPUT_DIR})
-    set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ARCANE_PARALLEL_OUTPUT_PREFIX=${TEST_UNITARY_OUTPUT_DIR})
-
-    if(ARGS_CONFIGURATIONS)
-      set_tests_properties(${FULL_TEST_NAME} PROPERTIES LABELS "${ARGS_CONFIGURATIONS}")
+    if(NOT ARGS_CASE_DIR)
+      logFatalError("_arcgeosim_add_test2 needs ARGS_CASE_DIR")
     endif()
-	  if(WIN32)
-	    # ajout du chemin des dlls au PATH
-	    set(PATH ${BUILDSYSTEM_DLL_COPY_DIRECTORY})
-	    list(APPEND PATH $ENV{PATH})
-      string(REPLACE ";" "\\;" PATH "${PATH}")
-	    string(REPLACE "/" "\\" PATH "${PATH}")
-	    set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT "PATH=${PATH}")
-	    if(OPT_ENVIRONMENT)
-        set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ${OPT_ENVIRONMENT})
+
+    if(ARGS_MPI)
+      if(ARGS_SEQUENTIAL)
+        logFatalError("MPI and SEQUENTIAL can't be used in same test")
       endif()
-	  else()
-      if(OPT_ENVIRONMENT)
-        set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ${OPT_ENVIRONMENT})
+      string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_MPI})
+      if(NOT CURRENT_ARG_IS_NUMBER)
+        logFatalError("MPI argument is not a positive number : ${ARGS_MPI}")
       endif()
-	  endif()
-	  if(OPT_WILL_FAIL)
-      set_tests_properties(${FULL_TEST_NAME} PROPERTIES WILL_FAIL ${OPT_WILL_FAIL})
+      set(OPT_RUN_MODE Mpi)
+      set(OPT_PROCESSORS ${ARGS_MPI})
+    else() # d�faut
+      set(OPT_RUN_MODE Seq)
+      set(OPT_PROCESSORS 1)
     endif()
-    if(OPT_RUN_SERIAL)
-      set_tests_properties(${FULL_TEST_NAME} PROPERTIES RUN_SERIAL ${OPT_RUN_SERIAL})
-    endif()
-    if(OPT_RESOURCE_LOCK)
-      set_tests_properties(${FULL_TEST_NAME} PROPERTIES RESOURCE_LOCK ${OPT_RESOURCE_LOCK})
-    endif()
-  else()
-    message(STATUS "Skip non ${PROJECT_NAME} test case : ${ARGS_TEST_NAME}")
-  endif()
 
-endmacro()
 
+    if(ARGS_ENVIRONMENT)
+      set(OPT_ENVIRONMENT ${ARGS_ENVIRONMENT})
+    else()
+      unset(OPT_ENVIRONMENT)
+    endif()
+
+    if(ARGS_RESOURCE_LOCK)
+      set(OPT_RESOURCE_LOCK ${ARGS_RESOURCE_LOCK})
+    endif()
+
+    if(ARGS_TIMEOUT)
+      string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_TIMEOUT})
+      if(NOT CURRENT_ARG_IS_NUMBER)
+        logFatalError("TIMEOUT argument is not a positive number : ${ARGS_TIMEOUT}")
+      endif()
+      set(OPT_TIMEOUT ${ARGS_TIMEOUT})
+    else()
+      set(OPT_TIMEOUT 120)
+    endif()
+
+    if(ARGS_RESTART)
+      string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_RESTART})
+      if(NOT CURRENT_ARG_IS_NUMBER)
+        logFatalError("RESTART argument is not a positive number : ${ARGS_RESTART}")
+      endif()
+      set(OPT_RESTART ${ARGS_RESTART})
+    else()
+      set(OPT_RESTART 0)
+    endif()
+
+    if(ARGS_WILL_FAIL)
+      set(OPT_WILL_FAIL "true")
+    else()
+      set(OPT_WILL_FAIL "false")
+    endif()
+
+    if(ARGS_RUN_SERIAL)
+      set(ARGS_RUN_SERIAL "true")
+    else()
+      set(ARGS_RUN_SERIAL "false")
+    endif()
+
+    set(FULL_TEST_NAME)
+    if(${OPT_RUN_MODE} STREQUAL "Seq")
+      set(FULL_TEST_NAME "${ARGS_TEST_NAME}")
+    elseif(${OPT_RUN_MODE} STREQUAL "Mpi")
+      set(FULL_TEST_NAME "${ARGS_TEST_NAME}_${OPT_PROCESSORS}proc")
+    else()
+      logFatalError("'${OPT_RUN_MODE}' run mode not supported")
+    endif()
+
+    if(FORCE_EMBEDDED)
+      set(OPT_RUN_MODE "Embedded")
+    endif(FORCE_EMBEDDED)
+
+    set(TEST_UNITARY_OUTPUT_DIR ${TEST_OUTPUT_ROOT_DIR}/${FULL_TEST_NAME})
+    # creation du repertoire pour les outputs du test
+    file(MAKE_DIRECTORY ${TEST_UNITARY_OUTPUT_DIR})
+    if(NOT TESTING_FILTER OR ${ARGS_CONFIG_FILE} STREQUAL ${PROJECT_NAME})
+
+      if(NOT ${NewBuildSystem})
+          add_test(
+                NAME ${FULL_TEST_NAME}
+                COMMAND ${SCRIPT_DRIVER} ${PROJECT_SOURCE_DIR}/common/ArcaneInfra/bin/ArcaneTest.sh
+                  ${ARGS_TEST_NAME}
+                  ${FULL_TEST_NAME}
+                  ${PROJECT_SOURCE_DIR}
+                  ${PROJECT_BINARY_DIR}
+                  ${PROJECT_BIN}
+                  ${PROJECT_NAME}
+                  ${ARGS_CONFIG_FILE}
+                  ${ARGS_CASE_FILE}
+                  ${TEST_VALI_DIR}
+                  ${OPT_RUN_MODE}
+                  ${OPT_PROCESSORS}
+                  ${OPT_RESTART}
+                  )
+        else()
+          add_test(
+                NAME ${FULL_TEST_NAME}
+                COMMAND ${SCRIPT_DRIVER} ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/bin/ArcaneTest.sh
+                  ${ARGS_TEST_NAME}
+                  ${FULL_TEST_NAME}
+                  ${PROJECT_SOURCE_DIR}
+                  ${PROJECT_BINARY_DIR}
+                  $<TARGET_FILE:${PROJECT_NAME}.exe>
+                  ${PROJECT_NAME}
+                  ${ARGS_CONFIG_FILE}
+                  ${ARGS_CASE_FILE}
+                  ${TEST_VALI_DIR}
+                  ${OPT_RUN_MODE}
+                  ${OPT_PROCESSORS}
+                  ${OPT_RESTART}
+                  )
+        endif()
+
+      set_tests_properties(${FULL_TEST_NAME} PROPERTIES WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/${ARGS_CASE_DIR})
+      set_tests_properties(${FULL_TEST_NAME} PROPERTIES TIMEOUT ${OPT_TIMEOUT})
+      set_tests_properties(${FULL_TEST_NAME} PROPERTIES PROCESSORS ${OPT_PROCESSORS})
+
+      set_tests_properties(${FULL_TEST_NAME} PROPERTIES ENVIRONMENT ARCANE_OUTPUT_ROOT_PATH=${TEST_UNITARY_OUTPUT_DIR})
+      set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ARCANE_PARALLEL_OUTPUT_PREFIX=${TEST_UNITARY_OUTPUT_DIR})
+
+      if(ARGS_CONFIGURATIONS)
+        set_tests_properties(${FULL_TEST_NAME} PROPERTIES LABELS "${ARGS_CONFIGURATIONS}")
+      endif()
+        if(WIN32)
+          # ajout du chemin des dlls au PATH
+          set(PATH ${BUILDSYSTEM_DLL_COPY_DIRECTORY})
+          list(APPEND PATH $ENV{PATH})
+        string(REPLACE ";" "\\;" PATH "${PATH}")
+          string(REPLACE "/" "\\" PATH "${PATH}")
+          set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT "PATH=${PATH}")
+          if(OPT_ENVIRONMENT)
+          set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ${OPT_ENVIRONMENT})
+        endif()
+        else()
+        if(OPT_ENVIRONMENT)
+          set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ${OPT_ENVIRONMENT})
+        endif()
+        endif()
+        if(OPT_WILL_FAIL)
+        set_tests_properties(${FULL_TEST_NAME} PROPERTIES WILL_FAIL ${OPT_WILL_FAIL})
+      endif()
+      if(OPT_RUN_SERIAL)
+        set_tests_properties(${FULL_TEST_NAME} PROPERTIES RUN_SERIAL ${OPT_RUN_SERIAL})
+      endif()
+      if(OPT_RESOURCE_LOCK)
+        set_tests_properties(${FULL_TEST_NAME} PROPERTIES RESOURCE_LOCK ${OPT_RESOURCE_LOCK})
+      endif()
+    else()
+      message(STATUS "Skip non ${PROJECT_NAME} test case : ${ARGS_TEST_NAME}")
+    endif()
+
+  endmacro()
+endif ()
 
 #-----------------------------------------------------------
 # testing macros
 #-----------------------------------------------------------
 
 macro(ARCGEOSIM_ADD_TEST test_name config_file case_dir case_file)
-  _arcgeosim_add_test(
+  _arcgeosim_add_test2(
     TEST_NAME   ${test_name} 
     CONFIG_FILE ${config_file} 
     CASE_DIR    ${case_dir} 
@@ -226,7 +227,7 @@ endmacro()
 
 # Add a sequential test
 macro(ARCANE_ADD_TEST_SEQUENTIAL test_name config_file case_dir case_file)
-  _arcgeosim_add_test(
+  _arcgeosim_add_test2(
     TEST_NAME   ${test_name} 
     CONFIG_FILE ${config_file} 
     CASE_DIR    ${case_dir} 
@@ -236,7 +237,7 @@ macro(ARCANE_ADD_TEST_SEQUENTIAL test_name config_file case_dir case_file)
 endmacro()
 
 macro(ARCANE_ADD_TEST_SEQUENTIAL_LONGTIME test_name config_file case_dir case_file timeout)
-  _arcgeosim_add_test(
+  _arcgeosim_add_test2(
     TEST_NAME   ${test_name} 
     CONFIG_FILE ${config_file} 
     CASE_DIR    ${case_dir} 
@@ -248,7 +249,7 @@ endmacro()
 
 # add a standard test
 macro(ARCANE_ADD_TEST_PARALLEL test_name config_file case_dir case_file nproc)
-  _arcgeosim_add_test(
+  _arcgeosim_add_test2(
     TEST_NAME   ${test_name} 
     CONFIG_FILE ${config_file} 
     CASE_DIR    ${case_dir} 
@@ -258,7 +259,7 @@ macro(ARCANE_ADD_TEST_PARALLEL test_name config_file case_dir case_file nproc)
 endmacro()
 
 macro(ARCANE_ADD_TEST_PARALLEL_LONGTIME test_name config_file case_dir case_file nproc timeout)
-  _arcgeosim_add_test(
+  _arcgeosim_add_test2(
     TEST_NAME   ${test_name} 
     CONFIG_FILE ${config_file} 
     CASE_DIR    ${case_dir} 
@@ -268,17 +269,21 @@ macro(ARCANE_ADD_TEST_PARALLEL_LONGTIME test_name config_file case_dir case_file
     )
 endmacro()
 
-macro(ARCANE_ADD_TEST test_name config_file case_dir case_file)
-  ARCANE_ADD_TEST_SEQUENTIAL(${test_name} ${config_file} ${case_dir} ${case_file})
-  ARCANE_ADD_TEST_PARALLEL(${test_name} ${config_file} ${case_dir} ${case_file} 1)
-  ARCANE_ADD_TEST_PARALLEL(${test_name} ${config_file} ${case_dir} ${case_file} 4)
-endmacro()
+if (NOT DEFINED ARCANE_ADD_TEST)
+  macro(ARCANE_ADD_TEST test_name config_file case_dir case_file)
+    ARCANE_ADD_TEST_SEQUENTIAL(${test_name} ${config_file} ${case_dir} ${case_file})
+    ARCANE_ADD_TEST_PARALLEL(${test_name} ${config_file} ${case_dir} ${case_file} 1)
+    ARCANE_ADD_TEST_PARALLEL(${test_name} ${config_file} ${case_dir} ${case_file} 4)
+  endmacro()
+endif ()
 
-macro(ARCANE_ADD_TEST_LONGTIME test_name config_file case_dir case_file timeout)
-  ARCANE_ADD_TEST_SEQUENTIAL_LONGTIME(${test_name} ${config_file} ${case_dir} ${case_file} ${timeout})
-  ARCANE_ADD_TEST_PARALLEL_LONGTIME(${test_name} ${config_file} ${case_dir} ${case_file} 1 ${timeout})
-  ARCANE_ADD_TEST_PARALLEL_LONGTIME(${test_name} ${config_file} ${case_dir} ${case_file} 4 ${timeout})
-endmacro()
+if (NOT DEFINED ARCANE_ADD_TEST_LONGTIME)
+  macro(ARCANE_ADD_TEST_LONGTIME test_name config_file case_dir case_file timeout)
+    ARCANE_ADD_TEST_SEQUENTIAL_LONGTIME(${test_name} ${config_file} ${case_dir} ${case_file} ${timeout})
+    ARCANE_ADD_TEST_PARALLEL_LONGTIME(${test_name} ${config_file} ${case_dir} ${case_file} 1 ${timeout})
+    ARCANE_ADD_TEST_PARALLEL_LONGTIME(${test_name} ${config_file} ${case_dir} ${case_file} 4 ${timeout})
+  endmacro()
+endif ()
 
 # add a convergence test
 #macro(ARCANE_ADD_CONVERGENCE_TEST test_name config_file test_dir test_dir_xml test_xml nproc)

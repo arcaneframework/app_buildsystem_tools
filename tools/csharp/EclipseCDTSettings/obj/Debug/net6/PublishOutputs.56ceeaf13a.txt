@@ -1,5 +1,0 @@
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/EclipseCDTSettings/bin/Debug/net6/publish/EclipseCDTSettings
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/EclipseCDTSettings/bin/Debug/net6/publish/EclipseCDTSettings.dll
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/EclipseCDTSettings/bin/Debug/net6/publish/EclipseCDTSettings.deps.json
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/EclipseCDTSettings/bin/Debug/net6/publish/EclipseCDTSettings.runtimeconfig.json
-/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/tools/csharp/EclipseCDTSettings/bin/Debug/net6/publish/EclipseCDTSettings.pdb

@@ -65,26 +65,20 @@ include(${BUILD_SYSTEM_PATH}/commands/user/RegisterPackageLibrary.cmake)
 include(${BUILD_SYSTEM_PATH}/commands/user/generateCMakeConfig.cmake)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
- 
-find_program(PKGLIST_LOADER 
-  NAMES PkgListLoader.exe 
-  PATHS ${BUILD_SYSTEM_PATH}/bin
-  NO_DEFAULT_PATH
-  )
-find_program(WHOLEARCHIVE_VCPROJ_TOOL
-  NAMES WholeArchiveVCProj.exe
-  HINTS ${BUILD_SYSTEM_PATH}/bin
-  NO_DEFAULT_PATH	
-  )
 
-set(CMAKELIST_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net6/CMakeListGenerator.dll)
+set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.dll)
 
-set(ECLIPSECDT_GENERATOR dotnet ${BUILD_SYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net6/EclipseCDTSettings.dll)
+set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.dll)
 
+set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net6/CMakeListGenerator.dll)
+
+set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net6/EclipseCDTSettings.dll)
+
+# todo last project to migrate dotnet6 (do it on windows os)
 if(WIN32)
   find_program(WINDOWS_PATH_RESOLVER_TOOL
     NAMES WindowsPathResolver.exe
-    HINTS ${BUILD_SYSTEM_PATH}/bin
+    HINTS ${INFRA_BUILDSYSTEM_PATH}/csharp/WindowsPathResolver/bin
     NO_DEFAULT_PATH	
   )
 endif()
@@ -104,8 +98,12 @@ endif()
 
 # où sont placés le exe  et les libs
 # NB: en fait, ne retire pas les répertoires des configurations avec Visual/XCode
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+endif ()
+if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif ()
 
 # Répertoire de copie des dlls pour windows
 if(NOT BUILDSYSTEM_DLL_COPY_DIRECTORY)
@@ -120,8 +118,12 @@ if(BUILDSYSTEM_NO_CONFIGURATION_OUTPUT_DIRECTORY)
     # les dlls/libs/exe ne sont pas placés dans des répertoires de configuration
     # Pour Visual/XCode, pas de chemin bin/Release ou lib/Release (par exemple)
     # NB: Sous linux, cela ne change rien
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/lib)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/bin)
+    if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG})
+      set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/lib)
+    endif ()
+    if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG})
+      set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/bin)
+    endif ()
   endforeach()
 endif()
 

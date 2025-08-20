@@ -122,5 +122,17 @@ if(MPI_FOUND AND NOT TARGET mpi)
   set_target_properties(mpi PROPERTIES
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${MPI_LIBRARY}")
+
+  if(WIN32)
+    set(MPI_REDIST_LIB_PATH
+        "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64_win/compiler"
+	CACHE INTERNAL "MPI redist path")
+	set(EXTRA_DLLS_TO_COPY 
+        ${MPI_REDIST_LIB_PATH}/libifportmd.dll
+        ${MPI_REDIST_LIB_PATH}/libifcoremd.dll
+	${MPI_REDIST_LIB_PATH}/libiomp5md.dll
+        ${MPI_REDIST_LIB_PATH}/libmmd.dll
+	CACHE INTERNAL "Extra dlls")
+  endif()
     
 endif()
