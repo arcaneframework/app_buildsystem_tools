@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Z3CrCHXBjTMmbngFjz30QlwsaE4UPEoNSmK8dlsM9i03ltL1ISHFCzxRxZCPZpAl9mXgIRVBHbajna5qymMqUw==",
+  "dgSpecHash": "dQgMBgzPtgM=",
   "success": true,
-  "projectFilePath": "/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/LawCompiler.csproj",
+  "projectFilePath": "/work/gratienj/2025/Arcane3/app_buildsystem_tools/csharp/LawCompiler/LawCompiler.csproj",
   "expectedPackageFiles": [
-    "/work/gaynor/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512"
+    "/work/gratienj/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/work/gratienj/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/work/gratienj/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }
