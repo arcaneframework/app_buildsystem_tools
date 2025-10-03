@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.21.1)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
+message(status "BGIN LOADBUILDSYSTEM")
 # outillage cmake
 include(CMakeParseArguments)
 include(FindPackageHandleStandardArgs)
@@ -66,13 +67,13 @@ include(${BUILD_SYSTEM_PATH}/commands/user/generateCMakeConfig.cmake)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.dll)
+set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/Debug/netstandard2.0/PkgListLoader.dll)
 
-set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.dll)
+set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/Debug/netstandard2.0/WholeArchiveVCProj.dll)
 
-set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net6/CMakeListGenerator.dll)
+set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/netstandard2.0/CMakeListGenerator.dll)
 
-set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net6/EclipseCDTSettings.dll)
+set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/netstandard2.0/EclipseCDTSettings.dll)
 
 # todo last project to migrate dotnet6 (do it on windows os)
 if(WIN32)

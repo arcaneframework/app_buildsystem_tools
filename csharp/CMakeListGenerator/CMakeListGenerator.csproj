@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-  <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  <OutputType>Exe</OutputType>
-    <TargetFramework>net6</TargetFramework>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-	<PackageReference Include="System.CodeDom" Version="6.0.0" />
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
   </ItemGroup>
-<ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Makefile.xsd">
       <LogicalName>Makefile.xsd</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Common.xsd">
+    <!--EmbeddedResource Include="Common.xsd">
        <LogicalName>Common.xsd</LogicalName>
-    </EmbeddedResource>
+    </EmbeddedResource-->
   </ItemGroup> 
 </Project>

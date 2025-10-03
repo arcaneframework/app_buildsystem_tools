@@ -8,6 +8,10 @@ if [[ "${PROJECT_NAME}" != "Law" && "${PROJECT_NAME}" != "Gump" && "${PROJECT_NA
   echo Usage : "`basename $0` Law|Gump|CMakeList"
   exit 1
 fi
+if [[ "x$ARCANEFRAMEWORK_ROOT" == "x"]]; then
+  ARCANEFRAMEWORK_ROOT="../.."
+  echo "WARNING ARCANEFRAMEWORK_ROOT NOT SET : var is then set to  ../.."
+fi
 
 # csharp namespace and xsd file
 if [[ ${PROJECT_NAME} == "CMakeList" ]]; then
@@ -19,7 +23,8 @@ else
 fi
 
 # build T4 
-cd ../../axlstar/TextTransform
+#cd ../../axlstar/TextTransform
+cd $ARCANEFRAMEWORK_ROOT/axlstar/TextTransform
 dotnet publish --output "${CURRENT_DIR}/TextTransformT4"
 
 # build poject csharp
