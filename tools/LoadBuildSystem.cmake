@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.21.1)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-message(status "BGIN LOADBUILDSYSTEM")
 # outillage cmake
 include(CMakeParseArguments)
 include(FindPackageHandleStandardArgs)
@@ -66,12 +65,27 @@ include(${BUILD_SYSTEM_PATH}/commands/user/RegisterPackageLibrary.cmake)
 include(${BUILD_SYSTEM_PATH}/commands/user/generateCMakeConfig.cmake)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
-if(NOT DOTNET_VERSION)
-  set(DOTNET_VERSION 6)
+find_program(DOTNET_EXEC NAMES dotnet)
+message(STATUS "[.Net]: DOTNET exe: ${DOTNET_EXEC}")
+if (DOTNET_EXEC)
+    # Récupère le numéro de version 'dotnet'
+    execute_process(COMMAND ${DOTNET_EXEC} "--version" OUTPUT_VARIABLE CORECLR_EXEC_VERSION_OUTPUT OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(REGEX MATCH "([0-9]+)\.([0-9]+)\.(.*)" CORECLR_VERSION_REGEX_MATCH ${CORECLR_EXEC_VERSION_OUTPUT})
+    set(DOTNET_VERSION ${CMAKE_MATCH_1})
+    set(CORECLR_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2})
+    set(CORECLR_VERSION_FULL ${CORECLR_VERSION}.${CMAKE_MATCH_3})
+    if(DOTNET_VERSION EQUAL 6)
+      set(DOTNET_BUILD_TYPE Debug)
+    else()
+      set(DOTNET_BUILD_TYPE Release)
+    endif()
+    message(STATUS "[.Net]: DOTNET_VERSION   = ${DOTNET_VERSION}")
+    message(STATUS "[.Net]: DOTNET_BUILDTYPE = ${DOTNET_BUILD_TYPE}")
+    message(STATUS "[.Net]: CORECLR_VERSION  = ${CORECLR_VERSION} (full=${CORECLR_VERSION_FULL})")
+else()
+    message(FATAL_ERROR "DOTNET NOT FOUND")
 endif()
-if(NOT DOTNET_BUILD_TYPE)
-  set(DOTNET_BUILD_TYPE Debug)
-endif()
+
 set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/PkgListLoader.dll)
 
 set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/WholeArchiveVCProj.dll)
