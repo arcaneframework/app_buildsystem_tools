@@ -26,7 +26,7 @@ file(MAKE_DIRECTORY ${LAW_BINARY_DIR}/bin/LawCompiler)
 if (NOT TARGET law_copy_binary)
     add_custom_target(law_copy_binary ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/Release/net${DOTNET_VERSION}/publish
+	${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/LawCompiler/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/publish
         ${LAW_BINARY_DIR}/bin/LawCompiler
     )
 endif ()
