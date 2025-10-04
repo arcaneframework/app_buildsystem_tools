@@ -26,7 +26,7 @@ file(MAKE_DIRECTORY ${GUMP_BINARY_DIR}/bin/GumpCompiler)
 if (NOT TARGET gump_copy_binary)
     add_custom_target(gump_copy_binary ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/bin/Debug/net6/publish
+	${ARCGEOSIM_BUILD_SYSTEM_PATH}/csharp/GumpCompiler/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/publish
         ${GUMP_BINARY_DIR}/bin/GumpCompiler
     )
 endif ()

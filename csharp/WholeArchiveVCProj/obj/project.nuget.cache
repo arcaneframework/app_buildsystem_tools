@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "F1sEzmJW8MUvMr36xRuw/bgvSugxemK1qGJwXSYYKAU7QB95VN9uXBXXqnOaS8h2wSDuB0uB5L02vA/j7OSg6A==",
+  "dgSpecHash": "aFZSG/fL2HY=",
   "success": true,
-  "projectFilePath": "/work/gaynor/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/work/gratienj/2025/Arcane3/app_buildsystem_tools/csharp/WholeArchiveVCProj/WholeArchiveVCProj.csproj",
+  "expectedPackageFiles": [
+    "/work/gratienj/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/work/gratienj/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
