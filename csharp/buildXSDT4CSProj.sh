@@ -8,7 +8,7 @@ if [[ "${PROJECT_NAME}" != "Law" && "${PROJECT_NAME}" != "Gump" && "${PROJECT_NA
   echo Usage : "`basename $0` Law|Gump|CMakeList"
   exit 1
 fi
-if [[ "x$ARCANEFRAMEWORK_ROOT" == "x"]]; then
+if [[ "x$ARCANEFRAMEWORK_ROOT" == "x" ]]; then
   ARCANEFRAMEWORK_ROOT="../.."
   echo "WARNING ARCANEFRAMEWORK_ROOT NOT SET : var is then set to  ../.."
 fi
@@ -31,7 +31,7 @@ dotnet publish --output "${CURRENT_DIR}/TextTransformT4"
 cd ${CURRENT_DIR}/${PROJECT_NAMESPACE}
 
 # delete existing builds
-rm -rf bin obj
+#rm -rf bin obj
 
 ## generate all cs file from .tt using TextTransform.dll
 ALL_FILES_T4=`ls *.tt`

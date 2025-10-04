@@ -66,14 +66,16 @@ include(${BUILD_SYSTEM_PATH}/commands/user/RegisterPackageLibrary.cmake)
 include(${BUILD_SYSTEM_PATH}/commands/user/generateCMakeConfig.cmake)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
+if(NOT DOTNET_VERSION)
+  set(DOTNET_VERSION 6)
+endif()
+set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/Debug/net${DOTNET_VERSION}/PkgListLoader.dll)
 
-set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/Debug/netstandard2.0/PkgListLoader.dll)
+set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/Debug/net${DOTNET_VERSION}/WholeArchiveVCProj.dll)
 
-set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/Debug/netstandard2.0/WholeArchiveVCProj.dll)
+set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net${DOTNET_VERSION}/CMakeListGenerator.dll)
 
-set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/netstandard2.0/CMakeListGenerator.dll)
-
-set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/netstandard2.0/EclipseCDTSettings.dll)
+set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net${DOTNET_VERSION}/EclipseCDTSettings.dll)
 
 # todo last project to migrate dotnet6 (do it on windows os)
 if(WIN32)

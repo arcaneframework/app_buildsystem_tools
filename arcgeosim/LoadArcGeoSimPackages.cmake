@@ -176,6 +176,11 @@ else()
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${HDF5_LIBRARY}")
 endif()
+if (TARGET HDF5::HDF5)
+  if (NOT TARGET hdf5)
+    add_library(hdf5 ALIAS HDF5::HDF5)
+  endif()
+endif()
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------

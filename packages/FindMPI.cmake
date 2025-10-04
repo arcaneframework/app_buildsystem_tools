@@ -85,7 +85,7 @@ if(NOT MPI_FOUND)
   
   find_path(MPI_INCLUDE_DIR mpi.h
     HINTS ${MPI_ROOT}
-		PATH_SUFFIXES include include64 intel64/include
+		PATH_SUFFIXES include include64 intel64/include include/x86_64-linux-gnu/mpi
     ${_MPI_SEARCH_OPTS}
   )
   mark_as_advanced(MPI_INCLUDE_DIR)
