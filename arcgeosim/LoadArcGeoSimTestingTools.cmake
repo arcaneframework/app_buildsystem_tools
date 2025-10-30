@@ -285,6 +285,127 @@ if (NOT DEFINED ARCANE_ADD_TEST_LONGTIME)
   endmacro()
 endif ()
 
+# add a CAWF test
+macro(_add_CAWF_test)
+    
+    set(oneValueArgs TEST_NAME CONFIG_FILE TEST_DIR CASE1_FILE CASE1_DIR NPROC1 CASE2_FILE CASE2_DIR NPROC2)
+    list(APPEND oneValueArgs TIMEOUT ENVIRONMENT RESOURCE_LOCK)
+    set(multiValueArgs CONFIGURATIONS)
+
+    cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    if(ARGS_UNPARSED_ARGUMENTS)
+      logFatalError("unparsed arguments '${ARGS_UNPARSED_ARGUMENTS}'")
+    endif()
+
+    if(NOT ARGS_TEST_NAME)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs TEST_NAME")
+    endif()
+
+    if(NOT ARGS_CONFIG_FILE)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs CONFIG_FILE")
+    endif()
+
+    if(NOT ARGS_TEST_DIR)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs TEST_DIR")
+    endif()
+    
+    if(NOT ARGS_CASE1_FILE)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs CASE_FILE1")
+    endif()
+
+    if(NOT ARGS_CASE1_DIR)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs ARGS_CASE_DIR1")
+    endif()
+
+    if(NOT ARGS_NPROC1)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs ARGS_NPROC1")
+    endif()
+    
+    if(NOT ARGS_CASE2_FILE)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs CASE2_FILE")
+    endif()
+
+    if(NOT ARGS_CASE2_DIR)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs ARGS_CASE2_DIR")
+    endif()
+    
+    if(NOT ARGS_NPROC2)
+      logFatalError("ARCANE_ADD_CAWF_TEST needs ARGS_NPROC2")
+    endif()
+    
+    if(ARGS_ENVIRONMENT)
+      set(OPT_ENVIRONMENT ${ARGS_ENVIRONMENT})
+    else()
+      unset(OPT_ENVIRONMENT)
+    endif()
+
+    if(ARGS_RESOURCE_LOCK)
+      set(OPT_RESOURCE_LOCK ${ARGS_RESOURCE_LOCK})
+    endif()
+
+    if(ARGS_TIMEOUT)
+      string(REGEX MATCH "^[1-9][0-9]*$" CURRENT_ARG_IS_NUMBER ${ARGS_TIMEOUT})
+      if(NOT CURRENT_ARG_IS_NUMBER)
+        logFatalError("TIMEOUT argument is not a positive number : ${ARGS_TIMEOUT}")
+      endif()
+      set(OPT_TIMEOUT ${ARGS_TIMEOUT})
+    else()
+      set(OPT_TIMEOUT 120)
+    endif()
+
+    math(EXPR TOTAL_NPROC "${ARGS_NPROC1} + ${ARGS_NPROC2}")
+    set(FULL_TEST_NAME "${ARGS_TEST_NAME}_${ARGS_CASE1_DIR}_${ARGS_CASE2_DIR}_${TOTAL_NPROC}proc")
+    set(FULL_TEST1_NAME "${ARGS_TEST_NAME}_${ARGS_CASE1_DIR}_${ARGS_NPROC1}proc")
+    set(FULL_TEST2_NAME "${ARGS_TEST_NAME}_${ARGS_CASE2_DIR}_${ARGS_NPROC2}proc")
+
+    set(TEST1_UNITARY_OUTPUT_DIR ${TEST_OUTPUT_ROOT_DIR}/${FULL_TEST1_NAME})
+    set(TEST2_UNITARY_OUTPUT_DIR ${TEST_OUTPUT_ROOT_DIR}/${FULL_TEST2_NAME})
+    # creation du repertoire pour les outputs du test
+    file(MAKE_DIRECTORY ${TEST1_UNITARY_OUTPUT_DIR})
+    file(MAKE_DIRECTORY ${TEST2_UNITARY_OUTPUT_DIR})
+
+  ADD_TEST(NAME ${FULL_TEST_NAME}
+           COMMAND  ${SCRIPT_DRIVER} ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/bin/CAWFRunTest.sh
+                    ${ARGS_TEST_NAME}
+                    ${PROJECT_SOURCE_DIR}
+                    ${CMAKE_BINARY_DIR}
+                    ${PROJECT_BIN}
+                    $<TARGET_FILE:${PROJECT_NAME}.exe>
+                    ${PROJECT_NAME}
+                    ${ARGS_CONFIG_FILE}
+                    ${FULL_TEST1_NAME}
+                    ${ARGS_CASE1_FILE}
+                    ${ARGS_CASE1_DIR}
+                    ${ARGS_NPROC1}
+                    ${TEST1_UNITARY_OUTPUT_DIR}
+                    ${FULL_TEST2_NAME}
+                    ${ARGS_CASE2_FILE}
+                    ${ARGS_CASE2_DIR}
+                    ${ARGS_NPROC2}
+                    ${TEST2_UNITARY_OUTPUT_DIR}
+                    ${TEST_VALI_DIR})
+  
+  set_tests_properties(${FULL_TEST_NAME} PROPERTIES WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/${ARGS_TEST_DIR})
+  #set_tests_properties(${FULL_TEST_NAME} PROPERTIES TIMEOUT ${DEFAULT_OPT_TIMEOUT})
+  set_tests_properties(${FULL_TEST_NAME} PROPERTIES PROCESSORS ${TOTAL_NPROC})
+  #set_tests_properties(${FULL_TEST_NAME} PROPERTIES ENVIRONMENT ARCANE_OUTPUT_ROOT_PATH=${TEST_UNITARY_OUTPUT_DIR})
+  #set_property(TEST ${FULL_TEST_NAME} APPEND PROPERTY ENVIRONMENT ARCANE_PARALLEL_OUTPUT_PREFIX=${TEST_UNITARY_OUTPUT_DIR})
+endmacro(_add_CAWF_test)
+
+macro(ARCANE_ADD_CAWF_TEST test_name config_file test_dir case1_file case1_dir nproc1 case2_file case2_dir nproc2)
+  _add_CAWF_test( TEST_NAME   ${test_name}
+                  CONFIG_FILE ${config_file}
+                  TEST_DIR    ${test_dir}
+                  CASE1_FILE  ${case1_file}
+                  CASE1_DIR   ${case1_dir}
+                  NPROC1      ${nproc1}
+                  CASE2_FILE  ${case2_file}
+                  CASE2_DIR   ${case2_dir}
+                  NPROC2      ${nproc2}
+                )
+endmacro(ARCANE_ADD_CAWF_TEST)
+
 # add a convergence test
 #macro(ARCANE_ADD_CONVERGENCE_TEST test_name config_file test_dir test_dir_xml test_xml nproc)
 #  set(SEQUENTIAL ${nproc} SMALLER 2)
