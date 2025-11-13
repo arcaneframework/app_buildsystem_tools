@@ -124,15 +124,20 @@ if(MPI_FOUND AND NOT TARGET mpi)
     IMPORTED_LOCATION "${MPI_LIBRARY}")
 
   if(WIN32)
-    set(MPI_REDIST_LIB_PATH
-        "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64_win/compiler"
-	CACHE INTERNAL "MPI redist path")
-	set(EXTRA_DLLS_TO_COPY 
+    if(DEFINED ENV{CMPLR_ROOT})
+	  set(MPI_REDIST_LIB_PATH $ENV{CMPLR_ROOT}/windows/redist/intel64_win/compiler CACHE INTERNAL "MPI redist path")
+    else()
+      set(MPI_REDIST_LIB_PATH "C:/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64_win/compiler" CACHE INTERNAL "MPI redist path")
+    endif()
+    set(EXTRA_DLLS_TO_COPY
+        ${EXTRA_DLLS_TO_COPY}
         ${MPI_REDIST_LIB_PATH}/libifportmd.dll
         ${MPI_REDIST_LIB_PATH}/libifcoremd.dll
+	${MPI_REDIST_LIB_PATH}/libifcorert.dll
 	${MPI_REDIST_LIB_PATH}/libiomp5md.dll
         ${MPI_REDIST_LIB_PATH}/libmmd.dll
-	CACHE INTERNAL "Extra dlls")
+	CACHE INTERNAL "Extra dlls"
+       )
   endif()
     
 endif()
