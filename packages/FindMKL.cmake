@@ -143,7 +143,6 @@ endforeach()
 
 # Affiche le résultat
 if(MKL_DLL_PATH)
-    message(STATUS "vcpkg bin directory: ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
     message(STATUS "MKL ROOT: ${MKL_ROOT}")
     message(STATUS "MKL DLL directory found: ${MKL_DLL_DIR}")
     message(STATUS "MKL DLL name found: ${MKL_DLL_NAME}")
@@ -431,22 +430,20 @@ if(MKL_FOUND AND NOT TARGET mkl)
   endif()
 
   if(WIN32)
-      if(NOT MKL_DLL_DIR STREQUAL ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin)
-      if("${MKL_DLL_NAME}" STREQUAL "mkl_def.dll")
-        set(EXTRA_DLLS_TO_COPY 
-            ${EXTRA_DLLS_TO_COPY}
-            ${MKL_DLL_DIR}/mkl_intel_thread.dll
-            ${MKL_DLL_DIR}/mkl_core.dll
-            ${MKL_DLL_DIR}/mkl_rt.dll
-            ${MKL_DLL_DIR}/mkl_def.dll)
-      else()
-        set(EXTRA_DLLS_TO_COPY 
-            ${EXTRA_DLLS_TO_COPY}
-            ${MKL_DLL_DIR}/mkl_intel_thread.1.dll
-            ${MKL_DLL_DIR}/mkl_core.1.dll
-            ${MKL_DLL_DIR}/mkl_rt.1.dll
-            ${MKL_DLL_DIR}/mkl_def.1.dll)
-      endif()
+    if("${MKL_DLL_NAME}" STREQUAL "mkl_def.dll")
+      set(EXTRA_DLLS_TO_COPY
+          ${EXTRA_DLLS_TO_COPY}
+          ${MKL_DLL_DIR}/mkl_intel_thread.dll
+          ${MKL_DLL_DIR}/mkl_core.dll
+          ${MKL_DLL_DIR}/mkl_rt.dll
+          ${MKL_DLL_DIR}/mkl_def.dll)
+    else()
+      set(EXTRA_DLLS_TO_COPY
+          ${EXTRA_DLLS_TO_COPY}
+          ${MKL_DLL_DIR}/mkl_intel_thread.1.dll
+          ${MKL_DLL_DIR}/mkl_core.1.dll
+          ${MKL_DLL_DIR}/mkl_rt.1.dll
+          ${MKL_DLL_DIR}/mkl_def.1.dll)
     endif()
   endif()
 
