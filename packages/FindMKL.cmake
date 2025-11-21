@@ -103,11 +103,12 @@ find_package_handle_standard_args(MKL
 	MKL_BLACS_LIBRARY)
 
 
+if(WIN32)
 # ================================================= #
-# Début : Recherche de mkl_def.dll ou mkl_def.1.dll #
+# Dï¿½but : Recherche de mkl_def.dll ou mkl_def.1.dll #
 # ================================================= #
 
-# Liste des répertoires à tester
+# Liste des rï¿½pertoires ï¿½ tester
 set(MKL_SEARCH_DIRS
     "${MKL_REDIST_ROOT}"
     "${MKL_REDIST_ROOT}/bin"
@@ -121,10 +122,10 @@ set(MKL_DLL_NAMES
     "mkl_def.dll"
 )
 
-# Variable pour stocker le chemin trouvé
+# Variable pour stocker le chemin trouvï¿½
 set(MKL_DLL_PATH "")
 
-# Boucle sur les répertoires et les noms
+# Boucle sur les rï¿½pertoires et les noms
 foreach(dir ${MKL_SEARCH_DIRS})
     foreach(name ${MKL_DLL_NAMES})
         if(EXISTS "${dir}/${name}")
@@ -137,11 +138,12 @@ foreach(dir ${MKL_SEARCH_DIRS})
     endif()
 endforeach()
 
-# Affiche le résultat
+# Affiche le rï¿½sultat
 if(MKL_DLL_PATH)
     message(STATUS "MKL DLL found: ${MKL_DLL_PATH}")
 else()
     message(FATAL_ERROR "MKL DLL not found in specified directories")
+endif()
 endif()
 
 # =============================================== #
