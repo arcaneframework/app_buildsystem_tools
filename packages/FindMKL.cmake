@@ -105,50 +105,54 @@ find_package_handle_standard_args(MKL
 # Début : Recherche de mkl_def.dll ou mkl_def.1.dll #
 # ================================================= #
 
-# Liste des répertoires à tester
-set(MKL_SEARCH_DIRS
-    "${MKL_ROOT}"
-    "${MKL_ROOT}/bin"
-    "${MKL_ROOT}/redist/intel64"
-    "${MKL_ROOT}/../redist/intel64/mkl"
-)
+if(WIN32)
 
-# Liste des noms de fichiers possibles
-set(MKL_DLL_NAMES
-    "mkl_def.1.dll"
-    "mkl_def.dll"
-)
+  # Liste des répertoires à tester
+  set(MKL_SEARCH_DIRS
+      "${MKL_ROOT}"
+      "${MKL_ROOT}/bin"
+      "${MKL_ROOT}/redist/intel64"
+      "${MKL_ROOT}/../redist/intel64/mkl"
+  )
+  
+  # Liste des noms de fichiers possibles
+  set(MKL_DLL_NAMES
+      "mkl_def.1.dll"
+      "mkl_def.dll"
+  )
+  
+  # Variable pour stocker le chemin trouvé
+  set(MKL_DLL_DIR "")
+  set(MKL_DLL_NAME "")
+  set(MKL_DLL_PATH "")
+  
+  # Boucle sur les répertoires et les noms
+  foreach(dir ${MKL_SEARCH_DIRS})
+      foreach(name ${MKL_DLL_NAMES})
+          if(EXISTS "${dir}/${name}")
+  	    #set(MKL_DLL_DIR "${dir}")
+  	    #cmake_path(NORMAL_PATH "${dir}" OUTPUT_VARIABLE MKL_DLL_DIR)
+  	    file(REAL_PATH "${dir}" MKL_DLL_DIR)
+  	    set(MKL_DLL_NAME "${name}")
+              set(MKL_DLL_PATH "${dir}/${name}")
+              break()
+          endif()
+      endforeach()
+      if(MKL_DLL_PATH)
+          break()
+      endif()
+  endforeach()
+  
+  # Affiche le résultat
+  if(MKL_DLL_PATH)
+      message(STATUS "MKL ROOT: ${MKL_ROOT}")
+      message(STATUS "MKL DLL directory found: ${MKL_DLL_DIR}")
+      message(STATUS "MKL DLL name found: ${MKL_DLL_NAME}")
+      message(STATUS "MKL DLL found: ${MKL_DLL_PATH}")
+  else()
+      message(FATAL_ERROR "MKL DLL not found in specified directories")
+  endif()
 
-# Variable pour stocker le chemin trouvé
-set(MKL_DLL_DIR "")
-set(MKL_DLL_NAME "")
-set(MKL_DLL_PATH "")
-
-# Boucle sur les répertoires et les noms
-foreach(dir ${MKL_SEARCH_DIRS})
-    foreach(name ${MKL_DLL_NAMES})
-        if(EXISTS "${dir}/${name}")
-	    #set(MKL_DLL_DIR "${dir}")
-	    #cmake_path(NORMAL_PATH "${dir}" OUTPUT_VARIABLE MKL_DLL_DIR)
-	    file(REAL_PATH "${dir}" MKL_DLL_DIR)
-	    set(MKL_DLL_NAME "${name}")
-            set(MKL_DLL_PATH "${dir}/${name}")
-            break()
-        endif()
-    endforeach()
-    if(MKL_DLL_PATH)
-        break()
-    endif()
-endforeach()
-
-# Affiche le résultat
-if(MKL_DLL_PATH)
-    message(STATUS "MKL ROOT: ${MKL_ROOT}")
-    message(STATUS "MKL DLL directory found: ${MKL_DLL_DIR}")
-    message(STATUS "MKL DLL name found: ${MKL_DLL_NAME}")
-    message(STATUS "MKL DLL found: ${MKL_DLL_PATH}")
-else()
-    message(FATAL_ERROR "MKL DLL not found in specified directories")
 endif()
 
 # =============================================== #
