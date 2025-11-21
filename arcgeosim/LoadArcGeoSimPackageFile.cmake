@@ -18,7 +18,10 @@ endif()
 if (NOT ARCANEFRAMEWORK_ROOT)
   if (DEFINED ENV{ARCANEFRAMEWORK_ROOT})
     set(ARCANEFRAMEWORK_ROOT $ENV{ARCANEFRAMEWORK_ROOT})
-  endif ()
+  elseif(DEFINED ENV{GUIX_ENVIRONMENT})
+    # Si on se trouve dans un environnement isolé avec guix typiquement guix shell -D sharc, le framework ARCANE est localisé à GUIX_ENVIRONMENT
+    set (ARCANEFRAMEWORK_ROOT $ENV{GUIX_ENVIRONMENT})
+  endif()
 endif ()
 
 if (ARCANEFRAMEWORK_ROOT)
