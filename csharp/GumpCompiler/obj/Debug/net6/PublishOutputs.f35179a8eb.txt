@@ -1,0 +1,6 @@
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/GumpCompiler/bin/Debug/net6/publish/GumpCompiler
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/GumpCompiler/bin/Debug/net6/publish/GumpCompiler.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/GumpCompiler/bin/Debug/net6/publish/GumpCompiler.deps.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/GumpCompiler/bin/Debug/net6/publish/GumpCompiler.runtimeconfig.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/GumpCompiler/bin/Debug/net6/publish/GumpCompiler.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/GumpCompiler/bin/Debug/net6/publish/System.CodeDom.dll

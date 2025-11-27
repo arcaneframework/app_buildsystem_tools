@@ -1,5 +1,17 @@
 set(PRECICE_NAME "precice")
 
+
+find_package(precice)
+if(TARGET precice::precice)
+  if(NOT TARGET precice)
+    add_library(precice ALIAS precice::precice)
+  endif()
+  add_definitions(-DUSE_PRECICE)
+  if(${precice_VERSION_MAJOR} EQUAL 3)
+    add_definitions(-DUSE_PRECICE_V3)
+  endif()
+  return()
+endif()
 set(PRECICE_ROOT_DIR $ENV{PRECICE_ROOT})
 
 find_path(PRECICE_INCLUDE_DIR precice/SolverInterface.hpp
