@@ -18,11 +18,13 @@ namespace CMakeListGenerator
     {
       var settings = new XmlReaderSettings ();
 
+      /*
       Stream streamCommon = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Common.xsd");
       if (streamCommon == null)
         throw new ApplicationException ("Can not find embedded schema file 'Common.xsd'");
        XmlSchema schema = XmlSchema.Read(streamCommon, null);
        settings.Schemas.Add(schema);
+       */
 
       Stream streamMain  = Assembly.GetAssembly (typeof(Xml)).GetManifestResourceStream ("Makefile.xsd");
       if (streamMain == null)

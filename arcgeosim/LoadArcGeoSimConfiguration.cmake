@@ -16,6 +16,16 @@ add_definitions(-DMPICH_IGNORE_CXX_SEEK -DMPICH_SKIP_MPICXX)
 if(WIN32)
   # tous les symboles exportes sous windows
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+  add_compile_options(/bigobj)
+  # strange required dll for VS22 in release
+  if(DEFINED VCPKG_INSTALLED_DIR)
+    set(ARCENV_VCPKG_INSTALLED_DIR_DEBUG ${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin CACHE INTERNAL "VCPKG Debug install path")
+    set(EXTRA_DLLS_TO_COPY 
+	${EXTRA_DLLS_TO_COPY}
+	${ARCENV_VCPKG_INSTALLED_DIR_DEBUG}/zlibd1.dll
+	${ARCENV_VCPKG_INSTALLED_DIR_DEBUG}/pcred.dll
+    )
+  endif()
 endif()
 
 # includes pour simplifier

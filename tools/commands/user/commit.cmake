@@ -20,18 +20,22 @@ function(__commit_library target destination)
           DESTINATION include/ArcGeoSim/${destination}/${path}
           )
   endif()
+  # Ajout d'un repertoire d'include pour trouver les export en mode BUILD (et non install)
+  target_include_directories(${target} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
   # installation de la librairie
-  if(REQUIRE_INSTALL_PROJECTTARGETS)
-  install(TARGETS ${target}
-	  DESTINATION lib
-	  EXPORT ${PROJECT_NAME}Targets
-	  )
+  if(BUILDSYSTEM_INSTALL_TARGETS)
+    install(TARGETS ${target}
+        DESTINATION lib
+        EXPORT ${PROJECT_NAME}Targets
+        )
+  endif()
 
-  # installation du CMake pour l'installation
-  install(EXPORT ${PROJECT_NAME}Targets
-	  DESTINATION lib/cmake
-	  EXPORT_LINK_INTERFACE_LIBRARIES
-	  )
+    # installation du CMake pour l'installation
+  if (BUILDSYSTEM_INSTALL_EXPORT)
+    install(EXPORT ${PROJECT_NAME}Targets
+          DESTINATION lib/cmake
+          EXPORT_LINK_INTERFACE_LIBRARIES
+          )
   endif()
   # sources 
   get_target_property(sources ${target} BUILDSYSTEM_SOURCES)
@@ -73,12 +77,14 @@ function(__commit_library target destination)
     else()
       set_property(GLOBAL APPEND PROPERTY BUILDSYSTEM_EXTERNAL_LIBRARIES ${MY_TARGET})
     endif()
-    if (FRAMEWORK_INSTALL)
-      target_link_libraries(${target} PUBLIC $<BUILD_INTERFACE:${MY_TARGET}>)
-    else ()
+    # SdC: the link_libraries is reactivated.
+    # If a problem occur with multiple export, set BUILDSYSTEM_INSTALL_EXPORT to FALSE
       target_link_libraries(${target} PUBLIC ${MY_TARGET})
-    endif ()
   endforeach()
+  
+  # SdC: this shouldn't be needed now the target_link_libraries is reactivated. To check and remove if ok
+  target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+  
 
 endfunction()
 
@@ -138,6 +144,13 @@ function(__commit_executable target)
 
   generateDynamicLoading(${target})
 
+  # increase stack size
+  if(WIN32)
+    if (MSVC)
+      set_target_properties(${target} PROPERTIES LINK_FLAGS /STACK:10000000)
+    endif()
+  endif()
+  
 endfunction()
 
 function(commit target)

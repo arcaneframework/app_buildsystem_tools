@@ -82,7 +82,9 @@ loadPackage(NAME Arccore ESSENTIAL)
 loadPackage(NAME Axlstar ESSENTIAL) 
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
-    add_library(arcane INTERFACE IMPORTED)
+    if (NOT TARGET arcane)
+        add_library(arcane INTERFACE IMPORTED)
+    endif ()
 
     get_target_property(ARCANE_FULL_LIBRARIES arcane_full INTERFACE_LINK_LIBRARIES)
 
@@ -173,6 +175,11 @@ else()
    set_target_properties(arcconpkg_HDF5 PROPERTIES
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${HDF5_LIBRARY}")
+endif()
+if (TARGET HDF5::HDF5)
+  if (NOT TARGET hdf5)
+    add_library(hdf5 ALIAS HDF5::HDF5)
+  endif()
 endif()
 
 # ----------------------------------------------------------------------------

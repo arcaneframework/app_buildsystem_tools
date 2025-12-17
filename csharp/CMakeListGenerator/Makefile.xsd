@@ -2,12 +2,21 @@
 <!-- use 
 	/soft/irsrvsoft1/expl/Mono/Mono_3.2.8/bin/xsd Makefile.xsd /c /l:CS /n:CMakeListGenerator
   to generate Makefile.xsd
--->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:ags="http://www.ifpen.fr/ArcGeoSim">
-           
   <xs:import namespace="http://www.ifpen.fr/ArcGeoSim" 
              schemaLocation="Common.xsd" />
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           
+  <xs:complexType name="Directory">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="depend" use="optional"/>
+        <xs:attribute type="xs:boolean" name="recursive" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
 
   <xs:complexType name="File">
     <xs:simpleContent>
@@ -19,7 +28,7 @@
 
   <xs:complexType name="Directories">
     <xs:sequence>
-      <xs:element name="directory" type="ags:Directory" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="directory" type="Directory" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
 

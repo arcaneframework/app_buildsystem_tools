@@ -15,6 +15,17 @@ macro(loadPackage)
       cmake_policy(SET CMP0144 NEW)
   endif ()
 
+  if(POLICY CMP0167)
+      cmake_policy(SET CMP0167 OLD)
+  endif()
+
+  if(POLICY CMP0125)
+      cmake_policy(SET CMP0125 NEW)
+  endif()
+
+  if(POLICY CMP0160)
+      cmake_policy(SET CMP0160 OLD)
+  endif()
 
   if(ARGS_UNPARSED_ARGUMENTS)
     logFatalError("unparsed arguments '${ARGS_UNPARSED_ARGUMENTS}'")
@@ -151,4 +162,15 @@ macro(loadPackage)
   list(REMOVE_DUPLICATES TARGETS)
   set_property(GLOBAL PROPERTY ${PROJECT_NAME}_TARGETS ${TARGETS})
 
+  # handle Namespaces for ArcGeoSim
+    if (${ARGS_NAME} STREQUAL "ArcGeoSim" OR ${ARGS_NAME} STREQUAL "ArcGeoSimR")
+        string(TOLOWER "${ARGS_NAME}" target_name)
+        if (NOT TARGET ${target_name} AND TARGET ArcGeoSim::${target_name})
+            add_library(${target_name} ALIAS ArcGeoSim::${target_name})
+        elseif (NOT TARGET ArcGeoSim::${target_name} AND TARGET ${target_name})
+            add_library(ArcGeoSim::${target_name} ALIAS ${target_name})
+        elseif (NOT TARGET ArcGeoSim::${target_name} AND NOT TARGET ${target_name})
+            message(FATAL_ERROR "No ArcGeoSim target (ArcGeoSim::${target_name} or ${target_name}) can be found")
+        endif ()
+    endif ()
 endmacro()

@@ -65,14 +65,34 @@ include(${BUILD_SYSTEM_PATH}/commands/user/RegisterPackageLibrary.cmake)
 include(${BUILD_SYSTEM_PATH}/commands/user/generateCMakeConfig.cmake)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
+find_program(DOTNET_EXEC NAMES dotnet)
+message(STATUS "[.Net]: DOTNET exe: ${DOTNET_EXEC}")
+if (DOTNET_EXEC)
+    # Récupère le numéro de version 'dotnet'
+    execute_process(COMMAND ${DOTNET_EXEC} "--version" OUTPUT_VARIABLE CORECLR_EXEC_VERSION_OUTPUT OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(REGEX MATCH "([0-9]+)\.([0-9]+)\.(.*)" CORECLR_VERSION_REGEX_MATCH ${CORECLR_EXEC_VERSION_OUTPUT})
+    set(DOTNET_VERSION ${CMAKE_MATCH_1})
+    set(CORECLR_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2})
+    set(CORECLR_VERSION_FULL ${CORECLR_VERSION}.${CMAKE_MATCH_3})
+    if(DOTNET_VERSION EQUAL 6)
+      set(DOTNET_BUILD_TYPE Debug)
+    else()
+      set(DOTNET_BUILD_TYPE Release)
+    endif()
+    message(STATUS "[.Net]: DOTNET_VERSION   = ${DOTNET_VERSION}")
+    message(STATUS "[.Net]: DOTNET_BUILDTYPE = ${DOTNET_BUILD_TYPE}")
+    message(STATUS "[.Net]: CORECLR_VERSION  = ${CORECLR_VERSION} (full=${CORECLR_VERSION_FULL})")
+else()
+    message(FATAL_ERROR "DOTNET NOT FOUND")
+endif()
 
-set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/Debug/net6/PkgListLoader.dll)
+set(PKGLIST_LOADER dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/PkgListLoader/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/PkgListLoader.dll)
 
-set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/Debug/net6/WholeArchiveVCProj.dll)
+set(WHOLEARCHIVE_VCPROJ_TOOL dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/WholeArchiveVCProj/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/WholeArchiveVCProj.dll)
 
-set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/Debug/net6/CMakeListGenerator.dll)
+set(CMAKELIST_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/CMakeListGenerator/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/CMakeListGenerator.dll)
 
-set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/Debug/net6/EclipseCDTSettings.dll)
+set(ECLIPSECDT_GENERATOR dotnet ${INFRA_BUILDSYSTEM_PATH}/csharp/EclipseCDTSettings/bin/${DOTNET_BUILD_TYPE}/net${DOTNET_VERSION}/EclipseCDTSettings.dll)
 
 # todo last project to migrate dotnet6 (do it on windows os)
 if(WIN32)
@@ -98,8 +118,12 @@ endif()
 
 # où sont placés le exe  et les libs
 # NB: en fait, ne retire pas les répertoires des configurations avec Visual/XCode
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+endif ()
+if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif ()
 
 # Répertoire de copie des dlls pour windows
 if(NOT BUILDSYSTEM_DLL_COPY_DIRECTORY)
@@ -114,8 +138,12 @@ if(BUILDSYSTEM_NO_CONFIGURATION_OUTPUT_DIRECTORY)
     # les dlls/libs/exe ne sont pas placés dans des répertoires de configuration
     # Pour Visual/XCode, pas de chemin bin/Release ou lib/Release (par exemple)
     # NB: Sous linux, cela ne change rien
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/lib)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/bin)
+    if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG})
+      set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/lib)
+    endif ()
+    if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG})
+      set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} ${PROJECT_BINARY_DIR}/bin)
+    endif ()
   endforeach()
 endif()
 
