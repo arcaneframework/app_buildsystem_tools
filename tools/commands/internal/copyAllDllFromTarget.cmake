@@ -39,6 +39,20 @@ function(copyAllDllFromTarget target)
     endforeach ()
     message(STATUS "Arcane libraries ${${TARGET}_LIBRARIES}")
   endif ()
+  
+  # Handle ArcGeoSim libs with Arcane 3: same manip than Arcane
+  if (${target} STREQUAL "ArcGeoSim::arcgeosim" OR ${target} STREQUAL "ArcGeoSim::arcgeosimr")
+    unset(${TARGET}_LIBRARIES)
+    # Build ArcGeoSim library list for dll copy
+    get_target_property(${target}_LIBRARIES ${target} INTERFACE_LINK_LIBRARIES)
+    foreach (lib ${${target}_LIBRARIES})
+      string(REPLACE "ArcGeoSim::" "" lib_name ${lib})
+	  message(STATUS "find_library ${lib}_LIBRARIES ${lib_name} HINTS ${ARCGEOSIM_FRAMEWORK_ROOT}/lib")
+      find_library(${lib}_LIBRARIES ${lib_name} HINTS ${ARCGEOSIM_FRAMEWORK_ROOT}/lib)
+      list(APPEND ${TARGET}_LIBRARIES ${${lib}_LIBRARIES})
+    endforeach ()
+    message(STATUS "ArcGeoSim libraries ${${TARGET}_LIBRARIES}")
+  endif ()
 
   foreach(lib ${${TARGET}_LIBRARIES})
     if(${lib} STREQUAL optimized)
