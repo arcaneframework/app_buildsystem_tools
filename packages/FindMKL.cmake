@@ -434,20 +434,26 @@ if(MKL_FOUND AND NOT TARGET mkl)
   endif()
 
   if(WIN32)
-    if("${MKL_DLL_NAME}" STREQUAL "mkl_def.dll")
-      set(EXTRA_DLLS_TO_COPY
-          ${EXTRA_DLLS_TO_COPY}
-          ${MKL_DLL_DIR}/mkl_intel_thread.dll
-          ${MKL_DLL_DIR}/mkl_core.dll
-          ${MKL_DLL_DIR}/mkl_rt.dll
-          ${MKL_DLL_DIR}/mkl_def.dll)
+    if(MSVC_TOOLSET_VERSION GREATER_EQUAL 143)
+      if("${MKL_DLL_NAME}" STREQUAL "mkl_def.dll")
+        set(EXTRA_DLLS_TO_COPY
+            ${EXTRA_DLLS_TO_COPY}
+            ${MKL_DLL_DIR}/mkl_intel_thread.dll
+            ${MKL_DLL_DIR}/mkl_core.dll
+            ${MKL_DLL_DIR}/mkl_rt.dll
+            ${MKL_DLL_DIR}/mkl_def.dll)
+      else()
+        set(EXTRA_DLLS_TO_COPY
+            ${EXTRA_DLLS_TO_COPY}
+            ${MKL_DLL_DIR}/mkl_intel_thread.1.dll
+            ${MKL_DLL_DIR}/mkl_core.1.dll
+            ${MKL_DLL_DIR}/mkl_rt.1.dll
+            ${MKL_DLL_DIR}/mkl_def.1.dll)
+      endif()
     else()
       set(EXTRA_DLLS_TO_COPY
-          ${EXTRA_DLLS_TO_COPY}
-          ${MKL_DLL_DIR}/mkl_intel_thread.1.dll
-          ${MKL_DLL_DIR}/mkl_core.1.dll
-          ${MKL_DLL_DIR}/mkl_rt.1.dll
-          ${MKL_DLL_DIR}/mkl_def.1.dll)
+        ${EXTRA_DLLS_TO_COPY}
+        ${MKL_ROOT}/../redist/intel64/mkl/mkl_def.dll)
     endif()
   endif()
 
