@@ -75,6 +75,8 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
       get_target_property(ALIEN_CORE_LIBRARY Alien::alien_core IMPORTED_LOCATION_${ALIEN_CORE_TYPE})
       get_target_property(ALIEN_REFSEMANTIC_TYPE Alien::alien_semantic_ref IMPORTED_CONFIGURATIONS)
       get_target_property(ALIEN_REFSEMANTIC_LIBRARY Alien::alien_semantic_ref IMPORTED_LOCATION_${ALIEN_REFSEMANTIC_TYPE})
+      get_target_property(ALIEN_CORESOLVERS_TYPE alien_core_solvers IMPORTED_CONFIGURATIONS)
+      get_target_property(ALIEN_CORESOLVERS_LIBRARY alien_core_solvers IMPORTED_LOCATION_${ALIEN_CORESOLVERS_TYPE})
       get_target_property(ALIEN_EXTERNALPACKAGES_TYPE alien_external_packages IMPORTED_CONFIGURATIONS)
       get_target_property(ALIEN_EXTERNALPACKAGES_LIBRARY alien_external_packages IMPORTED_LOCATION_${ALIEN_EXTERNALPACKAGES_TYPE})
       get_target_property(ALIEN_IFPEN_TYPE alien_ifpen_solvers IMPORTED_CONFIGURATIONS)
@@ -112,7 +114,8 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
                           ${ALIEN_IFPEN_LIBRARY}
                           ${ALIEN_TRILINOS_LIBRARY}
                           ${ALIEN_HPDDM_LIBRARY}
-                          ${ALIEN_EXTERNALPACKAGES_LIBRARY})
+                          ${ALIEN_EXTERNALPACKAGES_LIBRARY}
+                          ${ALIEN_CORESOLVERS_LIBRARY})
   else()
       if(USE_ALIEN_V12)
       set(ALIEN_LIBRARIES ${ALIEN_LIBRARY}
@@ -156,6 +159,8 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
       set_property(TARGET alien APPEND PROPERTY 
         INTERFACE_LINK_LIBRARIES "alien_hpddm")
     endif()
+    set_property(TARGET alien APPEND PROPERTY 
+      INTERFACE_LINK_LIBRARIES "alien_core_solvers")
     set_property(TARGET alien APPEND PROPERTY 
       INTERFACE_LINK_LIBRARIES "alien_arcane_tools")
   else()
