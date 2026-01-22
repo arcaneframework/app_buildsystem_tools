@@ -1,4 +1,4 @@
-function(__commit_library target)
+function(__commit_library target destination)
 
   # export pour les dlls
   get_target_property(export_dll ${target} BUILDSYSTEM_EXPORT_DLL)
@@ -11,22 +11,31 @@ function(__commit_library target)
   get_filename_component(path ${export_dll} DIRECTORY)
 
   # installation du fichier d'export pour les dll
+  if("${destination}" STREQUAL "None")
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
-          DESTINATION include/${path}
+          DESTINATION include/ArcGeoSim/${path}
           )
-
+  else()
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+          DESTINATION include/ArcGeoSim/${destination}/${path}
+          )
+  endif()
+  # Ajout d'un repertoire d'include pour trouver les export en mode BUILD (et non install)
+  target_include_directories(${target} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
   # installation de la librairie
-  if(REQUIRE_INSTALL_PROJECTTARGETS)
-  install(TARGETS ${target}
-	  DESTINATION lib
-	  EXPORT ${PROJECT_NAME}Targets
-	  )
+  if(BUILDSYSTEM_INSTALL_TARGETS)
+    install(TARGETS ${target}
+        DESTINATION lib
+        EXPORT ${PROJECT_NAME}Targets
+        )
+  endif()
 
-  # installation du CMake pour l'installation
-  install(EXPORT ${PROJECT_NAME}Targets
-	  DESTINATION lib/cmake
-	  EXPORT_LINK_INTERFACE_LIBRARIES
-	  )
+    # installation du CMake pour l'installation
+  if (BUILDSYSTEM_INSTALL_EXPORT)
+    install(EXPORT ${PROJECT_NAME}Targets
+          DESTINATION lib/cmake
+          EXPORT_LINK_INTERFACE_LIBRARIES
+          )
   endif()
   # sources 
   get_target_property(sources ${target} BUILDSYSTEM_SOURCES)
@@ -68,12 +77,14 @@ function(__commit_library target)
     else()
       set_property(GLOBAL APPEND PROPERTY BUILDSYSTEM_EXTERNAL_LIBRARIES ${MY_TARGET})
     endif()
-    if (FRAMEWORK_INSTALL)
-      target_link_libraries(${target} PUBLIC $<BUILD_INTERFACE:${MY_TARGET}>)
-    else ()
+    # SdC: the link_libraries is reactivated.
+    # If a problem occur with multiple export, set BUILDSYSTEM_INSTALL_EXPORT to FALSE
       target_link_libraries(${target} PUBLIC ${MY_TARGET})
-    endif ()
   endforeach()
+  
+  # SdC: this shouldn't be needed now the target_link_libraries is reactivated. To check and remove if ok
+  target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+  
 
 endfunction()
 
@@ -91,11 +102,13 @@ function(__commit_executable target)
   
   # cibles internes (compilées par le projet et déclarées via createLibrary)
   get_property(BUILTIN GLOBAL PROPERTY BUILDSYSTEM_BUILTIN_LIBRARIES)
-
+  if(WIN32)
+	get_target_property(DLOPEN ${target} NEED_DLOPEN)
+  endif()
+  
   set(libraries_whole_archive)
-	
+  
   foreach(library ${libraries})
-
     # check
     if(NOT TARGET ${library})
       logFatalError("undefined library ${library} linked with ${target}")
@@ -116,7 +129,11 @@ function(__commit_executable target)
       else()
 	    target_link_libraries(${target} PUBLIC ${library})
       endif()
-    else()
+	elseif(${library} IN_LIST DLOPEN AND WIN32)
+	    # pour le chargement dynamique
+        set_property(TARGET ${target} APPEND PROPERTY DYNAMIC_LIBRARIES ${library})
+		target_link_libraries(${target} PUBLIC ${library})
+	else()
       target_link_libraries(${target} PUBLIC ${library})
     endif()
 	
@@ -127,12 +144,19 @@ function(__commit_executable target)
 
   generateDynamicLoading(${target})
 
+  # increase stack size
+  if(WIN32)
+    if (MSVC)
+      set_target_properties(${target} PROPERTIES LINK_FLAGS /STACK:10000000)
+    endif()
+  endif()
+  
 endfunction()
 
 function(commit target)
 
   set(options       )
-  set(oneValueArgs  )
+  set(oneValueArgs DESTINATION )
   set(multiValueArgs)
   
   cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -171,7 +195,11 @@ function(commit target)
   endif()
 
   if(${is_lib})
-    __commit_library(${target})
+    if(ARGS_DESTINATION)
+    __commit_library(${target} ${ARGS_DESTINATION})
+    else()
+    __commit_library(${target} "None")
+    endif()
   endif()
 
   if(${is_exe})

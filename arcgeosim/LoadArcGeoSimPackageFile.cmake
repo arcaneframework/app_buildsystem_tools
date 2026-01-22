@@ -18,7 +18,10 @@ endif()
 if (NOT ARCANEFRAMEWORK_ROOT)
   if (DEFINED ENV{ARCANEFRAMEWORK_ROOT})
     set(ARCANEFRAMEWORK_ROOT $ENV{ARCANEFRAMEWORK_ROOT})
-  endif ()
+  elseif(DEFINED ENV{GUIX_ENVIRONMENT})
+    # Si on se trouve dans un environnement isolé avec guix typiquement guix shell -D sharc, le framework ARCANE est localisé à GUIX_ENVIRONMENT
+    set (ARCANEFRAMEWORK_ROOT $ENV{GUIX_ENVIRONMENT})
+  endif()
 endif ()
 
 if (ARCANEFRAMEWORK_ROOT)
@@ -30,17 +33,16 @@ if (ARCANEFRAMEWORK_ROOT)
   set(USE_ALIEN_V20 ON)
 endif ()
 
-if(USE_ARCANE_V3)
-  set(Arccon_USE_CMAKE_CONFIG TRUE)
-  set(Arccore_USE_CMAKE_CONFIG TRUE)
-  set(Axlstar_USE_CMAKE_CONFIG TRUE)
-  set(Arcane_USE_CMAKE_CONFIG TRUE)
-  set(ALIEN_USE_CMAKE_CONFIG TRUE)
+set(Arccon_USE_CMAKE_CONFIG TRUE)
+set(Arccore_USE_CMAKE_CONFIG TRUE)
+set(Axlstar_USE_CMAKE_CONFIG TRUE)
+set(Arcane_USE_CMAKE_CONFIG TRUE)
+set(ALIEN_USE_CMAKE_CONFIG TRUE)
 
-  set(Hypre_USE_CMAKE_CONFIG TRUE)
-  set(MTL4_USE_CMAKE_CONFIG TRUE)
-  #set(SuperLU_USE_CMAKE_CONFIG TRUE)
-endif()
+set(Hypre_USE_CMAKE_CONFIG TRUE)
+set(MTL4_USE_CMAKE_CONFIG TRUE)
+#set(SuperLU_USE_CMAKE_CONFIG TRUE)
+
 # 2. On ecrase ARCANE_ROOT si un chemin est donne par l'utilisateur
 #    en ligne de commande (-DArcanePath=<...>)
 
@@ -63,58 +65,6 @@ if(NOT ARCANE_ROOT)
   
   set(ARCANE_ROOT $ENV{ARCANE_ROOT})
   
-endif()
-
-# 4. Si ARCANE_ROOT n'est pas defini (pas dans packages, pas en ligne de commande, pas dans l'env)
-#    On charge automatiquement ARCANE_ROOT par rapport à la toolchain et ARCANE_VERSION
-
-
-if (NOT USE_ARCANE_V3)
-
-  if(NOT ARCANE_ROOT)
-  
-    # Version par defaut
-    if(NOT ARCANE_VERSION)
-      logFatal("ARCANE_VERSION is not defined. Add it to your CMakeLists.txt and contact your administrator.")
-    endif()
-
-    # detection du numero de release centos/rhel
-    if(${REDHAT_RELEASE} MATCHES "(CentOS|Red Hat Enterprise Linux).* release ([0-9]).*")
-      set(rhel "RHEL${CMAKE_MATCH_2}")
-      set(rhel_ver "${CMAKE_MATCH_2}")
-    endif()
-
-    # toochain dans l'environnement
-    set(toolchain $ENV{TOOLCHAIN})
-
-    # si pas defini, on utilise le legacy gcc472
-    if(toolchain)
-      set(toolchain $ENV{TOOLCHAIN}-2018b)
-    else()
-      set(toolchain gcc472)
-    endif()
-
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-      set(mode ref)
-    else()
-      set(mode dbg)
-    endif()
-
-
-    if (DEFINED ENV{EXPL_INSTALL})
-        set(ARCANE_ROOT
-            $ENV{EXPL_INSTALL}/arcane/${ARCANE_VERSION}/Linux/${rhel}/x86_64/${mode}-${toolchain}
-            CACHE INTERNAL "Arcane root path")
-    else()
-        set(ARCANE_ROOT
-            /home/irsrvshare1/R11/arcuser/Arcane/${ARCANE_VERSION}/Linux/${rhel}/x86_64/${mode}-${toolchain}
-            CACHE INTERNAL "Arcane root path")
-    endif()
-
-  endif()
-
-  logStatus(" * Using Arcane path : ${ARCANE_ROOT}")
-
 endif()
 
 # Pour ALIEN, c'est la meme chose
@@ -151,7 +101,7 @@ if (USE_ALIEN_V20)
     set(ALIEN_DIR ${AlienProd_DIR})
   endif()
   if(AlienPlugins_DIR)
-    logStatus(" * Using AlienPluginsConfig : ${AlienProd_DIR}/AlienPluginsConfig.cmake")
+    logStatus(" * Using AlienPluginsConfig : ${AlienPlugins_DIR}/AlienPluginsConfig.cmake")
     set(ALIEN_DIR ${AlienPlugins_DIR})
   endif()
   set(ALIEN_USE_CMAKE_CONFIG FALSE)

@@ -81,8 +81,11 @@ function(generateLaw target)
     target_sources(${target} PRIVATE ${law_path}/${name}_law.h)
 
   endforeach()
-
-  target_include_directories(${target} PUBLIC 
+  
+  target_include_directories(${target} PRIVATE 
     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/law)
+    
+  target_include_directories(${target} PRIVATE 
+     $<BUILD_INTERFACE:${law_path})
 
 endfunction()
