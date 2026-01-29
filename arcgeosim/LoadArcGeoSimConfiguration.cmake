@@ -45,5 +45,7 @@ include_directories(${ARCGEOSIM_FRAMEWORK_BINARY_DIR}/ArximCpp/src)
 # for Appli (e.g. Geoxim)
 include_directories(${PROJECT_BINARY_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src)
+# to access to generated acgeosim_version.h
+include_directories(${CMAKE_BINARY_DIR})
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------

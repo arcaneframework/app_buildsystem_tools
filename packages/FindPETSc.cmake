@@ -311,10 +311,8 @@ if(NOT TARGET petsc)
     set_property(TARGET petsc APPEND PROPERTY 
                  INTERFACE_LINK_LIBRARIES "petsc_main")
 
-if(MSVC_TOOLSET_VERSION GREATER_EQUAL 143)
-    set_target_properties(petsc PROPERTIES
-                          INTERFACE_INCLUDE_DIRECTORIES "${PETSC_INCLUDE_DIRS}")
-endif()
+    set_property(TARGET petsc APPEND PROPERTY
+                 INTERFACE_INCLUDE_DIRECTORIES "${PETSC_INCLUDE_DIRS}")
 
     if(PETSCKSP_FOUND)
       

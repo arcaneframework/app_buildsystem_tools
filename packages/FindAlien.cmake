@@ -79,6 +79,10 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
       get_target_property(ALIEN_EXTERNALPACKAGES_LIBRARY alien_external_packages IMPORTED_LOCATION_${ALIEN_EXTERNALPACKAGES_TYPE})
       get_target_property(ALIEN_IFPEN_TYPE alien_ifpen_solvers IMPORTED_CONFIGURATIONS)
       get_target_property(ALIEN_IFPEN_LIBRARY alien_ifpen_solvers IMPORTED_LOCATION_${ALIEN_IFPEN_TYPE})
+      if(TARGET alien_core_solvers)
+          get_target_property(ALIEN_CORESOLVERS_TYPE alien_core_solvers IMPORTED_CONFIGURATIONS)
+          get_target_property(ALIEN_CORESOLVERS_LIBRARY alien_core_solvers IMPORTED_LOCATION_${ALIEN_CORESOLVERS_TYPE})
+      endif()
       if(TARGET alien_trilinos)
           get_target_property(ALIEN_TRILINOS_TYPE alien_trilinos IMPORTED_CONFIGURATIONS)
           get_target_property(ALIEN_TRILINOS_LIBRARY alien_trilinos IMPORTED_LOCATION_${ALIEN_TRILINOS_TYPE})
@@ -112,7 +116,8 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
                           ${ALIEN_IFPEN_LIBRARY}
                           ${ALIEN_TRILINOS_LIBRARY}
                           ${ALIEN_HPDDM_LIBRARY}
-                          ${ALIEN_EXTERNALPACKAGES_LIBRARY})
+                          ${ALIEN_EXTERNALPACKAGES_LIBRARY}
+                          ${ALIEN_CORESOLVERS_LIBRARY})
   else()
       if(USE_ALIEN_V12)
       set(ALIEN_LIBRARIES ${ALIEN_LIBRARY}
@@ -135,17 +140,20 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
   endif ()
   
   if(USE_ALIEN_V20)
-    set_property(TARGET alien APPEND PROPERTY 
-      INTERFACE_LINK_LIBRARIES "Alien::alien_core")
     
     set_property(TARGET alien APPEND PROPERTY 
       INTERFACE_LINK_LIBRARIES "Alien::alien_semantic_ref")
   
     set_property(TARGET alien APPEND PROPERTY 
-        INTERFACE_LINK_LIBRARIES "alien_external_packages")
+      INTERFACE_LINK_LIBRARIES "alien_external_packages")
 
-		set_property(TARGET alien APPEND PROPERTY 
+    set_property(TARGET alien APPEND PROPERTY 
       INTERFACE_LINK_LIBRARIES "alien_ifpen_solvers")
+
+    if(TARGET alien_core_solvers)
+      set_property(TARGET alien APPEND PROPERTY 
+        INTERFACE_LINK_LIBRARIES "alien_core_solvers")
+    endif()
 
     if(TARGET alien_trilinos)
       set_property(TARGET alien APPEND PROPERTY 
@@ -156,6 +164,8 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
       set_property(TARGET alien APPEND PROPERTY 
         INTERFACE_LINK_LIBRARIES "alien_hpddm")
     endif()
+
+
     set_property(TARGET alien APPEND PROPERTY 
       INTERFACE_LINK_LIBRARIES "alien_arcane_tools")
   else()
