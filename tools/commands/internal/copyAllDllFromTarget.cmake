@@ -12,6 +12,15 @@ function(copyAllDllFromTarget target)
 
   string(TOUPPER ${target} TARGET)
 
+  # Handle target already loaded in another scope (ex when using arcane before alien)
+  if ("${${TARGET}_LIBRARIES}" STREQUAL "")
+    if (TARGET arcconpkg_${target})
+      get_target_property(${TARGET}_LIBRARIES arcconpkg_${target} INTERFACE_LINK_LIBRARIES)
+    elseif (TARGET arccon::${target})
+      get_target_property(${TARGET}_LIBRARIES arccon::${target} INTERFACE_LINK_LIBRARIES)
+    endif ()
+  endif ()
+
   # Handle Arcane libs with Arcane 3: this function wants a list of path prefixed libs while target only contains libs names (arcane_mpi...)
   if (${target} STREQUAL "Arcane::arcane_full")
     unset(${TARGET}_LIBRARIES)
