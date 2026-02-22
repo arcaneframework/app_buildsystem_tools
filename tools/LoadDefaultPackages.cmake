@@ -11,7 +11,7 @@ if(USE_ARCCON)
       loadPackage(NAME Axlstar ESSENTIAL)
     endif ()
 
-    loadPackage(NAME DotNet ESSENTIAL)
+    #loadPackage(NAME DotNet ESSENTIAL)
   endif()
 
   loadPackage(NAME Glib ESSENTIAL)
