@@ -84,9 +84,14 @@ function(__commit_library target destination)
     else()
       set_property(GLOBAL APPEND PROPERTY BUILDSYSTEM_EXTERNAL_LIBRARIES ${MY_TARGET})
     endif()
+
     # SdC: the link_libraries is reactivated.
     # If a problem occur with multiple export, set BUILDSYSTEM_INSTALL_EXPORT to FALSE
-    target_link_libraries(${target} PUBLIC ${MY_TARGET})
+    if (FRAMEWORK_INSTALL)
+      target_link_libraries(${target} PUBLIC $<BUILD_INTERFACE:${MY_TARGET}>)
+    else ()
+      target_link_libraries(${target} PUBLIC ${MY_TARGET})
+    endif ()
   endforeach()
 
   # SdC: this shouldn't be needed now the target_link_libraries is reactivated. To check and remove if ok
