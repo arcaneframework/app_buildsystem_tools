@@ -12,13 +12,20 @@ function(__commit_library target destination)
 
   # installation du fichier d'export pour les dll
   if("${destination}" STREQUAL "None")
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
-          DESTINATION include/ArcGeoSim/${path}
-          )
+    
+    if("${PROJECT_NAME}" STREQUAL "AlienPlugins")
+      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+              DESTINATION include/${path}
+             )
+    else()
+      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+              DESTINATION include/${PROJECT_NAME}/${path}
+             )
+    endif()
   else()
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
-          DESTINATION include/ArcGeoSim/${destination}/${path}
-          )
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+            DESTINATION include/${PROJECT_NAME}/${destination}/${path}
+           )
   endif()
   # Ajout d'un repertoire d'include pour trouver les export en mode BUILD (et non install)
   target_include_directories(${target} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
@@ -30,19 +37,19 @@ function(__commit_library target destination)
         )
   endif()
 
-    # installation du CMake pour l'installation
+  # installation du CMake pour l'installation
   if (BUILDSYSTEM_INSTALL_EXPORT)
     install(EXPORT ${PROJECT_NAME}Targets
-          DESTINATION lib/cmake
+          DESTINATION lib/cmake/${PROJECT_NAME}
           EXPORT_LINK_INTERFACE_LIBRARIES
           )
   endif()
-  # sources 
+  # sources
   get_target_property(sources ${target} BUILDSYSTEM_SOURCES)
 
   target_sources(${target} PRIVATE ${sources})
 
-  # libraries 
+  # libraries
   get_target_property(libraries ${target} BUILDSYSTEM_LIBRARIES)
 
 #  message(STATUS "BUILDSYSTEM_LIBRARIES ${libraries}")
@@ -77,37 +84,42 @@ function(__commit_library target destination)
     else()
       set_property(GLOBAL APPEND PROPERTY BUILDSYSTEM_EXTERNAL_LIBRARIES ${MY_TARGET})
     endif()
+
     # SdC: the link_libraries is reactivated.
     # If a problem occur with multiple export, set BUILDSYSTEM_INSTALL_EXPORT to FALSE
+    if (FRAMEWORK_INSTALL)
+      target_link_libraries(${target} PUBLIC $<BUILD_INTERFACE:${MY_TARGET}>)
+    else ()
       target_link_libraries(${target} PUBLIC ${MY_TARGET})
+    endif ()
   endforeach()
-  
+
   # SdC: this shouldn't be needed now the target_link_libraries is reactivated. To check and remove if ok
   target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-  
+
 
 endfunction()
 
 function(__commit_executable target)
-  
-  # sources 
+
+  # sources
   get_target_property(sources ${target} BUILDSYSTEM_SOURCES)
 
   target_sources(${target} PRIVATE ${sources})
 
-  # libraries 
+  # libraries
   get_target_property(libraries ${target} BUILDSYSTEM_LIBRARIES)
 
   list(REMOVE_DUPLICATES libraries)
-  
+
   # cibles internes (compilées par le projet et déclarées via createLibrary)
   get_property(BUILTIN GLOBAL PROPERTY BUILDSYSTEM_BUILTIN_LIBRARIES)
   if(WIN32)
 	get_target_property(DLOPEN ${target} NEED_DLOPEN)
   endif()
-  
+
   set(libraries_whole_archive)
-  
+
   foreach(library ${libraries})
     # check
     if(NOT TARGET ${library})
@@ -136,9 +148,9 @@ function(__commit_executable target)
 	else()
       target_link_libraries(${target} PUBLIC ${library})
     endif()
-	
+
   endforeach()
-  
+
   # whole archive sur les libraries builtin
   linkWholeArchiveLibraries(${target} PUBLIC ${libraries_whole_archive})
 
@@ -150,7 +162,7 @@ function(__commit_executable target)
       set_target_properties(${target} PROPERTIES LINK_FLAGS /STACK:10000000)
     endif()
   endif()
-  
+
 endfunction()
 
 function(commit target)
@@ -158,9 +170,9 @@ function(commit target)
   set(options       )
   set(oneValueArgs DESTINATION )
   set(multiValueArgs)
-  
+
   cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-  
+
   if(ARGS_UNPARSED_ARGUMENTS)
     logFatalError("commit error, argument error : ${ARGS_UNPARSED_ARGUMENTS}")
   endif()
@@ -184,7 +196,7 @@ function(commit target)
   if(${type} STREQUAL LIBRARY)
     set(is_lib ON)
   endif()
-    
+
   if(${is_exe} AND ${is_lib})
     logFatalError("Internal error, target is library and executable")
   endif()
