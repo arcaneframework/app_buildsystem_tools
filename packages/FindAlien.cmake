@@ -150,7 +150,7 @@ if(ALIEN_FOUND OR AlienPlugins_FOUND)
 
   if(USE_ALIEN_V20)
 
-    if(TARGET alien::alien_semantic_ref)
+    if(TARGET Alien::alien_semantic_ref)
       set_property(TARGET alien APPEND PROPERTY
                    INTERFACE_LINK_LIBRARIES "Alien::alien_semantic_ref")
     endif()
