@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.7.1)
+cmake_minimum_required(VERSION 3.13)
 
 # pour VERSION dans la commande project
 cmake_policy(SET CMP0048 NEW)
@@ -20,6 +20,7 @@ set(INFRA_BUILDSYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system)
 set(ARCGEOSIM_BUILD_SYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system) 
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH}/tools)
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH})
+list(APPEND CMAKE_PREFIX_PATH ${ARCGEOSIM_FRAMEWORK_ROOT})
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
@@ -33,7 +34,9 @@ set(BUILDSYSTEM_NO_CONFIGURATION_OUTPUT_DIRECTORY ON)
 
 # Repertoire d'exportation des dlls (pour windows)
 # NB: important pour les tests : pas de mise a jour de PATH necessaire pour la recherche de dlls
-set(BUILDSYSTEM_DLL_COPY_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+if (NOT BUILDSYSTEM_DLL_COPY_DIRECTORY)
+  set(BUILDSYSTEM_DLL_COPY_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif ()
 
 # par defaut, on a que axl
 if(NOT USE_LANGUAGE_GUMP)
@@ -64,7 +67,7 @@ endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 #set(USE_PROJECT_CONFIG_HEADER TRUE)
-set(REQUIRE_INSTALL_PROJECTTARGETS FALSE)
+set(BUILDSYSTEM_INSTALL_TARGETS TRUE)
 set(Arccon_USE_CMAKE_CONFIG TRUE)
 set(Arccore_USE_CMAKE_CONFIG TRUE)
 set(Axlstar_USE_CMAKE_CONFIG TRUE)
@@ -86,6 +89,9 @@ set(Glib_USE_CMAKE_CONFIG TRUE)
 #set(SuperLU_USE_CMAKE_CONFIG TRUE)
 set(Neo_USE_CMAKE_CONFIG FALSE)
 set(Zoltan_USE_CMAKE_CONFIG FALSE)
+
+set(ArcGeoSim_USE_CMAKE_CONFIG TRUE)
+set(ArcGeoSimR_USE_CMAKE_CONFIG TRUE)
 
 # parametrage par defaut
 include(LoadBuildSystem)
