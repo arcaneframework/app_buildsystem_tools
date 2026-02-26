@@ -81,7 +81,7 @@ if(NOT CUDA_FOUND)
   endif()
   mark_as_advanced(HELPER_CUDA_INCLUDE_DIR)
 
-  
+
 endif()
 
 # pour limiter le mode verbose
