@@ -12,7 +12,7 @@ function(__commit_library target destination)
 
   # installation du fichier d'export pour les dll
   if("${destination}" STREQUAL "None")
-    
+
     if("${PROJECT_NAME}" STREQUAL "AlienPlugins")
       install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
               DESTINATION include/${path}
@@ -23,9 +23,17 @@ function(__commit_library target destination)
              )
     endif()
   else()
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
-            DESTINATION include/${PROJECT_NAME}/${destination}/${path}
-           )
+    # PATCH FOR ArcGeoSimR which project should heritate from ArcGeoSim project
+    # instead of being a project ArcGeoSimR
+    if("${PROJECT_NAME}" STREQUAL "ArcGeoSimR")
+      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+              DESTINATION include/ArcGeoSim/${destination}/${path}
+             )
+    else()
+      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${export_dll}
+              DESTINATION include/${PROJECT_NAME}/${destination}/${path}
+             )
+    endif()
   endif()
   # Ajout d'un repertoire d'include pour trouver les export en mode BUILD (et non install)
   target_include_directories(${target} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
