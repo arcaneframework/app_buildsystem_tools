@@ -34,7 +34,7 @@ endmacro()
 
 macro(alien_test)
 
-    set(options PARALLEL_ONLY)
+  set(options PARALLEL_ONLY UNIQUE_OUTPUT_DIR)
     set(oneValueArgs BENCH NAME COMMAND WORKING_DIRECTORY)
     set(multiValueArgs OPTIONS PROCS)
 
@@ -60,14 +60,21 @@ macro(alien_test)
 
         if (NOT ARGS_WORKING_DIRECTORY)
             add_test(
-                    NAME ${ARGS_BENCH}.${ARGS_NAME}
+                    NAME alien.${ARGS_BENCH}.${ARGS_NAME}
                     COMMAND ${ARGS_COMMAND}
                     ${ARGS_OPTIONS}
             )
         else ()
+            if(ARGS_UNIQUE_OUTPUT_DIR)
+              set(ALIEN_TEST_OUTDIR ${CMAKE_BINARY_DIR}/${ARGS_WORKING_DIRECTORY}/alien.${ARGS_BENCH}.${ARGS_NAME})
+              set(ALIEN_TEST_PARAM_OUTDIR -A,OutputDirectory=${ALIEN_TEST_OUTDIR})
+              file(MAKE_DIRECTORY ${ALIEN_TEST_OUTDIR})
+            else ()
+              set(ALIEN_TEST_PARAM_OUTDIR "")
+            endif()
             add_test(
-                    NAME ${ARGS_BENCH}.${ARGS_NAME}
-                    COMMAND ${ARGS_COMMAND}
+                    NAME alien.${ARGS_BENCH}.${ARGS_NAME}
+                    COMMAND ${ARGS_COMMAND} ${ALIEN_TEST_PARAM_OUTDIR}
                     ${ARGS_OPTIONS}
                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${ARGS_WORKING_DIRECTORY}
             )
@@ -75,7 +82,7 @@ macro(alien_test)
 
         if (TARGET arcane_core)
 
-            set_tests_properties(${ARGS_BENCH}.${ARGS_NAME} PROPERTIES
+            set_tests_properties(alien.${ARGS_BENCH}.${ARGS_NAME} PROPERTIES
                     ENVIRONMENT "ARCANE_PARALLEL_SERVICE=Mpi"
                     )
 
@@ -86,7 +93,7 @@ macro(alien_test)
             set(PATH ${CMAKE_BINARY_DIR}/bin/sys_dlls)
             list(APPEND PATH $ENV{PATH})
             string(REPLACE ";" "\\;" PATH "${PATH}")
-            set_property(TEST ${ARGS_BENCH}.${ARGS_NAME} APPEND PROPERTY ENVIRONMENT "PATH=${PATH}")
+            set_property(TEST alien.${ARGS_BENCH}.${ARGS_NAME} APPEND PROPERTY ENVIRONMENT "PATH=${PATH}")
         endif ()
 
         load_bench(BENCH ${ARGS_BENCH} NAME ${ARGS_NAME})
@@ -108,14 +115,21 @@ macro(alien_test)
 
             if (NOT ARGS_WORKING_DIRECTORY)
                 add_test(
-                        NAME ${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi}
+                        NAME alien.${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi}
                         COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${mpi} ${MPIEXEC_PREFLAGS}$<TARGET_FILE:${ARGS_COMMAND}> ${MPIEXEC_POSTFLAGS}
                         ${ARGS_OPTIONS}
                 )
             else ()
+                if(ARGS_UNIQUE_OUTPUT_DIR)
+                  set(ALIEN_TEST_OUTDIR ${CMAKE_BINARY_DIR}/${ARGS_WORKING_DIRECTORY}/alien.${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi})
+                  set(ALIEN_TEST_PARAM_OUTDIR -A,OutputDirectory=${ALIEN_TEST_OUTDIR})
+                  file(MAKE_DIRECTORY ${ALIEN_TEST_OUTDIR})
+                else ()
+                  set(ALIEN_TEST_PARAM_OUTDIR "")
+                endif ()
                 add_test(
-                        NAME ${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi}
-                        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${mpi} ${MPIEXEC_PREFLAGS}$<TARGET_FILE:${ARGS_COMMAND}> ${MPIEXEC_POSTFLAGS}
+                        NAME alien.${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi}
+                        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${mpi} ${MPIEXEC_PREFLAGS}$<TARGET_FILE:${ARGS_COMMAND}> ${MPIEXEC_POSTFLAGS} ${ALIEN_TEST_PARAM_OUTDIR}
                         ${ARGS_OPTIONS}
                         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${ARGS_WORKING_DIRECTORY}
                 )
@@ -123,7 +137,7 @@ macro(alien_test)
 
             if (TARGET arcane_core)
 
-                set_tests_properties(${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi} PROPERTIES
+                set_tests_properties(alien.${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi} PROPERTIES
                         ENVIRONMENT "ARCANE_PARALLEL_SERVICE=Mpi"
                         )
 
@@ -134,7 +148,7 @@ macro(alien_test)
                 set(PATH ${CMAKE_BINARY_DIR}/bin/sys_dlls)
                 list(APPEND PATH $ENV{PATH})
                 string(REPLACE ";" "\\;" PATH "${PATH}")
-                set_property(TEST ${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi} APPEND PROPERTY ENVIRONMENT "PATH=${PATH}")
+                set_property(TEST alien.${ARGS_BENCH}.${ARGS_NAME}.mpi-${mpi} APPEND PROPERTY ENVIRONMENT "PATH=${PATH}")
             endif ()
 
             load_bench(BENCH ${ARGS_BENCH} NAME ${ARGS_NAME} PARALLEL)
