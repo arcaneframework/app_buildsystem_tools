@@ -4,7 +4,7 @@
 # Verbose mode
 createOption(COMMANDLINE Verbose
              NAME        VERBOSE
-             MESSAGE     "Verbosity" 
+             MESSAGE     "Verbosity"
              DEFAULT     OFF)
 
 if(VERBOSE)
@@ -14,17 +14,17 @@ else()
   set(CMAKE_VERBOSE_MAKEFILE OFF)
   set(CMAKE_REQUIRED_QUIET ON)
 endif()
- 
+
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 
 # mode C++11
 createOption(COMMANDLINE Cxx11
-             NAME        USE_CXX11 
-             MESSAGE     "C++11 standard" 
+             NAME        USE_CXX11
+             MESSAGE     "C++11 standard"
              DEFAULT     ON)
 
-if(USE_CXX11) 
+if(USE_CXX11)
 
   set(CMAKE_CXX_STANDARD 11)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,41 +41,58 @@ if(USE_CXX11)
   # reconnuees.
   set(CXX11_FEATURES cxx_lambdas cxx_auto_type
                      cxx_nullptr cxx_rvalue_references)
- 
+
   # on définit le meta
   loadMeta(NAME c++11)
 endif()
 
 # mode C++14
 createOption(COMMANDLINE Cxx14
-             NAME        USE_CXX14 
-             MESSAGE     "C++14 standard" 
+             NAME        USE_CXX14
+             MESSAGE     "C++14 standard"
              DEFAULT     ON)
 
-if(USE_CXX14) 
+if(USE_CXX14)
 
   set(CMAKE_CXX_STANDARD 14)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
   set(CMAKE_CXX_EXTENSIONS OFF) # c++14 ou lieu de gnu++14
- 
+
   # on définit le meta
   loadMeta(NAME c++14)
 endif()
 
 # mode C++14
 createOption(COMMANDLINE Cxx17
-             NAME        USE_CXX17 
-             MESSAGE     "C++17 standard" 
+             NAME        USE_CXX17
+             MESSAGE     "C++17 standard"
              DEFAULT     ON)
 
-if(USE_CXX17) 
+if(USE_CXX17)
 
   set(CMAKE_CXX_STANDARD 17)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
-  set(CMAKE_CXX_EXTENSIONS OFF) # c++14 ou lieu de gnu++14
- 
+  set(CMAKE_CXX_EXTENSIONS OFF) # c++17 ou lieu de gnu++17
+
   # on définit le meta
   loadMeta(NAME c++17)
+endif()
+
+
+# mode C++20
+createOption(COMMANDLINE Cxx20
+             NAME        USE_CXX20
+             MESSAGE     "C++20 standard"
+             DEFAULT     OFF)
+
+if(USE_CXX20)
+
+  set(CMAKE_CXX_STANDARD 20)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_EXTENSIONS OFF) # c++20 ou lieu de gnu++20
+
+  # on définit le meta
+  loadMeta(NAME c++20)
 endif()
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -85,7 +102,7 @@ if(NOT WIN32)
   # Wall optimization
   createOption(COMMANDLINE Wall
                NAME        USE_WALL
-               MESSAGE     "Warning compilation flag (-Wall)" 
+               MESSAGE     "Warning compilation flag (-Wall)"
                DEFAULT     ON)
 
   if(USE_WALL)
@@ -97,7 +114,7 @@ endif()
 # SSE optimization
 createOption(COMMANDLINE SSE
              NAME        USE_SSE
-             MESSAGE     "SSE compilation flags (-msse2 -msse)" 
+             MESSAGE     "SSE compilation flags (-msse2 -msse)"
              DEFAULT     ON)
 
 if(USE_SSE AND NOT WIN32)
@@ -118,7 +135,7 @@ if(NOT WIN32)
   # AVX optimization
   createOption(COMMANDLINE AVX
                NAME        USE_AVX
-               MESSAGE     "AVX compilation flag (-mavx)" 
+               MESSAGE     "AVX compilation flag (-mavx)"
                DEFAULT     OFF)
 
   if(USE_AVX AND NOT WIN32)
@@ -130,7 +147,7 @@ if(NOT WIN32)
   # AVX2 optimization
   createOption(COMMANDLINE AVX2
                NAME        USE_AVX2
-               MESSAGE     "AVX2 compilation flag (-mavx2 -mfma)" 
+               MESSAGE     "AVX2 compilation flag (-mavx2 -mfma)"
                DEFAULT     OFF)
 
   if(USE_AVX2 AND NOT WIN32)
@@ -138,17 +155,17 @@ if(NOT WIN32)
       appendCompileOption(FLAG mavx2 mfma CONFIGURATION RELEASE)
     endif()
   endif()
- 
+
    # KNL optimization
   createOption(COMMANDLINE EnableKNL
                NAME        ENABLE_KNL
-               MESSAGE     "activate knl optim options" 
+               MESSAGE     "activate knl optim options"
                DEFAULT     OFF)
-               
+
    # AVX512 optimization
   createOption(COMMANDLINE AVX512
                NAME        USE_AVX512
-               MESSAGE     "AVX512 compilation flag (-mavx512 -mfma)" 
+               MESSAGE     "AVX512 compilation flag (-mavx512 -mfma)"
                DEFAULT     OFF)
 
   if(USE_AVX512 AND NOT WIN32)
@@ -172,13 +189,13 @@ if(NOT WIN32)
   # SIMD
   createOption(COMMANDLINE EnableSIMD
                NAME        ENABLE_SIMD
-               MESSAGE     "SIMD compilation flag (-avx -avx2 avx512)" 
+               MESSAGE     "SIMD compilation flag (-avx -avx2 avx512)"
                DEFAULT     OFF)
-               
+
   # OpenMP
   createOption(COMMANDLINE OpenMP
                NAME        USE_OPENMP
-               MESSAGE     "OpenMP compilation flag (-fopenmp)" 
+               MESSAGE     "OpenMP compilation flag (-fopenmp)"
                DEFAULT     OFF)
 
   if(USE_OPENMP)
@@ -192,40 +209,40 @@ if(NOT WIN32)
     else()
       logWarning("OpenMP needed but not found")
     endif()
-    
+
   endif()
 
   # CUDA
   createOption(COMMANDLINE EnableCuda
                NAME        ENABLE_CUDA
-               MESSAGE     "ENABLE CUDA " 
+               MESSAGE     "ENABLE CUDA "
                DEFAULT     OFF)
-  
+
   # HIP
   createOption(COMMANDLINE EnableHIP
                NAME        ENABLE_HIP
-               MESSAGE     "ENABLE HIP" 
+               MESSAGE     "ENABLE HIP"
                DEFAULT     OFF)
-               
+
   # SYCL
   createOption(COMMANDLINE ALIEN_USE_SYCL
                NAME        ENABLE_SYCL
-               MESSAGE     "ENABLE SYCL " 
+               MESSAGE     "ENABLE SYCL "
                DEFAULT     OFF)
-               
+
   createOption(COMMANDLINE ALIEN_USE_HIPSYCL
                NAME        ENABLE_SYCL
-               MESSAGE     "ENABLE SYCL " 
+               MESSAGE     "ENABLE SYCL "
                DEFAULT     OFF)
-               
+
   createOption(COMMANDLINE ALIEN_USE_DPCPPSYCL
                NAME        ENABLE_SYCL
-               MESSAGE     "ENABLE SYCL " 
+               MESSAGE     "ENABLE SYCL "
                DEFAULT     OFF)
-               
+
   createOption(COMMANDLINE ALIEN_USE_INTELSYCL
                NAME        ENABLE_SYCL
-               MESSAGE     "ENABLE SYCL " 
+               MESSAGE     "ENABLE SYCL "
                DEFAULT     OFF)
 endif()
 
@@ -234,8 +251,8 @@ endif()
 
 # debug
 createOption(COMMANDLINE Debug
-             NAME        DEBUG 
-             MESSAGE     "Debug mode" 
+             NAME        DEBUG
+             MESSAGE     "Debug mode"
              DEFAULT     ON)
 
 # Do not overwrite current value of CMAKE_BUILD_TYPE
@@ -252,42 +269,42 @@ set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING INTERNAL FORCE)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
- 
+
 if(WIN32)
 
   # force multiple WIN32
   createOption(COMMANDLINE ForceMultiple
-               NAME       FORCE_MULTIPLE 
-               MESSAGE    "Remove link conflicts (multiple symbols) : /force:multiple for windows VS" 
+               NAME       FORCE_MULTIPLE
+               MESSAGE    "Remove link conflicts (multiple symbols) : /force:multiple for windows VS"
                DEFAULT    ON)
-  
+
   if(FORCE_MULTIPLE)
     set(CMAKE_SHARED_LINKER_FLAGS_DEBUG   "${CMAKE_SHARED_LINKER_FLAGS_DEBUG}   /FORCE:MULTIPLE")
     set(CMAKE_EXE_LINKER_FLAGS_DEBUG      "${CMAKE_EXE_LINKER_FLAGS_DEBUG}      /FORCE:MULTIPLE")
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /FORCE:MULTIPLE")
     set(CMAKE_EXE_LINKER_FLAGS_RELEASE    "${CMAKE_EXE_LINKER_FLAGS_RELEASE}    /FORCE:MULTIPLE")
   endif()
-  
+
 endif()
-   
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
- 
+
 if(WIN32)
 
   # remove default lib WIN32
   createOption(COMMANDLINE RemoveCMT
-               NAME        REMOVE_CMT 
-               MESSAGE     "Remove runtime (mix /MT,/MD dlls) : /nodefaultlib:libcmt for windows VS" 
+               NAME        REMOVE_CMT
+               MESSAGE     "Remove runtime (mix /MT,/MD dlls) : /nodefaultlib:libcmt for windows VS"
                DEFAULT     ON)
-  
+
   if(REMOVE_CMT)
     set(CMAKE_SHARED_LINKER_FLAGS_DEBUG   "${CMAKE_SHARED_LINKER_FLAGS_DEBUG}   /NODEFAULTLIB:LIBCMT")
     set(CMAKE_EXE_LINKER_FLAGS_DEBUG      "${CMAKE_EXE_LINKER_FLAGS_DEBUG}      /NODEFAULTLIB:LIBCMT")
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /NODEFAULTLIB:LIBCMT")
     set(CMAKE_EXE_LINKER_FLAGS_RELEASE    "${CMAKE_EXE_LINKER_FLAGS_RELEASE}    /NODEFAULTLIB:LIBCMT")
   endif()
-  
+
 endif()
 
 # ----------------------------------------------------------------------------
@@ -297,24 +314,24 @@ if(WIN32)
 
   # allows parallel compilation
   createOption(COMMANDLINE ParallelCompilation
-               NAME        PARALLEL_COMPILATION 
-               MESSAGE     "Parallel compilation : /MP for windows VS" 
+               NAME        PARALLEL_COMPILATION
+               MESSAGE     "Parallel compilation : /MP for windows VS"
                DEFAULT     ON)
-  
+
   if(PARALLEL_COMPILATION)
     set(CMAKE_CXX_FLAGS    "${CMAKE_CXX_FLAGS}   /MP")
     set(CMAKE_C_FLAGS      "${CMAKE_C_FLAGS}     /MP")
   endif()
-  
+
 endif()
- 
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
 # shared
 createOption(COMMANDLINE Shared
-             NAME        SHARED 
-             MESSAGE     "Shared build mode" 
+             NAME        SHARED
+             MESSAGE     "Shared build mode"
              DEFAULT     ON)
 
 # shared libraries
@@ -332,10 +349,10 @@ if(BUILDSYSTEM_DEFAULT_PACKAGE_FILE)
   # on a un défaut
   createStringOption(COMMANDLINE PackageFile
                      NAME        PACKAGE_FILE
-                     MESSAGE     "File defining roots of packages" 
+                     MESSAGE     "File defining roots of packages"
                      DEFAULT     ${BUILDSYSTEM_DEFAULT_PACKAGE_FILE})
 else()
-  # ou non 
+  # ou non
   createStringOption(COMMANDLINE PackageFile
                      NAME        PACKAGE_FILE
                      MESSAGE     "File defining roots of packages")
