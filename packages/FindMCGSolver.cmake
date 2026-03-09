@@ -57,10 +57,7 @@ if(MCGSOLVER_FOUND AND NOT TARGET mcgsolver)
 
     set(MCGSOLVER_LIBRARIES ${MCGSOLVER_LIBRARY})
 
-    set(MCGSOLVER_FLAGS USE_HWLOC)
-
     # mcgsolver main
-
     add_library(mcgsolver_main UNKNOWN IMPORTED)
 
     set_target_properties(mcgsolver_main PROPERTIES
@@ -71,7 +68,6 @@ if(MCGSOLVER_FOUND AND NOT TARGET mcgsolver)
             IMPORTED_LOCATION "${MCGSOLVER_LIBRARY}")
 
     # mcgsolver
-
     add_library(mcgsolver INTERFACE IMPORTED)
 
     set_property(TARGET mcgsolver APPEND PROPERTY
@@ -80,7 +76,6 @@ if(MCGSOLVER_FOUND AND NOT TARGET mcgsolver)
     set_target_properties(mcgsolver PROPERTIES
             INTERFACE_COMPILE_DEFINITIONS "${MCGSOLVER_FLAGS}")
 
-    # for MCGSolver 2.X
     set_property(TARGET mcgsolver APPEND PROPERTY
             INTERFACE_LINK_LIBRARIES numa)
 
@@ -89,4 +84,10 @@ if(MCGSOLVER_FOUND AND NOT TARGET mcgsolver)
         INTERFACE_LINK_LIBRARIES stdc++fs)
     endif()
 
+    file(READ ${MCGSOLVER_INCLUDE_DIR}/Common/mcgs_config.h MCGS_CONFIG_H)
+    # check if MCGSolver uses CUDA
+    if(${MCGS_CONFIG_H} MATCHES "#define ENABLE_CUDA")
+        message(STATUS "MCGSolver uses CUDA")
+        add_library(mcgsolver::cuda INTERFACE IMPORTED)
+    endif()
 endif()
