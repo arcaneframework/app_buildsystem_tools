@@ -15,7 +15,7 @@ endif ()
 
 loadPackage(NAME MPI   ESSENTIAL)
 loadPackage(NAME Boost ESSENTIAL)
-loadPackage(NAME GTest ESSENTIAL)
+loadPackage(NAME GTest)
 
 set(MPI_ROOT ${MPI_ROOT_PATH})
 
@@ -65,6 +65,13 @@ loadPackage(NAME HTSSolver)
 loadPackage(NAME Trilinos)
 loadPackage(NAME Arpack)
 loadPackage(NAME HPDDM)
+loadPackage(NAME composyx)
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
+# Packages already loaded for Arcane : added here for dll copy on Windows
+loadPackage(NAME Zoltan)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
@@ -72,6 +79,10 @@ loadPackage(NAME HPDDM)
 # arccon fix
 if (TARGET arcconpkg_Hypre)
   add_library(hypre ALIAS arcconpkg_Hypre)
+elseif (TARGET HYPRE::HYPRE)
+  # Target 'HYPRE::HYPRE' is defined when Hypre is compiled with CMake
+  # and provide a config file
+  add_library(hypre ALIAS HYPRE::HYPRE)
 endif()
 
 if (TARGET arcconpkg_MPI)
@@ -99,8 +110,45 @@ if (TARGET arcconpkg_HDF5)
 endif()
 
 # load package can't deal with this...
-find_package(Boost COMPONENTS program_options system REQUIRED)
+find_package(Boost COMPONENTS program_options REQUIRED)
 
+if(TARGET petsc)
+
+    get_target_property(INC_DIR petsc INTERFACE_INCLUDE_DIRECTORIES)
+
+    # TODO: petscconf.h is supposed to exist in petsc include dir
+    # but for some obvious reasons this file is not found on IFPEN
+    # windows build.
+    if(EXISTS ${INC_DIR}/petscconf.h)
+        file(READ ${INC_DIR}/petscconf.h PETSCCONF_H)
+
+        # check for Hypre in PETSc
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_HYPRE")
+            add_library(petsc::hypre INTERFACE IMPORTED)
+        endif()
+
+        # check for SPAI in PETSc
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_SPAI")
+            add_library(petsc::spai INTERFACE IMPORTED)
+        endif()
+
+        # check for MUMPS in PETSc
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_MUMPS")
+            add_library(petsc::mumps INTERFACE IMPORTED)
+        endif()
+
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_SUPERLU")
+            add_library(petsc::superlu INTERFACE IMPORTED)
+        endif()
+
+        if("${PETSCCONF_H}" MATCHES "PETSC_HAVE_SUPERLU_DIST")
+            add_library(petsc::superlu_dist INTERFACE IMPORTED)
+        endif()
+    else()
+        MESSAGE(WARNING "target petsc: file ${INC_DIR}/petscconf.h not found")
+    endif()
+
+endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
@@ -109,7 +157,7 @@ find_package(Boost COMPONENTS program_options system REQUIRED)
 # NB: en dernier car arcane charge éventuellement d'autres packages
 #     si le package existe déjà, on ne fait rien
 if (NOT Arcane_FOUND)
-    message(STATUS "Load Arcane, since not found")
+    logStatus("Load Arcane, since not found")
     loadPackage(NAME Arcane)
 endif()
 if (Arcane_FOUND)

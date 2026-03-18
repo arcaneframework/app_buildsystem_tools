@@ -1,0 +1,5 @@
+Command to publish :
+For Linux:
+dotnet publish -c:Release -r linux-x64
+For Windows:
+dotnet publish -c:Release -r win-x64
