@@ -69,7 +69,7 @@ if(NOT MPI_FOUND)
     find_program(MPI_EXEC
       NAMES ${MPI_EXEC_NAME}
       HINTS ${MPI_ROOT}
-      PATH_SUFFIXES bin bin64 intel64/bin
+      PATH_SUFFIXES bin bin64 intel64/bin tools/intel-mpi
       ${_MPI_SEARCH_OPTS}
       )
   endif()
