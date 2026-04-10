@@ -97,7 +97,11 @@ namespace ArcaneInfra.WholeArchiveVCProj
             else if (vstudio_name == "Visual Studio 15 2017")
             {
                 vstudio = VisualStudioKind.VCXProj;
-            }						            
+            }
+	    else if (vstudio_name == "Visual Studio 17 2022")
+            {
+                vstudio = VisualStudioKind.VCXProj;
+            }
             else
             {
                 Console.Error.WriteLine("Unknown visual studio name '{0}'", vstudio_name);
