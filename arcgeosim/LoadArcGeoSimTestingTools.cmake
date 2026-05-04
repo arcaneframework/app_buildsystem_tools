@@ -11,6 +11,11 @@ file(MAKE_DIRECTORY ${TEST_VALI_DIR})
 set(TEST_OUTPUT_ROOT_DIR ${PROJECT_BINARY_DIR}/test/outputs)
 file(MAKE_DIRECTORY ${TEST_OUTPUT_ROOT_DIR})
 
+# par defaut les test on un temps limite
+if(NOT DEFINED ENABLE_TESTS_DEFAULT_TIMEOUT)
+  set(ENABLE_TESTS_DEFAULT_TIMEOUT ON)
+endif()
+
 #-----------------------------------------------------------
 # DEFINITIONS
 #-----------------------------------------------------------
@@ -90,7 +95,7 @@ if (NOT DEFINED _arcgeosim_add_test2)
         logFatalError("TIMEOUT argument is not a positive number : ${ARGS_TIMEOUT}")
       endif()
       set(OPT_TIMEOUT ${ARGS_TIMEOUT})
-    else()
+    elseif(ENABLE_TESTS_DEFAULT_TIMEOUT)
       set(OPT_TIMEOUT 120)
     endif()
 
@@ -171,7 +176,9 @@ if (NOT DEFINED _arcgeosim_add_test2)
         endif()
 
       set_tests_properties(${FULL_TEST_NAME} PROPERTIES WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/${ARGS_CASE_DIR})
-      set_tests_properties(${FULL_TEST_NAME} PROPERTIES TIMEOUT ${OPT_TIMEOUT})
+      if(${OPT_TIMEOUT})
+        set_tests_properties(${FULL_TEST_NAME} PROPERTIES TIMEOUT ${OPT_TIMEOUT})
+      endif()
       set_tests_properties(${FULL_TEST_NAME} PROPERTIES PROCESSORS ${OPT_PROCESSORS})
 
       set_tests_properties(${FULL_TEST_NAME} PROPERTIES ENVIRONMENT ARCANE_OUTPUT_ROOT_PATH=${TEST_UNITARY_OUTPUT_DIR})
