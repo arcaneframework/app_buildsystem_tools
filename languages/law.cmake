@@ -86,6 +86,6 @@ function(generateLaw target)
     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/law)
     
   target_include_directories(${target} PRIVATE 
-     $<BUILD_INTERFACE:${law_path})
+     $<BUILD_INTERFACE:${law_path}>)
 
 endfunction()
