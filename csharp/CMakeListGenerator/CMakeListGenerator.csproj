@@ -3,7 +3,7 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)'=='' and '$(BundledNETCoreAppTargetFrameworkVersion)'!=''">net$(BundledNETCoreAppTargetFrameworkVersion)</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.CodeDom" Version="6.0.0" />
