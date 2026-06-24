@@ -24,11 +24,12 @@ endif()
 if(NOT SUPERLU_DIST_FOUND)
 
   find_library(SUPERLU_DIST_LIBRARY
-    NAMES superlu_dist${SUPERLU_DIST_VERSION}
+    NAMES superlu_dist
     HINTS ${SUPERLU_DIST_ROOT} 
     PATH_SUFFIXES lib
     ${_SUPERLU_DIST_SEARCH_OPTS}
     )
+  mark_as_advanced(SUPERLU_DIST_LIBRARY)
 
   find_library(SUPERLU_DIST_BLAS_LIBRARY
     NAMES blas
@@ -36,8 +37,7 @@ if(NOT SUPERLU_DIST_FOUND)
     PATH_SUFFIXES lib
     ${_SUPERLU_DIST_SEARCH_OPTS}
   )
-  list(APPEND SUPERLU_DIST_LIBRARY ${SUPERLU_DIST_BLAS_LIBRARY})
-  mark_as_advanced(SUPERLU_DIST_LIBRARY)
+  mark_as_advanced(SUPERLU_DIST_BLAS_LIBRARY)
 
   find_path(SUPERLU_DIST_INCLUDE_DIR superlu_defs.h
     HINTS ${SUPERLU_DIST_ROOT} 
@@ -57,20 +57,51 @@ find_package_handle_standard_args(SUPERLU_DIST
   SUPERLU_DIST_LIBRARY
   )
 
+find_package_handle_standard_args(SUPERLU_DIST_BLAS
+  DEFAULT_MSG
+  SUPERLUDIST_BLAS_LIBRARY
+  )
+
 if(SUPERLU_DIST_FOUND AND NOT TARGET superludist)
 
   set(SUPERLU_DIST_INCLUDE_DIRS ${SUPERLU_DIST_INCLUDE_DIR})
   
   set(SUPERLU_DIST_LIBRARIES ${SUPERLU_DIST_LIBRARY})
 
-  add_library(superludist UNKNOWN IMPORTED)
-  
-  set_target_properties(superludist PROPERTIES 
+  add_library(superludist_main UNKNOWN IMPORTED)
+  set_target_properties(superludist_main PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${SUPERLU_DIST_INCLUDE_DIRS}")
-    
-  set_target_properties(superludist PROPERTIES
+
+  set_target_properties(superludist_main PROPERTIES
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${SUPERLU_DIST_LIBRARY}")
+
+  if(SUPERLU_DIST_BLAS_FOUND)
+   add_library(superludist_blas UNKNOWN IMPORTED)
+
+   set_target_properties(superludist_blas PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+        IMPORTED_LOCATION "${SUPERLU_DIST_BLAS_LIBRARY}")
+
+  list(APPEND SUPERLU_DIST_LIBRARIES ${SUPERLU_DIST_BLAS_LIBRARY})
+  endif()
+
+
+    # superludist
+  add_library(superludist INTERFACE IMPORTED)
+
+  set_property(TARGET superludist APPEND PROPERTY
+               INTERFACE_LINK_LIBRARIES "superludist_main")
+  
+  set_property(TARGET superludist APPEND PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES "${SUPERLU_DIST_INCLUDE_DIRS}")
+    
+  if(SUPERLU_DIST_BLAS_FOUND)
+
+    set_property(TARGET superludist APPEND PROPERTY
+                 INTERFACE_LINK_LIBRARIES "superludist_blas")
+
+  endif()
   
 endif()
 

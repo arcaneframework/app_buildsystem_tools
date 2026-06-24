@@ -27,8 +27,8 @@ if(NOT GEOMETRYKERNEL_FOUND)
   unset(GEOMETRYKERNEL_INCLUDE_DIR CACHE)
 
   set(libname GeometryKernel)
-  if(WIN32 AND CMAKE_BUILD_TYPE MATCHES Debug)
-	set(libname GeometryKernelD)
+  if(WIN32 AND CMAKE_BUILD_TYPE MATCHES Debug AND MSVC_TOOLSET_VERSION LESS_EQUAL 143)
+    set(libname GeometryKernelD)
   endif()
   
   find_library(GEOMETRYKERNEL_LIBRARY 

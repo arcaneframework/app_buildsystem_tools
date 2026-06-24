@@ -1,12 +1,7 @@
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 
-if(USE_AXLSTAR)
 loadPackage(NAME Axlstar ESSENTIAL) 
-loadLanguage(NAME axl PATH ${BUILD_SYSTEM_PATH}/languages)
-
-if(USE_ARCANE_V3)
-  set(AXL2CC "${AXLSTAR_AXL2CC}")
-  logStatus("AXL TOOLS : AXL2CC = ${AXLSTAR_AXL2CC} AXL2CCT4 = ${AXL2CCT4}")
-endif()
-endif()
+loadLanguage(NAME axl PATH ${INFRA_BUILDSYSTEM_PATH}/languages)
+set(AXL2CC "${AXLSTAR_AXL2CC}")
+logStatus("AXL TOOLS : AXL2CC = ${AXLSTAR_AXL2CC}")

@@ -21,7 +21,7 @@ else()
   set(_CUDA_SEARCH_OPTS)
 endif()
 
-find_package(CUDAToolkit REQUIRED)
+find_package(CUDAToolkit)
 if(NOT CUDA_FOUND) 
 
   find_library(CUBLAS_LIBRARY 
@@ -78,11 +78,10 @@ if(NOT CUDA_FOUND)
         PATH_SUFFIXES Common
         ${_CUDASAMPLES_SEARCH_OPTS}
         )
-
   endif()
-
   mark_as_advanced(HELPER_CUDA_INCLUDE_DIR)
-  
+
+
 endif()
 
 # pour limiter le mode verbose
@@ -96,7 +95,11 @@ find_package_handle_standard_args(CUDA
 
 if(CUDA_FOUND AND NOT TARGET cuda)
   
-  set(CUDA_INCLUDE_DIRS ${CUDA_INCLUDE_DIR} ${HELPER_CUDA_INCLUDE_DIR})
+  if(HELPER_CUDA_INCLUDE_DIR)
+    set(CUDA_INCLUDE_DIRS ${CUDA_INCLUDE_DIR} ${HELPER_CUDA_INCLUDE_DIR})
+  else()
+    set(CUDA_INCLUDE_DIRS ${CUDA_INCLUDE_DIR})
+  endif()
 
   set(CUDA_LIBRARIES ${CUBLAS_LIBRARY}
                      ${CUDART_LIBRARY}

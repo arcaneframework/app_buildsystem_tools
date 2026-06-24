@@ -11,12 +11,16 @@
 #
 # Target mkl lapack cblas
 
-if(NOT MKL_ROOT)
-  set(MKL_ROOT $ENV{MKL_ROOT})
+if(NOT DEFINED MKL_ROOT AND EXISTS $ENV{MKL_ROOT})
+  #set(MKL_ROOT $ENV{MKL_ROOT})
+  #cmake_path(NORMAL_PATH "$ENV{MKL_ROOT}" OUTPUT_VARIABLE MKL_ROOT)
+  file(REAL_PATH "$ENV{MKL_ROOT}" MKL_ROOT)
 endif()
 
-if(NOT MKL_ROOT)
-  set(MKL_ROOT $ENV{MKLROOT})
+if(NOT DEFINED MKL_ROOT AND EXISTS $ENV{MKLROOT})
+  #set(MKL_ROOT $ENV{MKLROOT})
+  #cmake_path(NORMAL_PATH "$ENV{MKLROOT}" OUTPUT_VARIABLE MKL_ROOT)
+  file(REAL_PATH "$ENV{MKLROOT}" MKL_ROOT)
 endif()
 
 if(MKL_ROOT)
@@ -29,7 +33,7 @@ if(NOT MKL_FOUND)
   find_library(MKL_CORE_LIBRARY
     NAMES mkl_core
     HINTS ${MKL_ROOT} 
-		PATH_SUFFIXES lib/intel64 lib/em64t
+    PATH_SUFFIXES lib/intel64 lib/em64t lib
     ${_MKL_SEARCH_OPTS}
     )
   mark_as_advanced(MKL_CORE_LIBRARY)
@@ -37,7 +41,7 @@ if(NOT MKL_FOUND)
   find_library(MKL_LP64_LIBRARY
     NAMES mkl_intel_lp64
     HINTS ${MKL_ROOT} 
-		PATH_SUFFIXES lib/intel64 lib/em64t
+    PATH_SUFFIXES lib/intel64 lib/em64t lib
     ${_MKL_SEARCH_OPTS}
     )
   mark_as_advanced(MKL_LP64_LIBRARY)
@@ -45,7 +49,7 @@ if(NOT MKL_FOUND)
   find_library(MKL_SEQ_LIBRARY
     NAMES mkl_sequential
     HINTS ${MKL_ROOT} 
-		PATH_SUFFIXES lib/intel64 lib/em64t
+    PATH_SUFFIXES lib/intel64 lib/em64t lib
     ${_MKL_SEARCH_OPTS}
     )
   mark_as_advanced(MKL_SEQ_LIBRARY)
@@ -53,7 +57,7 @@ if(NOT MKL_FOUND)
   find_library(MKL_INTEL_THREAD_LIBRARY
           NAMES mkl_intel_thread
           HINTS ${MKL_ROOT}
-          PATH_SUFFIXES lib/intel64 lib/em64t
+          PATH_SUFFIXES lib/intel64 lib/em64t lib
           ${_MKL_SEARCH_OPTS}
   )
   mark_as_advanced(MKL_INTEL_THREAD_LIBRARY)
@@ -61,7 +65,7 @@ if(NOT MKL_FOUND)
   find_library(MKL_SCALP_LIBRARY
     NAMES mkl_scalapack_lp64
     HINTS ${MKL_ROOT} 
-		PATH_SUFFIXES lib/intel64 lib/em64t
+    PATH_SUFFIXES lib/intel64 lib/em64t lib
     ${_MKL_SEARCH_OPTS}
     )
   mark_as_advanced(MKL_SCALP_LIBRARY)
@@ -69,7 +73,7 @@ if(NOT MKL_FOUND)
   find_library(MKL_BLACS_LIBRARY
     NAMES mkl_blacs_intelmpi_lp64 
     HINTS ${MKL_ROOT} 
-		PATH_SUFFIXES lib/intel64 lib/em64t
+    PATH_SUFFIXES lib/intel64 lib/em64t lib
     ${_MKL_SEARCH_OPTS}
     )
   mark_as_advanced(MKL_BLACS_LIBRARY)
@@ -96,12 +100,64 @@ find_package_handle_standard_args(MKL
 	MKL_SCALP_LIBRARY
 	MKL_BLACS_LIBRARY)
 
-# copy mkl_def.dll (no lib corresponding)
-set(EXTRA_DLLS_TO_COPY
-        ${EXTRA_DLLS_TO_COPY}
-        ${MKL_ROOT}/../redist/intel64/mkl/mkl_def.dll)
 
+# ================================================= #
+# Début : Recherche de mkl_def.dll ou mkl_def.1.dll #
+# ================================================= #
 
+if(WIN32)
+
+  # Liste des répertoires à tester
+  set(MKL_SEARCH_DIRS
+      "${MKL_ROOT}"
+      "${MKL_ROOT}/bin"
+      "${MKL_ROOT}/redist/intel64"
+      "${MKL_ROOT}/../redist/intel64/mkl"
+  )
+  
+  # Liste des noms de fichiers possibles
+  set(MKL_DLL_NAMES
+      "mkl_def.1.dll"
+      "mkl_def.dll"
+  )
+  
+  # Variable pour stocker le chemin trouvé
+  set(MKL_DLL_DIR "")
+  set(MKL_DLL_NAME "")
+  set(MKL_DLL_PATH "")
+  
+  # Boucle sur les répertoires et les noms
+  foreach(dir ${MKL_SEARCH_DIRS})
+      foreach(name ${MKL_DLL_NAMES})
+          if(EXISTS "${dir}/${name}")
+  	    #set(MKL_DLL_DIR "${dir}")
+  	    #cmake_path(NORMAL_PATH "${dir}" OUTPUT_VARIABLE MKL_DLL_DIR)
+  	    file(REAL_PATH "${dir}" MKL_DLL_DIR)
+  	    set(MKL_DLL_NAME "${name}")
+              set(MKL_DLL_PATH "${dir}/${name}")
+              break()
+          endif()
+      endforeach()
+      if(MKL_DLL_PATH)
+          break()
+      endif()
+  endforeach()
+  
+  # Affiche le résultat
+  if(MKL_DLL_PATH)
+      message(STATUS "MKL ROOT: ${MKL_ROOT}")
+      message(STATUS "MKL DLL directory found: ${MKL_DLL_DIR}")
+      message(STATUS "MKL DLL name found: ${MKL_DLL_NAME}")
+      message(STATUS "MKL DLL found: ${MKL_DLL_PATH}")
+  else()
+      message(FATAL_ERROR "MKL DLL not found in specified directories")
+  endif()
+
+endif()
+
+# =============================================== #
+# Fin : Recherche de mkl_def.dll ou mkl_def.1.dll #
+# =============================================== #
 
 if(MKL_FOUND AND NOT TARGET mkl)
   
@@ -376,5 +432,29 @@ if(MKL_FOUND AND NOT TARGET mkl)
       INTERFACE_LINK_LIBRARIES "mkl_fftw3_lp64")
 
   endif()
-  
+
+  if(WIN32)
+    if(MSVC_TOOLSET_VERSION GREATER_EQUAL 143)
+      if("${MKL_DLL_NAME}" STREQUAL "mkl_def.dll")
+        set(EXTRA_DLLS_TO_COPY
+            ${EXTRA_DLLS_TO_COPY}
+            ${MKL_DLL_DIR}/mkl_intel_thread.dll
+            ${MKL_DLL_DIR}/mkl_core.dll
+            ${MKL_DLL_DIR}/mkl_rt.dll
+            ${MKL_DLL_DIR}/mkl_def.dll)
+      else()
+        set(EXTRA_DLLS_TO_COPY
+            ${EXTRA_DLLS_TO_COPY}
+            ${MKL_DLL_DIR}/mkl_intel_thread.1.dll
+            ${MKL_DLL_DIR}/mkl_core.1.dll
+            ${MKL_DLL_DIR}/mkl_rt.1.dll
+            ${MKL_DLL_DIR}/mkl_def.1.dll)
+      endif()
+    else()
+      set(EXTRA_DLLS_TO_COPY
+        ${EXTRA_DLLS_TO_COPY}
+        ${MKL_ROOT}/../redist/intel64/mkl/mkl_def.dll)
+    endif()
+  endif()
+
 endif()
