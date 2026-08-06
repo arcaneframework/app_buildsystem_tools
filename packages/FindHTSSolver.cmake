@@ -53,7 +53,6 @@ if(NOT HTSSOLVER_FOUND)
     ${_HTSSOLVER_SEARCH_OPTS}
     )
   mark_as_advanced(HTSSOLVER_INCLUDE_DIR)
-  message("HTSSOLVE : ${HTSSOLVER_INCLUDE_DIR} ${HTSSOLVER_ROOT}")
   
 endif()
 
