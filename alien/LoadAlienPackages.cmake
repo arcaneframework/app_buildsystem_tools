@@ -19,7 +19,9 @@ loadPackage(NAME GTest)
 
 set(MPI_ROOT ${MPI_ROOT_PATH})
 
-loadPackage(NAME MPIFort)
+if(ENABLE_FORTRAN)
+  loadPackage(NAME MPIFort)
+endif()
 
 ## En fait pour cette dependance, en reecrivant a minima, on veut juste les blas
 loadPackage(NAME MKL)
