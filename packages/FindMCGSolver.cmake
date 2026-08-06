@@ -22,7 +22,6 @@ else()
 endif()
 
 if(NOT MCGSOLVER_FOUND)
-    MESSAGE("MCGSOLVER_ROOT ${MCGSOLVER_ROOT}")
 
     find_library(MCGSOLVER_LIBRARY
             NAMES MCGSolver
@@ -31,8 +30,6 @@ if(NOT MCGSOLVER_FOUND)
             ${_MCGSOLVER_SEARCH_OPTS}
     )
     mark_as_advanced(MCGSOLVER_LIBRARY)
-
-    MESSAGE("MCGSOLVER_LIBRARY ${MCGSOLVER_LIBRARY}")
 
     find_path(MCGSOLVER_INCLUDE_DIR MCGSolver/MCGSolver.h
             HINTS ${MCGSOLVER_ROOT}
