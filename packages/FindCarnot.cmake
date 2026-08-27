@@ -5,7 +5,7 @@
 
 find_package(Carnot COMPONENTS carnot_interface)
 
-if(${Carnot_FOUND} AND TARGET Carnot::carnot_interface)
+if(${Carnot_FOUND} AND TARGET Carnot::carnot_interface AND NOT TARGET carnot)
   add_library(carnot ALIAS Carnot::carnot_interface)
   add_definitions(-DUSE_CARNOT)
 endif()
