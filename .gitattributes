@@ -1,0 +1,2 @@
+# Explicitly declare shell scripts require lf
+*.sh text eol=lf

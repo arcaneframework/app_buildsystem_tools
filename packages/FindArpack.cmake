@@ -10,6 +10,7 @@ if(NOT ARPACK_ROOT)
   set(ARPACK_ROOT $ENV{ARPACK_ROOT})
 endif()
 
+if(NOT ARPACK_FOUND) 
   #Arpack
   find_library(ARPACK_LIBRARY
                NAMES arpack
@@ -18,10 +19,22 @@ endif()
               )
   mark_as_advanced(ARPACK_LIBRARY)
 
+endif()
+
+find_package_handle_standard_args(Arpack 
+        DEFAULT_MSG 
+        ARPACK_LIBRARY
+        )
+ 
+# pour limiter le mode verbose
+set(ARPACK_FIND_QUIETLY ON)
+
+if(ARPACK_FOUND AND NOT TARGET arpack)
+
   #Construction de Arpack
   add_library(arpack UNKNOWN IMPORTED)
   set_target_properties(arpack PROPERTIES
                        IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
                        IMPORTED_LOCATION "${ARPACK_LIBRARY}")
-
+endif()
 

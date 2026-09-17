@@ -44,8 +44,8 @@ if(NOT WIN32)
   # pour limiter le mode verbose
   set(IFPSOLVER_INTEL_FIND_QUIETLY ON)
 
-  find_package_handle_standard_args(IFPSOLVER_INTEL 
-	  DEFAULT_MSG 
+  find_package_handle_standard_args(IFPSOLVER_INTEL
+	  DEFAULT_MSG
 	  IFPSOLVER_INTEL_IRC_LIBRARY)
   
   if(IFPSOLVER_INTEL_FOUND AND NOT TARGET ifpsolver_intel)
@@ -81,15 +81,15 @@ else()
   find_package_handle_standard_args(IFPSOLVER_INTEL
     DEFAULT_MSG 
     IFPSOLVER_INTEL_M_LIBRARY 
-	  IFPSOLVER_INTEL_MMT_LIBRARY 
-	  IFPSOLVER_INTEL_MMD_LIBRARY
-	  IFPSOLVER_INTEL_IRC_LIBRARY
-	  IFPSOLVER_INTEL_SVLM_DISPMT_LIBRARY 
-	  IFPSOLVER_INTEL_SVLM_DISPMD_LIBRARY
-	  IFPSOLVER_INTEL_DECIMAL_LIBRARY 
-	  IFPSOLVER_INTEL_IFCONSOL_LIBRARY 
-	  IFPSOLVER_INTEL_IFCOREMD_LIBRARY
-	  IFPSOLVER_INTEL_IFPORTMD_LIBRARY
+    IFPSOLVER_INTEL_MMT_LIBRARY
+    IFPSOLVER_INTEL_MMD_LIBRARY
+    IFPSOLVER_INTEL_IRC_LIBRARY
+    IFPSOLVER_INTEL_SVLM_DISPMT_LIBRARY
+    IFPSOLVER_INTEL_SVLM_DISPMD_LIBRARY
+    IFPSOLVER_INTEL_DECIMAL_LIBRARY
+    IFPSOLVER_INTEL_IFCONSOL_LIBRARY
+    IFPSOLVER_INTEL_IFCOREMD_LIBRARY
+    IFPSOLVER_INTEL_IFPORTMD_LIBRARY
     )
 	
   if(IFPSOLVER_INTEL_FOUND AND NOT TARGET ifpsolver_intel)
@@ -100,15 +100,15 @@ else()
     # D'après moi, on écrase la propriété INTERFACE_LINK_LIBRARIES à chaque ligne...
     # Donc seule la dernière gagne...
     set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_M_LIBRARY})
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_MMT_LIBRARY} APPEND)
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_MMD_LIBRARY} APPEND)
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IRC_LIBRARY} APPEND)
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_SVLM_DISPMT_LIBRARY} APPEND)
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_MMT_LIBRARY} APPEND)
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_MMD_LIBRARY} APPEND)
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IRC_LIBRARY} APPEND)
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_SVLM_DISPMT_LIBRARY} APPEND)
     set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_SVLM_DISPMD_LIBRARY} APPEND)
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_DECIMAL_LIBRARY} APPEND)
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IFCONSOL_LIBRARY} APPEND)
-	  set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IFCOREMD_LIBRARY} APPEND)
-	  # SD: la gagnante...
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_DECIMAL_LIBRARY} APPEND)
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IFCONSOL_LIBRARY} APPEND)
+	set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IFCOREMD_LIBRARY} APPEND)
+	# SD: la gagnante...
     set_property(TARGET ifpsolver_intel PROPERTY INTERFACE_LINK_LIBRARIES ${IFPSOLVER_INTEL_IFPORTMD_LIBRARY} APPEND)
   endif()
 
@@ -195,8 +195,8 @@ if(NOT IFPSOLVER_IFORT_FOUND)
 
   find_library(IFPSOLVER_IRC_LIBRARY
     NAMES irc
-    HINTS ${IFORT_ROOT} 
-		PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
+    HINTS ${IFORT_ROOT}
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPSOLVER_IRC_LIBRARY)
@@ -208,18 +208,27 @@ if(NOT IFPSOLVER_IFORT_FOUND)
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPSOLVER_IFPORT_LIBRARY)
-  
+
+  find_library(IFPSOLVER_IMF_LIBRARY
+    NAMES imf
+    HINTS ${IFORT_ROOT}
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64
+    ${_IFORT_SEARCH_OPTS}
+    )
+  mark_as_advanced(IFPSOLVER_IMF_LIBRARY)
+
 endif()
 
 # pour limiter le mode verbose
 set(IFPSOLVER_IFORT_FIND_QUIETLY ON)
 
 find_package_handle_standard_args(IFPSOLVER_IFORT
-	DEFAULT_MSG 
-	IFPSOLVER_IFCORE_LIBRARY
+  DEFAULT_MSG
+  IFPSOLVER_IFCORE_LIBRARY
   IFPSOLVER_IRC_LIBRARY
   IFPSOLVER_IFPORT_LIBRARY
   IFPSOLVER_SVML_LIBRARY
+  IFPSOLVER_IMF_LIBRARY
   )
 
 if(IFPSOLVER_IFORT_FOUND AND NOT TARGET ifpsolver_ifort)
@@ -247,7 +256,13 @@ if(IFPSOLVER_IFORT_FOUND AND NOT TARGET ifpsolver_ifort)
   set_target_properties(ifpsolver_svml PROPERTIES
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${IFPSOLVER_SVML_LIBRARY}")
-  
+
+  add_library(ifpsolver_imf UNKNOWN IMPORTED)
+
+  set_target_properties(ifpsolver_imf PROPERTIES
+    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+    IMPORTED_LOCATION "${IFPSOLVER_IMF_LIBRARY}")
+
   add_library(ifpsolver_ifort INTERFACE IMPORTED)
 	  
   set_property(TARGET ifpsolver_ifort APPEND PROPERTY 
@@ -261,6 +276,9 @@ if(IFPSOLVER_IFORT_FOUND AND NOT TARGET ifpsolver_ifort)
  
   set_property(TARGET ifpsolver_ifort APPEND PROPERTY 
     INTERFACE_LINK_LIBRARIES "ifpsolver_svml")
+
+  set_property(TARGET ifpsolver_ifort APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES "ifpsolver_imf")
     
 endif()
 
@@ -294,7 +312,7 @@ if(NOT IFPSOLVER_FOUND)
     )
   mark_as_advanced(IFPSOLVER_DOMAINDECOMP_LIBRARY)
   
-  find_path(IFPSOLVER_INCLUDE_DIR m_bcgssolver_module.mod
+  find_path(IFPSOLVER_INCLUDE_DIR IFPSolver.h
     HINTS ${IFPSOLVER_ROOT} 
 		PATH_SUFFIXES include
     ${_IFPSOLVER_SEARCH_OPTS}
@@ -328,6 +346,7 @@ if(IFPSOLVER_FOUND AND NOT TARGET ifpsolver)
     list(APPEND IFPSOLVER_LIBRARIES ${IFPSOLVER_IRC_LIBRARY})
     list(APPEND IFPSOLVER_LIBRARIES ${IFPSOLVER_IFPORT_LIBRARY})
     list(APPEND IFPSOLVER_LIBRARIES ${IFPSOLVER_SVML_LIBRARY})
+    list(APPEND IFPSOLVER_LIBRARIES ${IFPSOLVER_IMF_LIBRARY})
   endif()
   # NB: on ajoute pas ifpsolver_intel (car cas particuliers à gérer et bientot déprécié...)
 
@@ -394,17 +413,17 @@ endif()
 # OU
 # ifpsolver_ifort ET ifpsolver_mpifort
 if(TARGET ifpsolver)
-if(TARGET ifpsolver_intel AND TARGET ifpsolver_ifort)
-  #logFatalError("ifpsolver_intel and ifpsolver_ifort defined at same time : dont use INTEL_ROOT and IFORT_ROOT")
-endif()
-if(TARGET ifpsolver_intel AND TARGET ifpsolver_mpifort)
-  #logFatalError("ifpsolver_intel and ifpsolver_mpifort defined at same time : dont use INTEL_ROOT and MPI_ROOT")
-endif()
-if(NOT TARGET ifpsolver_ifort AND TARGET ifpsolver_mpifort)
-  #logFatalError("target ifpsolver_mpifort and not target ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
-endif()
-if(TARGET ifpsolver_ifort AND NOT TARGET ifpsolver_mpifort)
-  #logFatalError("not target ifpsolver_mpifort and target ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
-endif()
+  if(TARGET ifpsolver_intel AND TARGET ifpsolver_ifort)
+    #logFatalError("ifpsolver_intel and ifpsolver_ifort defined at same time : dont use INTEL_ROOT and IFORT_ROOT")
+  endif()
+  if(TARGET ifpsolver_intel AND TARGET ifpsolver_mpifort)
+    #logFatalError("ifpsolver_intel and ifpsolver_mpifort defined at same time : dont use INTEL_ROOT and MPI_ROOT")
+  endif()
+  if(NOT TARGET ifpsolver_ifort AND TARGET ifpsolver_mpifort)
+    #logFatalError("target ifpsolver_mpifort and not target ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
+  endif()
+  if(TARGET ifpsolver_ifort AND NOT TARGET ifpsolver_mpifort)
+    #logFatalError("not target ifpsolver_mpifort and target ifpsolver_ifort not defined at same time : use IFORT_ROOT and MPI_ROOT")
+  endif()
 endif()
 

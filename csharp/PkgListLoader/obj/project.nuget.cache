@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "6juM2yugvWM=",
+  "success": true,
+  "projectFilePath": "/work/gratienj/2025/Arcane3/app_buildsystem_tools/csharp/PkgListLoader/PkgListLoader.csproj",
+  "expectedPackageFiles": [
+    "/work/gratienj/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/work/gratienj/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

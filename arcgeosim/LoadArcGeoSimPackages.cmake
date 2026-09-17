@@ -78,13 +78,13 @@ loadPackage(NAME Neo ESSENTIAL)
 # NB: en avant-dernier car arcane charge eventuellement d'autres packages
 #     si le package existe deja, on ne fait rien
 
-if(USE_ARCANE_V3)
-  loadPackage(NAME Arccore ESSENTIAL)
-  loadPackage(NAME Axlstar ESSENTIAL) 
-endif()
+loadPackage(NAME Arccore ESSENTIAL)
+loadPackage(NAME Axlstar ESSENTIAL) 
 loadPackage(NAME Arcane ESSENTIAL) 
 if(TARGET arcane_full)
-    add_library(arcane INTERFACE IMPORTED)
+    if (NOT TARGET arcane)
+        add_library(arcane INTERFACE IMPORTED)
+    endif ()
 
     get_target_property(ARCANE_FULL_LIBRARIES arcane_full INTERFACE_LINK_LIBRARIES)
 
@@ -96,10 +96,7 @@ if(TARGET arcane_full)
     set_target_properties(arcane PROPERTIES 
         INTERFACE_INCLUDE_DIRECTORIES "${Arcane_INCLUDE_DIRS}")
 
-    if(USE_ARCANE_V3)
-      target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)
-      #add_definitions(USE_ARCANE_V3)
-    endif()        
+    target_compile_definitions(arcane INTERFACE USE_ARCANE_V3)     
 else()
   message(status "TARGET ARCANE_FULL NOT FOUND")
 endif()
@@ -112,7 +109,6 @@ endif()
 #     si le package existe deja, on ne fait rien
 loadPackage(NAME Alien)
 
-if(USE_ARCANE_V3)
 # arccon fix
 if (TARGET arcconpkg_Hypre)
 else()
@@ -128,9 +124,11 @@ endif()
 
 if (TARGET arcconpkg_PETSc)
 else()
+  if(TARGET petsc)
     add_library(arcconpkg_PETSc INTERFACE IMPORTED)
     set_property(TARGET petsc APPEND PROPERTY
     INTERFACE_LINK_LIBRARIES "petsc_main")
+  endif()
 endif()
 
 if (TARGET arcconpkg_SuperLU)
@@ -178,7 +176,12 @@ else()
     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
     IMPORTED_LOCATION "${HDF5_LIBRARY}")
 endif()
+if (TARGET HDF5::HDF5)
+  if (NOT TARGET hdf5)
+    add_library(hdf5 ALIAS HDF5::HDF5)
+  endif()
 endif()
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
