@@ -1,0 +1,5 @@
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/publish/PkgListLoader
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/publish/PkgListLoader.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/publish/PkgListLoader.deps.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/publish/PkgListLoader.runtimeconfig.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/PkgListLoader/bin/Debug/net6/publish/PkgListLoader.pdb

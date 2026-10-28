@@ -1,0 +1,6 @@
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/publish/LawCompiler
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/publish/LawCompiler.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/publish/LawCompiler.deps.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/publish/LawCompiler.runtimeconfig.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/publish/LawCompiler.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/publish/System.CodeDom.dll

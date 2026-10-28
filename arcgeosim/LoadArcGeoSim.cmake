@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.7.1)
+cmake_minimum_required(VERSION 3.13)
 
 # pour VERSION dans la commande project
 cmake_policy(SET CMP0048 NEW)
@@ -16,10 +16,32 @@ cmake_policy(SET CMP0054 NEW)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
+if (NOT ARCANEFRAMEWORK_ROOT)
+  if (DEFINED ENV{ARCANEFRAMEWORK_ROOT})
+    set(ARCANEFRAMEWORK_ROOT $ENV{ARCANEFRAMEWORK_ROOT})
+  elseif(DEFINED ENV{GUIX_ENVIRONMENT})
+    # Si on se trouve dans un environnement isolé avec guix typiquement guix shell -D sharc, le framework ARCANE est localisé à GUIX_ENVIRONMENT
+    set (ARCANEFRAMEWORK_ROOT $ENV{GUIX_ENVIRONMENT})
+  endif()
+endif ()
+
+if (ARCANEFRAMEWORK_ROOT)
+  list (APPEND CMAKE_PREFIX_PATH ${ARCANEFRAMEWORK_ROOT})
+  if(NOT PROJECT_IS_TOP_LEVEL)
+    set (CMAKE_PREFIX_PATH PARENT_SCOPE)
+  endif ()
+  set(USE_ARCANE_V3 ON)
+  set(USE_ALIEN_V20 ON)
+endif ()
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
 set(INFRA_BUILDSYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system)
 set(ARCGEOSIM_BUILD_SYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system) 
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH}/tools)
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH})
+list(APPEND CMAKE_PREFIX_PATH ${ARCGEOSIM_FRAMEWORK_ROOT})
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
@@ -33,7 +55,9 @@ set(BUILDSYSTEM_NO_CONFIGURATION_OUTPUT_DIRECTORY ON)
 
 # Repertoire d'exportation des dlls (pour windows)
 # NB: important pour les tests : pas de mise a jour de PATH necessaire pour la recherche de dlls
-set(BUILDSYSTEM_DLL_COPY_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+if (NOT BUILDSYSTEM_DLL_COPY_DIRECTORY)
+  set(BUILDSYSTEM_DLL_COPY_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif ()
 
 # par defaut, on a que axl
 if(NOT USE_LANGUAGE_GUMP)
@@ -64,13 +88,13 @@ endif()
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 #set(USE_PROJECT_CONFIG_HEADER TRUE)
-set(REQUIRE_INSTALL_PROJECTTARGETS FALSE)
+set(BUILDSYSTEM_INSTALL_TARGETS TRUE)
 set(Arccon_USE_CMAKE_CONFIG TRUE)
 set(Arccore_USE_CMAKE_CONFIG TRUE)
 set(Axlstar_USE_CMAKE_CONFIG TRUE)
 #set(Alien_USE_CMAKE_CONFIG TRUE)
-#set(ALIEN_USE_CMAKE_CONFIG TRUE)
-set(Arcane_USE_CMAKE_CONFIG FALSE)
+set(ALIEN_USE_CMAKE_CONFIG TRUE)
+set(Arcane_USE_CMAKE_CONFIG TRUE)
 set(GTest_USE_CMAKE_CONFIG TRUE)
 #set(TBB_USE_CMAKE_CONFIG TRUE)
 set(MPI_USE_CMAKE_CONFIG FALSE)
@@ -81,11 +105,14 @@ set(Glib_USE_CMAKE_CONFIG TRUE)
 
 #set(PETSc_USE_CMAKE_CONFIG TRUE)
 #set(PETSc_USE_PKGCONFIG TRUE)
-#set(Hypre_USE_CMAKE_CONFIG TRUE)
-#set(MTL4_USE_CMAKE_CONFIG TRUE)
+set(Hypre_USE_CMAKE_CONFIG TRUE)
+set(MTL4_USE_CMAKE_CONFIG TRUE)
 #set(SuperLU_USE_CMAKE_CONFIG TRUE)
 set(Neo_USE_CMAKE_CONFIG FALSE)
 set(Zoltan_USE_CMAKE_CONFIG FALSE)
+
+set(ArcGeoSim_USE_CMAKE_CONFIG TRUE)
+set(ArcGeoSimR_USE_CMAKE_CONFIG TRUE)
 
 # parametrage par defaut
 include(LoadBuildSystem)
@@ -101,12 +128,6 @@ include(LoadArcGeoSimOptions)
 
 # chargement du fichier de package arcgeosim
 include(LoadOSFeatures)
-
-# ----------------------------------------------------------------------------
-# ----------------------------------------------------------------------------
-
-# chargement du fichier de package arcgeosim
-include(LoadArcGeoSimPackageFile)
 
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------

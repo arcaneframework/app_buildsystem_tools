@@ -136,7 +136,6 @@ if(NOT MPI_FORTRAN_LIBRARY)
     ${_MPI_SEARCH_OPTS}
     )
   mark_as_advanced(MPI_FORTRAN_LIBRARY)
-  message(status "MPI_FORTRAN_LIBRARY : ${MPI_FORTRAN_LIBRARY}")
 
 endif()
 
@@ -175,7 +174,7 @@ if(NOT IFORT_FOUND)
   find_library(SVML_LIBRARY
     NAMES svml 
     HINTS ${IFORT_ROOT}
-    PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64_lin/
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(SVML_LIBRARY)
@@ -183,7 +182,7 @@ if(NOT IFORT_FOUND)
   find_library(IFCORE_LIBRARY
     NAMES ifcore 
     HINTS ${IFORT_ROOT}
-    PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64_lin/
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFCORE_LIBRARY)
@@ -191,7 +190,7 @@ if(NOT IFORT_FOUND)
   find_library(IRC_LIBRARY
     NAMES irc
     HINTS ${IFORT_ROOT} 
-		PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64_lin/
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IRC_LIBRARY)
@@ -199,7 +198,7 @@ if(NOT IFORT_FOUND)
   find_library(IFPORT_LIBRARY
     NAMES ifport
     HINTS ${IFORT_ROOT}
-    PATH_SUFFIXES lib lib/intel64
+    PATH_SUFFIXES lib lib/intel64 compiler/lib/intel64_lin/
     ${_IFORT_SEARCH_OPTS}
     )
   mark_as_advanced(IFPORT_LIBRARY)

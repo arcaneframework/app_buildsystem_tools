@@ -1,0 +1,15 @@
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/LawCompiler
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/LawCompiler.deps.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/LawCompiler.runtimeconfig.json
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/LawCompiler.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/ref/LawCompiler.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/LawCompiler.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/bin/Debug/net6/System.CodeDom.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.csproj.AssemblyReference.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.GeneratedMSBuildEditorConfig.editorconfig
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.csproj.CoreCompileInputs.cache
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.csproj.CopyComplete
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/ref/LawCompiler.dll
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.pdb
+/work/gaynor/APP_BUILDSYSTEM_TOOLS_GIT/app_buildsystem_tools/csharp/LawCompiler/obj/Debug/net6/LawCompiler.genruntimeconfig.cache

@@ -92,9 +92,24 @@ else()
   set(OutputPath ${PROJECT_BINARY_DIR}/dotnet/bin/${CMAKE_BUILD_TYPE})
   set(IntermediateOutputPath ${PROJECT_BINARY_DIR}/dotnet/obj/${CMAKE_BUILD_TYPE})
 
-# on force dotnet au lieu de mono
-  set(XBUILD dotnet publish)
 
+  find_program(DOTNET_EXEC NAMES dotnet)
+  message(STATUS "[.Net] DOTNET exe: ${DOTNET_EXEC}")
+  if (DOTNET_EXEC)
+    # on force dotnet au lieu de mono
+    set(XBUILD dotnet publish)
+  
+    # Récupère le numéro de version 'dotnet'
+    execute_process(COMMAND ${DOTNET_EXEC} "--version" OUTPUT_VARIABLE CORECLR_EXEC_VERSION_OUTPUT OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(REGEX MATCH "([0-9]+)\.([0-9]+)\.(.*)" CORECLR_VERSION_REGEX_MATCH ${CORECLR_EXEC_VERSION_OUTPUT})
+    set(DOTNET_VERSION ${CMAKE_MATCH_1})
+    set(CORECLR_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2})
+    set(CORECLR_VERSION_FULL ${CORECLR_VERSION}.${CMAKE_MATCH_3})
+    message(STATUS "[.Net]: DOTNET_VERSION = ${DOTNET_VERSION}")
+    message(STATUS "[.Net]: CORECLR_VERSION = ${CORECLR_VERSION} (full=${CORECLR_VERSION_FULL})")
+  else()
+    message(FATAL_ERROR "DOTNET NOT FOUND")
+  endif()
 
 endif()
 
