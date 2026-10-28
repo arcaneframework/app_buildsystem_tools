@@ -80,7 +80,11 @@ loadPackage(NAME Neo ESSENTIAL)
 
 loadPackage(NAME Arccore ESSENTIAL)
 loadPackage(NAME Axlstar ESSENTIAL) 
-loadPackage(NAME Arcane ESSENTIAL) 
+loadPackage(NAME Arcane ESSENTIAL)
+logStatus("Found Arcane version: ${Arcane_VERSION}")
+set_property(GLOBAL PROPERTY ARCANE_VERSION "${Arcane_VERSION}")
+
+
 if(TARGET arcane_full)
     if (NOT TARGET arcane)
         add_library(arcane INTERFACE IMPORTED)
