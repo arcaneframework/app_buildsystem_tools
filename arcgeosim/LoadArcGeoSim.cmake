@@ -16,6 +16,27 @@ cmake_policy(SET CMP0054 NEW)
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
+if (NOT ARCANEFRAMEWORK_ROOT)
+  if (DEFINED ENV{ARCANEFRAMEWORK_ROOT})
+    set(ARCANEFRAMEWORK_ROOT $ENV{ARCANEFRAMEWORK_ROOT})
+  elseif(DEFINED ENV{GUIX_ENVIRONMENT})
+    # Si on se trouve dans un environnement isolé avec guix typiquement guix shell -D sharc, le framework ARCANE est localisé à GUIX_ENVIRONMENT
+    set (ARCANEFRAMEWORK_ROOT $ENV{GUIX_ENVIRONMENT})
+  endif()
+endif ()
+
+if (ARCANEFRAMEWORK_ROOT)
+  list (APPEND CMAKE_PREFIX_PATH ${ARCANEFRAMEWORK_ROOT})
+  if(NOT PROJECT_IS_TOP_LEVEL)
+    set (CMAKE_PREFIX_PATH PARENT_SCOPE)
+  endif ()
+  set(USE_ARCANE_V3 ON)
+  set(USE_ALIEN_V20 ON)
+endif ()
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
 set(INFRA_BUILDSYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system)
 set(ARCGEOSIM_BUILD_SYSTEM_PATH ${ARCGEOSIM_FRAMEWORK_ROOT}/ArcaneInfra/build-system) 
 list(APPEND CMAKE_MODULE_PATH ${INFRA_BUILDSYSTEM_PATH}/tools)
@@ -72,8 +93,8 @@ set(Arccon_USE_CMAKE_CONFIG TRUE)
 set(Arccore_USE_CMAKE_CONFIG TRUE)
 set(Axlstar_USE_CMAKE_CONFIG TRUE)
 #set(Alien_USE_CMAKE_CONFIG TRUE)
-#set(ALIEN_USE_CMAKE_CONFIG TRUE)
-set(Arcane_USE_CMAKE_CONFIG FALSE)
+set(ALIEN_USE_CMAKE_CONFIG TRUE)
+set(Arcane_USE_CMAKE_CONFIG TRUE)
 set(GTest_USE_CMAKE_CONFIG TRUE)
 #set(TBB_USE_CMAKE_CONFIG TRUE)
 set(MPI_USE_CMAKE_CONFIG FALSE)
@@ -84,8 +105,8 @@ set(Glib_USE_CMAKE_CONFIG TRUE)
 
 #set(PETSc_USE_CMAKE_CONFIG TRUE)
 #set(PETSc_USE_PKGCONFIG TRUE)
-#set(Hypre_USE_CMAKE_CONFIG TRUE)
-#set(MTL4_USE_CMAKE_CONFIG TRUE)
+set(Hypre_USE_CMAKE_CONFIG TRUE)
+set(MTL4_USE_CMAKE_CONFIG TRUE)
 #set(SuperLU_USE_CMAKE_CONFIG TRUE)
 set(Neo_USE_CMAKE_CONFIG FALSE)
 set(Zoltan_USE_CMAKE_CONFIG FALSE)
